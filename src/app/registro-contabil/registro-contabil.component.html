@@ -1,0 +1,334 @@
+<!-- registro-contabil.component.html -->
+<div class="pagina">
+  <aside class="sidebar">
+    <div class="logo">mister <strong>contador</strong></div>
+    <nav>
+      <ul>
+        <li class="active"><i class="bx bx-user"></i> Clientes</li>
+        <li><i class="bx bx-bar-chart-alt"></i> Estatísticas</li>
+        <li><i class="bx bx-book"></i> Registro Contábil</li>
+        <li><i class="bx bx-bank"></i> Extrato Bancário</li>
+        <li><i class="bx bx-receipt"></i> Comprovante de Pagto</li>
+        <li><i class="bx bx-file"></i> NF-E</li>
+        <li><i class="bx bx-cog"></i> Parâmetros - Regras</li>
+        <li><i class="bx bx-credit-card"></i> Cartões - Débito/Crédito</li>
+        <li><i class="bx bx-transfer"></i> Integrações Realizadas</li>
+        <li><i class="bx bx-log-out"></i> Sair</li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main class="conteudo">
+    <header class="topo">
+      <h1>Registro Contábil</h1>
+      <div class="filtros">
+        <div class="dropdown">
+          <button class="btn btn-outline-seundary dropdown-toggle" data-bs-toggle="dropdown">
+            <img class="bank-img"
+              src="https://yt3.googleusercontent.com/YoY6PQUzk6UXJEW8sTYs8zf_TfPLHNLSim65mswp_w5CX0jYgtl_le41QPRwoI1Hyj4OM2q_=s900-c-k-c0x00ffffff-no-rj">
+            3174 / 40106
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">
+                <img class="bank-img"
+                  src="https://play-lh.googleusercontent.com/dLVmnD6SlKMWO8_iiw5Cepca0zqmJq3zMaAfXXp6kJfrVBgctX2qTClAOCuaCLn-XmQ">
+                0001 / 545498</a></li>
+          </ul>
+        </div>
+        <button type="button" class="btn btn-outline-primary">7-111.02.0001</button>
+        <div class="mes-selector">
+          <button (click)="anteriorMes()" class="btn-seta">
+            <i class="bx bx-chevron-left"></i>
+          </button>
+
+          <button class="btn-mes" (click)="toggleDropdown()">
+            {{ mesSelecionado }}
+          </button>
+
+          <button (click)="proximoMes()" class="btn-seta">
+            <i class="bx bx-chevron-right"></i>
+          </button>
+
+          <div class="dropdown-meses" *ngIf="dropdownAberto">
+            <div *ngFor="let mes of mesesAno" (click)="selecionarMes(mes)">
+              {{ mes }}
+            </div>
+          </div>
+        </div>
+        <input type="text" placeholder="Pesquisar..." class="pesquisa" />
+        <!-- Botões à direita dos filtros -->
+        <div class="acoes-botoes d-flex align-items-center gap-2 ms-auto">
+          <button class="btn btn-primary">
+            <i class="bx bx-list-ul"></i>
+          </button>
+
+          <!-- Dropdown "Ações" -->
+          <div class="dropdown">
+            <button class="btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+              Ações
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item disabled" href="#">Exportar Lançamentos Contábeis</a></li>
+              <li><a class="dropdown-item disabled" href="#">Exportar Baixa NF-e Entrada</a></li>
+              <li><a class="dropdown-item disabled" href="#">Exportar Baixa NF-e Saída</a></li>
+              <li><a class="dropdown-item disabled" href="#">Exportar Baixa NFS-e Tomado</a></li>
+              <li><a class="dropdown-item disabled" href="#">Exportar Baixa NFS-e Prestado</a></li>
+              <li><a class="dropdown-item disabled" href="#">Exportar Simples Conferência</a></li>
+              <li><a class="dropdown-item disabled" href="#">Gerar Ticket</a></li>
+            </ul>
+          </div>
+
+          <!-- Botão Excluir -->
+          <button class="btn btn-primary">Excluir</button>
+        </div>
+
+      </div>
+
+    </header>
+    <hr />
+    <section class="abas">
+      <button [ngClass]="{ 'ativa': abaSelecionada === 'lancamentos' }" (click)="selecionarAba('lancamentos')">
+        Lançamentos <span class="badge azul">0002</span>
+      </button>
+      <button [ngClass]="{ 'ativa': abaSelecionada === 'conciliados' }" (click)="selecionarAba('conciliados')">
+        Conciliados <span class="badge verde">0003</span>
+      </button>
+      <button [ngClass]="{ 'ativa': abaSelecionada === 'naoConciliados' }" (click)="selecionarAba('naoConciliados')">
+        Não-Conciliados <span class="badge vermelho">0002</span>
+      </button>
+    </section>
+
+    <section class="tabela">
+      <table>
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Classificação</th>
+            <th>Conta</th>
+            <th>Débito</th>
+            <th>Crédito</th>
+            <th>Valor</th>
+            <th>Histórico</th>
+            <th>Comprovante / Nota</th>
+            <th>Cliente</th>
+            <th>Anexos</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Exemplo de linha -->
+          <tr (click)="abrirModal(0)">
+            <td>01/04/2021</td>
+            <td>1.1.1.02.0001</td>
+            <td class="conta-clicavel" (click)="abrirModalRegra(); $event.stopPropagation()">20</td>
+            <td>20</td>
+            <td>-</td>
+            <td>R$ 285,71</td>
+            <td>612 Recebimento Fornecedor</td>
+            <td class="text-center"><i class="bx bx-file"></i> / 5154</td>
+            <td>29109270000117</td>
+            <td><i class="bx bx-paperclip"></i></td>
+            <td><span class="status verde"></span></td>
+          </tr>
+          <!-- Repita as linhas com dados -->
+          <tr (click)="abrirModal(0)">
+            <td>02/04/2021</td>
+            <td>2.1.2.02.0021</td>
+            <td class="conta-clicavel" (click)="abrirModalRegra(); $event.stopPropagation()">87</td>
+            <td>66</td>
+            <td>-</td>
+            <td>R$ 8.798,71</td>
+            <td>694 Pagamento Fornecedor</td>
+            <td class="text-center"><i class="bx bx-file"></i> / 5464</td>
+            <td>21576936000135</td>
+            <td><i class="bx bx-paperclip"></i></td>
+            <td><span class="status verde"></span></td>
+          </tr>
+          <tr (click)="abrirModal(0)">
+            <td>04/04/2021</td>
+            <td>2.1.2.02.0651</td>
+            <td class="conta-clicavel" (click)="abrirModalRegra(); $event.stopPropagation()">10</td>
+            <td>35</td>
+            <td>-</td>
+            <td>R$ 541,71</td>
+            <td>Pix Margaret Machado</td>
+            <td class="text-center"><i class="bx bx-file"></i> / 11584</td>
+            <td>19887163000166</td>
+            <td><i class="bx bx-paperclip"></i></td>
+            <td><span class="status vermelho"></span></td>
+          </tr>
+          <tr (click)="abrirModal(0)">
+            <td>05/04/2021</td>
+            <td>1.1.2.02.0141</td>
+            <td class="conta-clicavel" (click)="abrirModalRegra(); $event.stopPropagation()">61</td>
+            <td>10</td>
+            <td>-</td>
+            <td>R$ 647,71</td>
+            <td>Pix Lairton Silveira Junior</td>
+            <td class="text-center"><i class="bx bx-file"></i> / 574</td>
+            <td>12676375000155</td>
+            <td><i class="bx bx-paperclip"></i></td>
+            <td><span class="status verde"></span></td>
+          </tr>
+          <tr (click)="abrirModal(0)">
+            <td>05/04/2021</td>
+            <td>1.1.2.02.9874</td>
+            <td class="conta-clicavel" (click)="abrirModalRegra(); $event.stopPropagation()">55</td>
+            <td>114</td>
+            <td>-</td>
+            <td>R$ 6.984,71</td>
+            <td>Pagamento Forncedores</td>
+            <td class="text-center"><i class="bx bx-file"></i> / 89749</td>
+            <td>77451003000176</td>
+            <td><i class="bx bx-paperclip"></i></td>
+            <td><span class="status vermelho"></span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Modal Lançamento -->
+
+    <div class="modal-lancamento" *ngIf="lancamentoSelecionado">
+      <div class="modal-conteudo grande">
+        <button class="fechar" (click)="lancamentoSelecionado = null">&times;</button>
+        <h1 class="titulo">Lançamento Contábil</h1>
+        <hr />
+
+        <div class="linha">
+          <div><label>Data:</label> <input type="text" [value]="lancamentoSelecionado.data" readonly /></div>
+          <div><label>Usuário:</label> <input type="text" value="Diego" readonly /></div>
+          <div><label>Empresa:</label> <input type="text" [value]="lancamentoSelecionado.cliente" readonly /></div>
+        </div>
+
+        <div class="linha">
+          <div><label>Tipo:</label> <input type="text" value="Um crédito p/ vários débitos" readonly /></div>
+          <div style="align-self: flex-end;">
+            <label style="visibility: hidden;">Criar Regra</label>
+            <button class="btn-criar-regra" (click)="abrirModalRegra()">Criar Regra</button>
+          </div>
+        </div>
+
+        <hr />
+
+        <div class="linha">
+          <div><label>Debitar:</label> <input type="text" [value]="lancamentoSelecionado.classificacao" readonly />
+          </div>
+          <div><label>Banco:</label> <input type="text" value="7 - BANCO DO BRASIL" readonly /></div>
+          <div><label>Valor:</label> <input type="text" [value]="lancamentoSelecionado.valor" readonly /></div>
+        </div>
+
+        <div class="linha">
+          <div><label>Creditar:</label> <input type="text" [value]="lancamentoSelecionado.classificacao" readonly />
+          </div>
+          <div><label>Histórico:</label> <input type="text" [value]="lancamentoSelecionado.historico" readonly /></div>
+        </div>
+
+        <hr />
+
+        <!-- Tabela interna -->
+        <table class="subtabela">
+          <thead>
+            <tr>
+              <th>Debitar</th>
+              <th>Creditar</th>
+              <th>Classificação</th>
+              <th>Descrição</th>
+              <th>Valor</th>
+              <th>Histórico</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>284</td>
+              <td>–</td>
+              <td>{{ lancamentoSelecionado.classificacao }}</td>
+              <td>Juros Passivos</td>
+              <td>3,29</td>
+              <td>Pgto de juros de Hank Br Logística E dist LTDA</td>
+            </tr>
+            <tr>
+              <td>–</td>
+              <td>502</td>
+              <td>{{ lancamentoSelecionado.classificacao }}</td>
+              <td>Brasil Kirin Logística e Distribuição LTDA</td>
+              <td>254</td>
+              <td>Pgto Nfe-{{ lancamentoSelecionado.nota }}/0001</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <hr />
+
+        <div class="linha-final">
+          <div><label>Débito:</label> <input type="text" value="R$ 111,11" readonly /></div>
+          <div><label>Crédito:</label> <input type="text" value="R$ 1.000,00" readonly /></div>
+          <div><label>Diferença:</label> <input type="text" value="R$ 0,00" readonly /></div>
+          <div><label>Doc nº:</label> <input type="text" value="0199999999" readonly /></div>
+          <div><button class="botao-nfe">Nf-e {{ lancamentoSelecionado.nota }}</button></div>
+        </div>
+
+        <div class="rodape-modal">
+          <button class="btn-cancelar" (click)="lancamentoSelecionado = null">Cancelar</button>
+          <button class="btn-gravar">Gravar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal regra -->
+
+    <div class="modal-regra" *ngIf="modalAberto">
+      <div class="modal-conteudo-regra">
+        <div class="modal-header">
+          <h2>Associar regra</h2>
+          <button class="fechar" (click)="fecharModalRegra()">×</button>
+        </div>
+
+        <div class="modal-body">
+          <div class="linha">
+            <div>
+              <label>Descrição</label>
+              <select>
+                <option>Selecione ..</option>
+              </select>
+            </div>
+            <div>
+              <label>Agência Bancária</label>
+              <input type="text" value="4480/2861" readonly />
+            </div>
+          </div>
+
+          <div class="linha">
+            <div>
+              <label>Expressão</label>
+              <input type="text" />
+            </div>
+          </div>
+
+          <div class="linha">
+            <div>
+              <label>Conta Contábil</label>
+              <input type="text" placeholder="Conta Contábil" />
+            </div>
+          </div>
+
+          <div class="linha">
+            <div>
+              <label>Histórico</label>
+              <input type="text" />
+            </div>
+          </div>
+
+          <div class="linha">
+            <label><input type="checkbox" /> Histórico do Extrato <span class="tooltip">?</span></label>
+          </div>
+        </div>
+
+        <div class="rodape-modal">
+          <button class="btn btn-primary" (click)="fecharModalRegra()">Cancelar</button>
+          <button class="btn btn-primary">Salvar</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
