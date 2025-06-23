@@ -16,7 +16,6 @@ export class RegistroContabilComponent implements OnInit {
   dropdownAberto: boolean = false;
 
 
-
 mesesAno: string[] = [
   'Janeiro/2021', 'Fevereiro/2021', 'Março/2021', 'Abril/2021',
   'Maio/2021', 'Junho/2021', 'Julho/2021', 'Agosto/2021',
@@ -47,6 +46,8 @@ abaSelecionada: string = 'lancamentos';
 selecionarAba(aba: string) {
   this.abaSelecionada = aba;
 }
+
+
 
 lancamentoSelecionado: any = null;
 

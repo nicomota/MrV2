@@ -397,8 +397,8 @@ nav li.ativo {
     padding: 2rem;
     border-radius: 12px;
     width: 100%;
-    max-width: 1280px; // Reduzi de 1920 para manter mais compacto
-    max-height: 90vh;  // Limite vertical para evitar quebra
+    max-width: 1520; // Reduzi de 1920 para manter mais compacto
+    min-height: 97vh;  // Limite vertical para evitar quebra
     overflow-y: auto;  // Adiciona rolagem se necessário
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
     position: relative;
@@ -415,31 +415,32 @@ nav li.ativo {
     cursor: pointer;
   }
 
-  .linha {
+.linha {
+  display: flex;
+  flex-wrap: nowrap; // <-- impede que quebre
+  gap: 1rem;
+  margin-bottom: 1rem;
+  overflow-x: auto; // <-- permite rolagem horizontal caso ultrapasse
+
+  > div {
+    flex: 0 0 auto; // <-- cada item mantém seu tamanho natural
+    min-width: 200px; // opcional: define o mínimo para cada campo
     display: flex;
-    flex-wrap: wrap; // Evita quebra em telas pequenas
-    gap: 1rem;
-    margin-bottom: 1rem;
+    flex-direction: column;
 
+    label {
+      font-weight: bold;
+      margin-bottom: 0.25rem;
+    }
 
-    > div {
-      flex: 1 1 250px; // Tamanho mínimo por item
-      display: flex;
-      flex-direction: column;
-
-      label {
-        font-weight: bold;
-        margin-bottom: 0.25rem;
-      }
-
-      input {
-        padding: 6px 10px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        background: #f9f9f9;
-      }
+    input {
+      padding: 6px 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: #f9f9f9;
     }
   }
+}
 
    .linha-final {
     display: flex;
@@ -482,7 +483,6 @@ nav li.ativo {
 
     thead {
       background: #0070f3;
-      color: white;
     }
 
     th, td {
@@ -526,13 +526,19 @@ nav li.ativo {
   }
 }
 
+.subtabela th,
+.subtabela td {
+  font-size: 0.75rem !important;
+}
 
-// Modal regra
+
+
+  // Modal regra
 .modal-regra {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.6);
-  z-index: 10001; // maior que o z-index do modal de lançamento
+  z-index: 10001;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -547,26 +553,24 @@ nav li.ativo {
     box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
     position: relative;
     font-size: 0.9rem;
-
-  .modal-header {
-    width: 100%;
-    display: flex;
-    justify-content: space-between; /* Para título à esquerda e botão fechar à direita */
-    align-items: center;
-    background: rgb(0, 1, 92);
-    background: linear-gradient(90deg, rgba(0, 1, 92, 1) 0%, rgb(0, 36, 163) 60%, #023fe9 100%);
-    color: white;
-    padding: 1rem;
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
     box-sizing: border-box;
+
+    .modal-header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(90deg, #00015c 0%, #0024a3 60%, #023fe9 100%);
+      color: white;
+      padding: 1rem;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+      box-sizing: border-box;
 
       h2 {
         margin: 0;
-        color: white;
-
-        padding: 0.5rem 1rem;
-        border-radius: 8px;
+        font-size: 1.25rem;
+        font-weight: bold;
       }
 
       .fechar {
@@ -579,12 +583,13 @@ nav li.ativo {
     }
 
     .linha {
-      margin: 1rem 0;
       display: flex;
+      flex-wrap: wrap;
       gap: 1rem;
+      margin: 1rem 0;
 
       > div {
-        flex: 1;
+        flex: 1 1 45%;
         display: flex;
         flex-direction: column;
 
@@ -593,10 +598,17 @@ nav li.ativo {
           font-weight: bold;
         }
 
-        input, select {
+        input,
+        select {
           border: 1px solid #ccc;
           border-radius: 12px;
           padding: 8px;
+          font-size: 0.9rem;
+          background: #f9f9f9;
+        }
+
+        select {
+          min-height: 38px;
         }
       }
     }
@@ -607,18 +619,33 @@ nav li.ativo {
       gap: 1rem;
       margin-top: 1rem;
 
+      .btn-cancelar,
+      .btn-gravar {
+        border: none;
+        border-radius: 20px;
+        padding: 8px 16px;
+        font-weight: bold;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
       .btn-cancelar {
         background: #001c7c;
         color: white;
-        border-radius: 20px;
-        padding: 8px 16px;
+
+        &:hover {
+          background: #002fa3;
+        }
       }
 
       .btn-gravar {
         background: #a5b3c9;
         color: white;
-        border-radius: 20px;
-        padding: 8px 16px;
+
+        &:hover {
+          background: #8e9bb1;
+        }
       }
     }
   }
@@ -651,3 +678,13 @@ nav li.ativo {
     color: #0056b3;
   }
 }
+
+
+select {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #f9f9f9;
+  font-size: 0.9rem;
+}
+
