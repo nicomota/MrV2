@@ -117,27 +117,52 @@
           </tr>
         </thead>
         <tbody>
-          <!-- Repita as linhas com dados -->
-          <tr (click)="abrirModal(0)">
-            <td>02/04/2021</td>
-            <td>2.1.2.02.0021</td>
-            <td><i class="bx bx-book icone-clicavel" (click)="abrirModalConta('Pix Margaret Machado'); $event.stopPropagation()"></i></td>
-            <td>66</td>
-            <td>R$ 8.798,71</td>
-            <td class="conta-clicavel" (click)="abrirModalRegra(); $event.stopPropagation()" style="text-decoration: none;">694 Pagamento Fornecedor
+          <tr *ngFor="let linha of dadosLancamentos; let i = index" (click)="abrirModal(i)">
+            <td>{{ linha.data }}</td>
+            <td>{{ linha.classificacao }}</td>
+
+            <!-- Conta Débito (ícone só se houver crédito) -->
+            <td>
+              <i
+                class="bx bx-book icone-clicavel"
+                *ngIf="linha.credito"
+                (click)="abrirModalConta(linha.historico); $event.stopPropagation()"
+              ></i>
+              {{ linha.debito }}
             </td>
-            <td class="text-center"><i class="bx bx-file"></i><a href="blob:http://demo.mistercontador.com.br/d4e4ae73-da60-4b40-93d1-04fce0afffa2" style="text-decoration: none;"></a></td>
-            <td>5154</td>
-            <td>21576936000135</td>
+
+            <!-- Conta Crédito (ícone só se crédito estiver vazio, e houver débito) -->
+            <td>
+              <i
+                class="bx bx-book icone-clicavel"
+                *ngIf="!linha.credito && linha.debito"
+                (click)="abrirModalConta(linha.historico); $event.stopPropagation()"
+              ></i>
+              {{ linha.credito }}
+            </td>
+
+            <td>{{ linha.valor }}</td>
+
+            <td class="conta-clicavel" (click)="abrirModalRegra(); $event.stopPropagation()">
+              {{ linha.historico }}
+            </td>
+
+            <td class="text-center"><i class="bx bx-file"></i></td>
+            <td>{{ linha.nota }}</td>
+            <td>{{ linha.cliente }}</td>
             <td><i class="bx bx-paperclip"></i></td>
-            <td><span class="status vermelho"></span></td>
+            <td>
+              <span class="status" [ngClass]="linha.status"></span>
+            </td>
           </tr>
         </tbody>
+
       </table>
     </section>
 
 
     <!-- Modal Lançamento -->
+    <!-- Modal Lançamento atualizado -->
     <div class="modal-lancamento" *ngIf="lancamentoSelecionado">
       <div class="modal-conteudo grande">
         <button class="fechar" (click)="lancamentoSelecionado = null">&times;</button>
@@ -150,13 +175,9 @@
           <div><label>Empresa:</label> <input type="text" [value]="lancamentoSelecionado.cliente" readonly /></div>
           <div>
             <label>Tipo:</label>
-            <select>
-              <option disabled selected>Selecione um tipo</option>
-              <option>Um Débito p/ um Crédito</option>
-              <option>Um Débito p/ vários Créditos</option>
-              <option>Um Crédito p/ um Débito</option>
-              <option>Um Créditos p/ vários Débito</option>
-              <option>Transferência entre contas</option>
+            <select [(ngModel)]="tipoSelecionado" (change)="onTipoSelecionado()">
+              <option disabled [selected]="!tipoSelecionado">Selecione um tipo</option>
+              <option *ngFor="let tipo of tiposDisponiveis" [value]="tipo">{{ tipo }}</option>
             </select>
           </div>
           <div style="align-self: flex-end;">
@@ -168,51 +189,79 @@
         <hr />
 
         <div class="linha">
-          <div><label>Debitar:</label> <input type="text" [value]="lancamentoSelecionado.classificacao" readonly />
+          <div><label>Conta Contábil D:</label> <input type="text" [value]="lancamentoSelecionado?.debito" readonly />
           </div>
-          <div><label>Creditar:</label> <input type="text" [value]="lancamentoSelecionado.classificacao" readonly />
+          <div><label>Conta Contábil C:</label> <input type="text" [value]="lancamentoSelecionado?.credito" readonly />
           </div>
-          <div><label>Banco:</label> <input type="text" value="7 - BANCO DO BRASIL" readonly /></div>
+          <!-- <div><label>Banco:</label> <input type="text" value="7 - BANCO DO BRASIL" readonly /></div> -->
           <div><label>Valor:</label> <input type="text" [value]="lancamentoSelecionado.valor" readonly /></div>
-          <div><label>Histórico:</label> <input type="text" [value]="lancamentoSelecionado.historico" readonly /></div>
+          <div><label>Histórico Contábil:</label> <input type="text" [value]="lancamentoSelecionado.historico" readonly /></div>
         </div>
 
         <hr />
 
-        <!-- Tabela interna -->
         <table class="subtabela">
           <thead>
-            <tr style="color: #ffff">
+            <tr>
               <th>Debitar</th>
               <th>Creditar</th>
               <th>Classificação</th>
               <th>Descrição</th>
               <th>Valor</th>
-              <th>Histórico</th>
+              <th>Histórico Contábil</th>
+              <th>Excluir</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>284</td>
-              <td>–</td>
-              <td>{{ lancamentoSelecionado.classificacao }}</td>
-              <td>Juros Passivos</td>
-              <td>3,29</td>
-              <td>Pgto de juros de Hank Br Logística E dist LTDA</td>
-            </tr>
-            <tr>
-              <td>–</td>
-              <td>502</td>
-              <td>{{ lancamentoSelecionado.classificacao }}</td>
-              <td>Brasil Kirin Logística e Distribuição LTDA</td>
-              <td>254</td>
-              <td>Pgto Nfe-{{ lancamentoSelecionado.nota }}/0001</td>
+            <tr *ngFor="let linha of linhasSubtabela; let i = index">
+              <!-- Debitar -->
+              <td>
+                <input *ngIf="linha.tipo === 'debito'" type="text" [(ngModel)]="linha.debitar" [readonly]="!linha.editavel">
+                <span *ngIf="linha.tipo === 'credito'">-</span>
+              </td>
+
+              <!-- Conta -->
+              <td>
+                <ng-container *ngIf="linha.tipo === 'credito'; else contaTraco">
+                  <input type="text" [(ngModel)]="linha.conta" [readonly]="!linha.editavel" />
+                </ng-container>
+                <ng-template #contaTraco>-</ng-template>
+              </td>
+
+              <!-- Classificação -->
+              <td>
+                <input type="text" [(ngModel)]="linha.classificacao" [readonly]="!linha.editavel">
+              </td>
+
+              <!-- Descrição -->
+              <td>
+                <input type="text" [(ngModel)]="linha.descricao" [readonly]="!linha.editavel">
+              </td>
+
+              <!-- Valor -->
+              <td>
+                <input type="text" [(ngModel)]="linha.valor" [readonly]="!linha.editavel">
+              </td>
+
+              <!-- Histórico -->
+              <td>
+                <input type="text" [(ngModel)]="linha.historico" [readonly]="!linha.editavel">
+              </td>
+
+              <!-- Ações -->
+              <td>
+                <button *ngIf="linha.editavel" class="btn btn-outline-danger btn-sm" (click)="removerLinha(i)">−</button>
+              </td>
             </tr>
           </tbody>
+
         </table>
 
-        <hr />
+        <div class="botoes-subtabela" *ngIf="tipoSelecionado.includes('vários')">
+          <button class="btn btn-outline-success btn-sm" (click)="adicionarLinha()">+ Adicionar linha</button>
+        </div>
 
+        <hr />
         <div class="linha-final">
           <div><label>Débito:</label> <input type="text" value="R$ 111,11" readonly /></div>
           <div><label>Crédito:</label> <input type="text" value="R$ 1.000,00" readonly /></div>
@@ -227,6 +276,9 @@
         </div>
       </div>
     </div>
+
+
+
 
     <!-- Modal regra -->
     <div class="modal-regra" *ngIf="modalAberto" (click)="fecharModalRegra()">

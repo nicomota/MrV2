@@ -4,6 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RegistroContabilComponent } from './registro-contabil/registro-contabil.component';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms'; // <-- importe aqui
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { RouterModule } from '@angular/router';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    RouterModule // ✅ Correto aqui
+    RouterModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
