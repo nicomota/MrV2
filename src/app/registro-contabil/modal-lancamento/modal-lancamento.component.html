@@ -128,8 +128,9 @@
     </div>
 
     <div class="rodape-modal">
+      <span *ngIf="diferenca !== 0" class="aviso-saldo">O saldo (diferença) precisa ser zero para gravar.</span>
       <button class="btn-cancelar" (click)="fechar()">Cancelar</button>
-      <button class="btn-gravar" (click)="gravar()">Gravar</button>
+      <button class="btn-gravar" (click)="gravar()" [disabled]="diferenca !== 0">Gravar</button>
     </div>
   </div>
 </div>

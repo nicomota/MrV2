@@ -159,6 +159,13 @@
     gap: 1rem;
     margin-top: 1rem;
 
+    .aviso-saldo {
+      color: #dc3545; // Cor vermelha para alertas
+      font-size: 0.9rem;
+      margin-right: auto; // Alinha o aviso à esquerda
+      align-self: center;
+    }
+
     .btn-cancelar, .btn-gravar {
       border: none;
       border-radius: 8px;

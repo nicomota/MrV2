@@ -138,21 +138,19 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let linha of dadosLancamentos; let i = index" (click)="abrirModal(i)">
+          <tr *ngFor="let linha of dadosLancamentos; let i = index" (click)="abrirModal(i)" style="cursor: pointer;">
             <td>{{ linha.data }}</td>
             <td>{{ linha.classificacao }}</td>
 
             <!-- Conta Débito (ícone só se houver crédito) -->
             <td>
-              <i class="bx bx-book icone-clicavel" *ngIf="linha.credito"
-                (click)="abrirModalConta(linha.historico); $event.stopPropagation()"></i>
+              <i class="bx bx-book icone-clicavel" *ngIf="linha.debito && !linha.credito"></i>
               {{ linha.debito }}
             </td>
 
             <!-- Conta Crédito (ícone só se crédito estiver vazio, e houver débito) -->
             <td>
-              <i class="bx bx-book icone-clicavel" *ngIf="!linha.credito && linha.debito"
-                (click)="abrirModalConta(linha.historico); $event.stopPropagation()"></i>
+              <i class="bx bx-book icone-clicavel" *ngIf="linha.credito && !linha.debito"></i>
               {{ linha.credito }}
             </td>
 
@@ -296,36 +294,6 @@
       </div>
     </div>
 
-    <!-- Modal Conta Contábil -->
-    <div class="modal-conta" *ngIf="mostrarModalConta">
-      <div class="modal-conteudo-conta">
-        <div class="modal-header">
-          <h2>Associar Conta Contábil</h2>
-          <button class="fechar" (click)="fecharModalConta()">×</button>
-        </div>
-
-        <div class="modal-body">
-          <div class="linha">
-            <div style="flex: 1;">
-              <label>Conta Contábil</label>
-              <input type="text" placeholder="Conta Contábil" />
-            </div>
-          </div>
-
-          <div class="linha">
-            <div style="flex: 1;">
-              <label>Histórico</label>
-              <input type="text" readonly [value]="historicoSelecionado" />
-            </div>
-          </div>
-        </div>
-
-        <div class="rodape-modal">
-          <button class="btn btn-primary" (click)="fecharModalConta()">Cancelar</button>
-          <button class="btn btn-primary">Salvar</button>
-        </div>
-      </div>
-    </div>
 
   </main>
 </div>

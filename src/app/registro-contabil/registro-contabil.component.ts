@@ -7,42 +7,46 @@ import { Component, OnInit, HostListener } from '@angular/core';
 })
 export class RegistroContabilComponent implements OnInit {
 
+  // Simula a persistência dos dados tornando a lista estática
+  private static dadosLancamentosPersistidos: any[] = [
+    {
+      data: '02/04/2021',
+      classificacao: '2.1.2.02.0021',
+      debito: '7',
+      credito: '',
+      valor: 'R$ -250,00',
+      historico: 'Pagamento Fornecedor',
+      nota: '5464',
+      cliente: '21576936000135',
+      status: 'vermelho'
+    },
+    {
+      data: '03/04/2021',
+      classificacao: '2.1.2.02.0021',
+      debito: '',
+      credito: '7',
+      valor: 'R$ 354,00',
+      historico: 'Recebimento PIX',
+      nota: '654',
+      cliente: '21576936000135',
+      status: 'vermelho'
+    }
+  ];
+
+  dadosLancamentos: any[] = [];
+
   constructor() {}
 
-ngOnInit(): void {
-  // adiciona o primeiro lançamento à tabela
-  const primeiroLancamento = {
-    data: '02/04/2021',
-    classificacao: '2.1.2.02.0021',
-    debito: '',
-    credito: '7',
-    valor: 'R$ 250,00',
-    historico: 'Pagamento Fornecedor',
-    nota: '5464',
-    cliente: '21576936000135',
-    status: 'vermelho'
-  };
-
-  const novoLancamento = {
-    data: '03/04/2021',
-    classificacao: '2.1.2.02.0021',
-    debito: '7',
-    credito: '',
-    valor: 'R$ 354,00',
-    historico: 'Recebimento PIX',
-    nota: '654',
-    cliente: '21576936000135',
-    status: 'vermelho'
-  };
-
-  this.dadosLancamentos = [primeiroLancamento, novoLancamento];
-}
+  ngOnInit(): void {
+    // Carrega os dados da lista estática para a instância do componente
+    this.dadosLancamentos = RegistroContabilComponent.dadosLancamentosPersistidos;
+  }
 
   lancamentoSelecionado: any = null;
 
   modalAberto = false;
-  mostrarModalConta = false;
-  historicoSelecionado = '';
+  lancamentoSelecionadoIndex: number | null = null;
+  contaContabilInput: string = '';
   abaSelecionada: string = 'lancamentos';
   mesSelecionado: string = 'Abril/2021';
   dropdownAberto: boolean = false;
@@ -71,15 +75,44 @@ ngOnInit(): void {
     'Setembro/2021', 'Outubro/2021', 'Novembro/2021', 'Dezembro/2021'
   ];
 
-  dadosLancamentos: any[] = [];
 
   abrirModal(index: number) {
-    this.lancamentoSelecionado = this.dadosLancamentos[index];
+    // Cria uma cópia do lançamento para evitar mutação direta
+    this.lancamentoSelecionado = { ...this.dadosLancamentos[index] };
   }
 
-  onLancamentoGravado(dadosLancamento: any) {
-    console.log('Dados do lançamento gravado:', dadosLancamento);
-    this.lancamentoSelecionado = null;
+  onLancamentoGravado(dadosGravados: any) {
+    // Encontra o índice do lançamento original usando o objeto que foi passado para o modal
+    const index = RegistroContabilComponent.dadosLancamentosPersistidos.findIndex(
+      l => l.data === this.lancamentoSelecionado.data && l.historico === this.lancamentoSelecionado.historico
+    );
+
+    if (index !== -1) {
+      const lancamentoOriginal = this.dadosLancamentos[index];
+      const lancamentoAtualizado = { ...lancamentoOriginal };
+
+      // Extrai os novos valores de débito e crédito das linhas retornadas pelo modal
+      const debitoLinha = dadosGravados.linhas.find((l: any) => l.tipo === 'debito');
+      const creditoLinha = dadosGravados.linhas.find((l: any) => l.tipo === 'credito');
+
+      if (debitoLinha) {
+        lancamentoAtualizado.debito = debitoLinha.debitar || debitoLinha.conta;
+      }
+      if (creditoLinha) {
+        lancamentoAtualizado.credito = creditoLinha.creditar || creditoLinha.conta;
+      }
+
+      // Se o lançamento agora tem débito e crédito, está conciliado
+      if (lancamentoAtualizado.debito && lancamentoAtualizado.credito) {
+        lancamentoAtualizado.status = 'verde';
+      }
+
+      // Atualiza a lista de dados na tela e a lista estática de persistência
+      this.dadosLancamentos[index] = lancamentoAtualizado;
+      RegistroContabilComponent.dadosLancamentosPersistidos[index] = lancamentoAtualizado;
+    }
+
+    this.lancamentoSelecionado = null; // Fecha o modal
   }
 
 
@@ -91,14 +124,6 @@ ngOnInit(): void {
     this.modalAberto = false;
   }
 
-  abrirModalConta(historico: string) {
-    this.historicoSelecionado = historico;
-    this.mostrarModalConta = true;
-  }
-
-  fecharModalConta() {
-    this.mostrarModalConta = false;
-  }
 
   selecionarAba(aba: string) {
     this.abaSelecionada = aba;
@@ -119,13 +144,13 @@ ngOnInit(): void {
   }
 
   condicaoExibirIconeNaContaDebito(linha: any): boolean {
-    // Exibe o ícone apenas se a linha tiver crédito preenchido
-    return !!linha.credito;
+    // Exibe o ícone apenas se a linha tiver um valor de débito (contrapartida)
+    return !!linha.debito;
   }
 
   condicaoExibirIconeNaContaCredito(linha: any): boolean {
-    // Exibe o ícone apenas se a linha não tiver crédito (recebimento)
-    return !linha.credito && !!linha.debito;
+    // Exibe o ícone apenas se a linha tiver um valor de crédito (contrapartida)
+    return !!linha.credito;
   }
 
   proximoMes() {
