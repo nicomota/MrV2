@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-registro-contabil',
@@ -38,14 +38,7 @@ ngOnInit(): void {
   this.dadosLancamentos = [primeiroLancamento, novoLancamento];
 }
 
-  tipoSelecionado: string = '';
-  linhasSubtabela: any[] = [];
-  tiposDisponiveis: string[] = [];
   lancamentoSelecionado: any = null;
-
-  totalDebito: number = 0;
-  totalCredito: number = 0;
-  diferenca: number = 0;
 
   modalAberto = false;
   mostrarModalConta = false;
@@ -54,44 +47,39 @@ ngOnInit(): void {
   mesSelecionado: string = 'Abril/2021';
   dropdownAberto: boolean = false;
 
+  // Propriedades para o date picker customizado (modal)
+  mostrarDatePicker: boolean = false;
+  dataSelecionada: string = '';
+  anoAtual: number = new Date().getFullYear();
+  mesAtual: number = new Date().getMonth();
+  diaAtual: number = new Date().getDate();
+
+  // Propriedades para o calendário principal (mes-selector)
+  mostrarCalendarioPrincipal: boolean = false;
+  dataSelecionadaPrincipal: Date | null = null;
+  anoCalendarioPrincipal: number = new Date().getFullYear();
+  mesCalendarioPrincipal: number = new Date().getMonth();
+
+  meses: string[] = [
+    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+  ];
+
   mesesAno: string[] = [
     'Janeiro/2021', 'Fevereiro/2021', 'Março/2021', 'Abril/2021',
     'Maio/2021', 'Junho/2021', 'Julho/2021', 'Agosto/2021',
     'Setembro/2021', 'Outubro/2021', 'Novembro/2021', 'Dezembro/2021'
   ];
 
-  dadosLancamentos = [this.lancamentoSelecionado];
+  dadosLancamentos: any[] = [];
 
   abrirModal(index: number) {
     this.lancamentoSelecionado = this.dadosLancamentos[index];
+  }
 
-    const temDebito = !!this.lancamentoSelecionado.debito;
-    const temCredito = !!this.lancamentoSelecionado.credito;
-
-    this.tiposDisponiveis = [];
-
-    if (temDebito && !temCredito) {
-      this.tiposDisponiveis = [
-        'Um Débito p/ um Crédito',
-        'Um Débito p/ vários Créditos',
-        'N Débito p/ N Crédito'
-      ];
-    } else if (temCredito && !temDebito) {
-      this.tiposDisponiveis = [
-        'Um Crédito p/ um Débito',
-        'Um Crédito p/ vários Débitos',
-        'N Crédito p/ N Débito'
-      ];
-    } else {
-      this.tiposDisponiveis = [
-        'Um Débito p/ um Crédito',
-        'Um Crédito p/ um Débito',
-        'Um Débito p/ vários Créditos',
-        'Um Crédito p/ vários Débitos',
-        'N Débito p/ N Crédito',
-        'N Crédito p/ N Débito'
-      ];
-    }
+  onLancamentoGravado(dadosLancamento: any) {
+    console.log('Dados do lançamento gravado:', dadosLancamento);
+    this.lancamentoSelecionado = null;
   }
 
 
@@ -145,215 +133,157 @@ ngOnInit(): void {
     if (index < this.mesesAno.length - 1) this.mesSelecionado = this.mesesAno[index + 1];
   }
 
-  atualizarTotais() {
-    let debito = 0;
-    let credito = 0;
 
-    for (const linha of this.linhasSubtabela) {
-      const rawValor = typeof linha.valor === 'string' ? linha.valor : String(linha.valor);
-      const valorNumerico = this.converterValorParaNumero(rawValor);
+  // Métodos para o date picker customizado
+  abrirDatePicker() {
+    this.mostrarDatePicker = true;
+    // Se já há uma data selecionada, usar ela como base
+    if (this.dataSelecionada) {
+      const data = new Date(this.dataSelecionada);
+      this.anoAtual = data.getFullYear();
+      this.mesAtual = data.getMonth();
+    }
+  }
 
-      if (linha.tipo === 'debito') {
-        debito += valorNumerico;
-      } else if (linha.tipo === 'credito') {
-        credito += valorNumerico;
+  // Métodos auxiliares para o template
+  isToday(dia: number): boolean {
+    const hoje = new Date();
+    return dia === this.diaAtual &&
+           this.mesAtual === hoje.getMonth() &&
+           this.anoAtual === hoje.getFullYear();
+  }
+
+  fecharDatePicker() {
+    this.mostrarDatePicker = false;
+  }
+
+  alterarAno(direcao: number) {
+    this.anoAtual += direcao;
+  }
+
+  alterarMes(direcao: number) {
+    this.mesAtual += direcao;
+    if (this.mesAtual > 11) {
+      this.mesAtual = 0;
+      this.anoAtual++;
+    } else if (this.mesAtual < 0) {
+      this.mesAtual = 11;
+      this.anoAtual--;
+    }
+  }
+
+  getDiasDoMes(): number[] {
+    const diasNoMes = new Date(this.anoAtual, this.mesAtual + 1, 0).getDate();
+    const primeiroDiaSemana = new Date(this.anoAtual, this.mesAtual, 1).getDay();
+
+    const dias: number[] = [];
+
+    // Adiciona células vazias para os dias da semana anterior
+    for (let i = 0; i < primeiroDiaSemana; i++) {
+      dias.push(0);
+    }
+
+    // Adiciona os dias do mês
+    for (let dia = 1; dia <= diasNoMes; dia++) {
+      dias.push(dia);
+    }
+
+    return dias;
+  }
+
+  selecionarDia(dia: number) {
+    if (dia === 0) return; // Não faz nada para células vazias
+
+    const data = new Date(this.anoAtual, this.mesAtual, dia);
+    this.dataSelecionada = data.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+    this.fecharDatePicker();
+  }
+
+  formatarDataExibicao(): string {
+    if (!this.dataSelecionada) return 'Selecionar data';
+
+    const data = new Date(this.dataSelecionada);
+    return `${data.getDate().toString().padStart(2, '0')}/${(data.getMonth() + 1).toString().padStart(2, '0')}/${data.getFullYear()}`;
+  }
+
+  // Métodos para o calendário principal
+  abrirCalendarioPrincipal() {
+    this.mostrarCalendarioPrincipal = true;
+  }
+
+  fecharCalendarioPrincipal() {
+    this.mostrarCalendarioPrincipal = false;
+  }
+
+  alterarAnoPrincipal(direcao: number) {
+    this.anoCalendarioPrincipal += direcao;
+  }
+
+  alterarMesPrincipal(direcao: number) {
+    this.mesCalendarioPrincipal += direcao;
+    if (this.mesCalendarioPrincipal > 11) {
+      this.mesCalendarioPrincipal = 0;
+      this.anoCalendarioPrincipal++;
+    } else if (this.mesCalendarioPrincipal < 0) {
+      this.mesCalendarioPrincipal = 11;
+      this.anoCalendarioPrincipal--;
+    }
+  }
+
+  getMesesDoAno(): string[] {
+    return this.meses;
+  }
+
+  selecionarMesPrincipal(mesIndex: number) {
+    this.mesCalendarioPrincipal = mesIndex;
+    this.dataSelecionadaPrincipal = new Date(this.anoCalendarioPrincipal, mesIndex, 1);
+    this.fecharCalendarioPrincipal();
+
+    // Atualiza a exibição
+    this.mesSelecionado = `${this.meses[mesIndex]}/${this.anoCalendarioPrincipal}`;
+  }
+
+  formatarDataExibicaoPrincipal(): string {
+    if (!this.dataSelecionadaPrincipal) {
+      return 'Selecionar mês/ano';
+    }
+    const mes = this.meses[this.dataSelecionadaPrincipal.getMonth()];
+    const ano = this.dataSelecionadaPrincipal.getFullYear();
+    return `${mes}/${ano}`;
+  }
+
+  isMesAtualPrincipal(mesIndex: number): boolean {
+    const hoje = new Date();
+    return mesIndex === hoje.getMonth() &&
+           this.anoCalendarioPrincipal === hoje.getFullYear() &&
+           !this.isMesSelecionadoPrincipal(mesIndex); // Só mostra como atual se não estiver selecionado
+  }
+
+  isMesSelecionadoPrincipal(mesIndex: number): boolean {
+    if (!this.dataSelecionadaPrincipal) return false;
+    return mesIndex === this.dataSelecionadaPrincipal.getMonth() &&
+           this.anoCalendarioPrincipal === this.dataSelecionadaPrincipal.getFullYear();
+  }
+
+  // Listener para fechar o date picker ao clicar fora dele
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event) {
+    if (this.mostrarDatePicker) {
+      const target = event.target as HTMLElement;
+      const datePickerContainer = target.closest('.date-picker-container');
+
+      if (!datePickerContainer) {
+        this.fecharDatePicker();
       }
     }
 
-    this.totalDebito = debito;
-    this.totalCredito = credito;
-    this.diferenca = Math.abs(debito - credito);
-    this.atualizarTotais();
-  }
+    if (this.mostrarCalendarioPrincipal) {
+      const target = event.target as HTMLElement;
+      const calendarioContainer = target.closest('.calendario-principal-container');
 
-  converterValorParaNumero(valor: string): number {
-    if (!valor) return 0;
-
-    // Remove "R$" e qualquer caractere que não seja número, vírgula ou ponto
-    const valorLimpo = valor.replace(/[^\d,.-]/g, '').replace(',', '.');
-
-    const parsed = parseFloat(valorLimpo);
-    return isNaN(parsed) ? 0 : parsed;
-  }
-
-
-  onTipoSelecionado() {
-    this.linhasSubtabela = [];
-
-    const dados = this.lancamentoSelecionado;
-    if (!dados) return;
-
-    const linhaBase = {
-      classificacao: dados.classificacao,
-      descricao: dados.historico,
-      valor: dados.valor,
-      historico: dados.historico
-    };
-
-  switch (this.tipoSelecionado) {
-    case 'Um Débito p/ um Crédito':
-      this.linhasSubtabela.push(
-        {
-          tipo: 'debito',
-          debitar: dados.debito,
-          conta: dados.debito,
-          editavel: false,
-          ...linhaBase
-        },
-        {
-          tipo: 'credito',
-          creditar: '',
-          conta: '',
-          editavel: true,
-          ...linhaBase,
-          descricao: '',
-          valor: '',
-          historico: ''
-        }
-      );
-      break;
-
-    case 'Um Crédito p/ um Débito':
-      this.linhasSubtabela.push(
-        {
-          tipo: 'debito',
-          debitar: '',
-          conta: '',
-          editavel: true,
-          ...linhaBase,
-          descricao: '',
-          valor: '',
-          historico: ''
-        },
-        {
-          tipo: 'credito',
-          creditar: dados.credito,
-          conta: dados.credito,
-          editavel: false,
-          ...linhaBase
-        }
-      );
-      break;
-
-    case 'Um Débito p/ vários Créditos':
-      this.linhasSubtabela.push({
-        tipo: 'debito',
-        debitar: dados.debito,
-        conta: dados.debito,
-        editavel: false,
-        ...linhaBase
-      });
-      this.linhasSubtabela.push({
-        tipo: 'credito',
-        creditar: '',
-        conta: '',
-        editavel: true,
-        classificacao: '',
-        descricao: '',
-        valor: '',
-        historico: ''
-      });
-      break;
-
-    case 'Um Crédito p/ vários Débitos':
-      this.linhasSubtabela.push({
-        tipo: 'credito',
-        creditar: dados.credito,
-        conta: dados.credito,
-        editavel: false,
-        ...linhaBase
-      });
-      this.linhasSubtabela.push({
-        tipo: 'debito',
-        debitar: '',
-        conta: '',
-        editavel: true,
-        classificacao: '',
-        descricao: '',
-        valor: '',
-        historico: ''
-      });
-      break;
-
-    case 'N Débito p/ N Crédito':
-      // Começa com 1 linha débito e 1 linha crédito, ambas editáveis
-      this.linhasSubtabela.push(
-        {
-          tipo: 'debito',
-          debitar: dados.debito,
-          conta: dados.debito,
-          editavel: false,
-          ...linhaBase
-        },
-        {
-          tipo: 'credito',
-          creditar: '',
-          conta: '',
-          editavel: true,
-          classificacao: '',
-          descricao: '',
-          valor: '',
-          historico: ''
-        }
-      );
-      break;
-
-    case 'N Crédito p/ N Débito':
-      // Começa com 1 linha crédito e 1 linha débito, ambas editáveis
-      this.linhasSubtabela.push(
-        {
-          tipo: 'credito',
-          creditar: dados.credito,
-          conta: dados.credito,
-          editavel: false,
-          ...linhaBase
-        },
-        {
-          tipo: 'debito',
-          debitar: '',
-          conta: '',
-          editavel: true,
-          classificacao: '',
-          descricao: '',
-          valor: '',
-          historico: ''
-        }
-      );
-      break;
-
-    default:
-      break;
-  }
-  this.atualizarTotais();
-}
-
-
-adicionarLinha(tipo: 'debito' | 'credito') {
-  const novaLinha: any = {
-    tipo,
-    conta: '',
-    classificacao: '',
-    descricao: '',
-    valor: '',
-    historico: '',
-    editavel: true
-  };
-
-  if (tipo === 'debito') {
-    novaLinha.debitar = '';
-  } else {
-    novaLinha.creditar = '';
-  }
-
-  this.linhasSubtabela.push(novaLinha);
-  this.atualizarTotais();
-}
-
-
-  removerLinha(index: number) {
-    if (this.linhasSubtabela[index]?.editavel) {
-      this.linhasSubtabela.splice(index, 1);
-      this.atualizarTotais();
+      if (!calendarioContainer) {
+        this.fecharCalendarioPrincipal();
+      }
     }
   }
 }

@@ -37,22 +37,38 @@
           </ul>
         </div>
         <button type="button" class="btn btn-outline-primary">7-111.02.0001</button>
-        <div class="mes-selector">
-          <button (click)="anteriorMes()" class="btn-seta">
-            <i class="bx bx-chevron-left"></i>
-          </button>
+        <div class="calendario-principal-container">
+          <div class="calendario-principal-input" (click)="abrirCalendarioPrincipal()">
+            <span>{{ formatarDataExibicaoPrincipal() }}</span>
+            <i class="bx bx-calendar"></i>
+          </div>
 
-          <button class="btn-mes" (click)="toggleDropdown()">
-            {{ mesSelecionado }}
-          </button>
+          <!-- Calendário Principal Completo -->
+          <div class="calendario-principal" *ngIf="mostrarCalendarioPrincipal" (click)="$event.stopPropagation()">
+            <div class="calendario-header">
+              <button type="button" (click)="alterarAnoPrincipal(-1)" class="nav-btn">
+                <i class="bx bx-chevrons-left"></i>
+              </button>
 
-          <button (click)="proximoMes()" class="btn-seta">
-            <i class="bx bx-chevron-right"></i>
-          </button>
+              <span class="calendario-title">{{ anoCalendarioPrincipal }}</span>
 
-          <div class="dropdown-meses" *ngIf="dropdownAberto">
-            <div *ngFor="let mes of mesesAno" (click)="selecionarMes(mes)">
-              {{ mes }}
+              <button type="button" (click)="alterarAnoPrincipal(1)" class="nav-btn">
+                <i class="bx bx-chevrons-right"></i>
+              </button>
+            </div>
+
+            <div class="calendario-grid-meses">
+              <div *ngFor="let mes of getMesesDoAno(); let i = index"
+                   class="calendario-mes-cell"
+                   [class.mes-atual]="isMesAtualPrincipal(i)"
+                   [class.mes-selecionado]="isMesSelecionadoPrincipal(i)"
+                   (click)="selecionarMesPrincipal(i)">
+                {{ mes }}
+              </div>
+            </div>
+
+            <div class="calendario-footer">
+              <button type="button" (click)="fecharCalendarioPrincipal()" class="btn-fechar">Fechar</button>
             </div>
           </div>
         </div>
@@ -99,7 +115,12 @@
       </button>
     </section>
 
-    <section class="tabela">
+    <section class="tabela"
+             [ngClass]="{
+               'tabela-lancamentos': abaSelecionada === 'lancamentos',
+               'tabela-conciliados': abaSelecionada === 'conciliados',
+               'tabela-nao-conciliados': abaSelecionada === 'naoConciliados'
+             }">
       <table>
         <thead>
           <tr>
@@ -155,148 +176,14 @@
     </section>
 
 
-    <!-- Modal Lançamento -->
-    <!-- Modal Lançamento atualizado -->
-    <div class="modal-lancamento" *ngIf="lancamentoSelecionado">
-      <div class="modal-conteudo grande">
-        <button class="fechar" (click)="lancamentoSelecionado = null">&times;</button>
-        <h1 class="titulo">Lançamento Contábil</h1>
-        <hr />
-
-        <div class="linha">
-          <div><label>Data:</label> <input type="text" [value]="lancamentoSelecionado.data" readonly /></div>
-          <div><label>Usuário:</label> <input type="text" value="Diego" readonly /></div>
-          <div><label>Empresa:</label> <input type="text" [value]="lancamentoSelecionado.cliente" readonly /></div>
-          <div>
-            <label>Tipo:</label>
-            <select [(ngModel)]="tipoSelecionado" (change)="onTipoSelecionado()">
-              <option disabled [selected]="!tipoSelecionado">Selecione um tipo</option>
-              <option *ngFor="let tipo of tiposDisponiveis" [value]="tipo">{{ tipo }}</option>
-            </select>
-          </div>
-          <div style="align-self: flex-end;">
-            <label style="visibility: hidden;">Criar Regra</label>
-            <button class="btn-criar-regra" (click)="abrirModalRegra()">Criar Regra</button>
-          </div>
-        </div>
-
-        <hr />
-
-        <div class="linha">
-          <div><label>Conta Contábil D:</label> <input type="text" [value]="lancamentoSelecionado?.debito" readonly />
-          </div>
-          <div><label>Conta Contábil C:</label> <input type="text" [value]="lancamentoSelecionado?.credito" readonly />
-          </div>
-          <!-- <div><label>Banco:</label> <input type="text" value="7 - BANCO DO BRASIL" readonly /></div> -->
-          <div><label>Valor:</label> <input type="text" [value]="lancamentoSelecionado.valor" readonly /></div>
-          <div><label>Histórico Contábil:</label> <input type="text" [value]="lancamentoSelecionado.historico"
-              readonly /></div>
-        </div>
-
-        <hr />
-
-        <table class="subtabela">
-          <thead>
-            <tr>
-              <th>Debitar</th>
-              <th>Creditar</th>
-              <th>Classificação</th>
-              <th>Descrição</th>
-              <th>Valor</th>
-              <th>Histórico Contábil</th>
-              <th>Excluir</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let linha of linhasSubtabela; let i = index">
-              <!-- Debitar -->
-              <td>
-                <input *ngIf="linha.tipo === 'debito'" type="text" [(ngModel)]="linha.debitar"
-                  [readonly]="!linha.editavel">
-                <span *ngIf="linha.tipo === 'credito'">-</span>
-              </td>
-
-              <!-- Conta -->
-              <td>
-                <ng-container *ngIf="linha.tipo === 'credito'; else contaTraco">
-                  <input type="text" [(ngModel)]="linha.conta" [readonly]="!linha.editavel" /> 
-                </ng-container>
-                <ng-template #contaTraco>-</ng-template>
-              </td>
-
-              <!-- Classificação -->
-              <td>
-                <input type="text" [(ngModel)]="linha.classificacao" [readonly]="!linha.editavel">
-              </td>
-
-              <!-- Descrição -->
-              <td>
-                <input type="text" [(ngModel)]="linha.descricao" [readonly]="!linha.editavel">
-              </td>
-
-              <!-- Valor -->
-              <td>
-                <input type="text" [(ngModel)]="linha.valor" (ngModelChange)="atualizarTotais()" [readonly]="!linha.editavel">
-              </td>
-
-              <!-- Histórico -->
-              <td>
-                <input type="text" [(ngModel)]="linha.historico" [readonly]="!linha.editavel">
-              </td>
-
-              <!-- Ações -->
-              <td>
-                <button *ngIf="linha.editavel" class="btn btn-outline-danger btn-sm"
-                  (click)="removerLinha(i)">−</button>
-              </td>
-            </tr>
-          </tbody>
-
-        </table>
-
-
-
-        <!-- Botões de adicionar linha -->
-        <div class="botoes-linhas" style="margin-top: 1rem;">
-          <!-- Para tipos N x N: mostra dois botões -->
-          <ng-container
-            *ngIf="tipoSelecionado === 'N Débito p/ N Crédito' || tipoSelecionado === 'N Crédito p/ N Débito'">
-            <button (click)="adicionarLinha('debito')">+ Adicionar Débito</button>
-            <button (click)="adicionarLinha('credito')">+ Adicionar Crédito</button>
-          </ng-container>
-
-          <!-- Para tipos Um x Vários: botão único -->
-          <ng-container *ngIf="tipoSelecionado === 'Um Débito p/ vários Créditos'">
-            <button (click)="adicionarLinha('credito')">+ Adicionar Crédito</button>
-          </ng-container>
-
-          <ng-container *ngIf="tipoSelecionado === 'Um Crédito p/ vários Débitos'">
-            <button (click)="adicionarLinha('debito')">+ Adicionar Débito</button>
-          </ng-container>
-        </div>
-
-        <hr />
-
-        <div class="linha-final">
-          <div><label>Débito:</label>
-            <input type="text" [value]="totalDebito | currency:'BRL':'symbol-narrow':'1.2-2'" readonly />
-          </div>
-          <div><label>Crédito:</label>
-            <input type="text" [value]="totalCredito | currency:'BRL':'symbol-narrow':'1.2-2'" readonly />
-          </div>
-          <div><label>Diferença:</label>
-            <input type="text" [value]="diferenca | currency:'BRL':'symbol-narrow':'1.2-2'" readonly />
-          </div>
-          <div><label>Doc nº:</label> <input type="text" value="0199999999" readonly /></div>
-          <div><button class="botao-nfe">Nf-e {{ lancamentoSelecionado.nota }}</button></div>
-        </div>
-
-        <div class="rodape-modal">
-          <button class="btn-cancelar" (click)="lancamentoSelecionado = null">Cancelar</button>
-          <button class="btn-gravar">Gravar</button>
-        </div>
-      </div>
-    </div>
+    <!-- Modal Lançamento usando o novo componente -->
+    <app-modal-lancamento
+      [isVisible]="!!lancamentoSelecionado"
+      [lancamento]="lancamentoSelecionado"
+      (fechado)="lancamentoSelecionado = null"
+      (regrapressed)="abrirModalRegra()"
+      (gravado)="onLancamentoGravado($event)">
+    </app-modal-lancamento>
 
 
 
@@ -310,9 +197,55 @@
         </div>
         <div class="modal-body">
           <div class="linha">
-            <div>
+            <div class="date-picker-container">
               <label>Data:</label>
-              <input type="date" />
+              <div class="custom-date-input" (click)="abrirDatePicker()">
+                <span>{{ formatarDataExibicao() }}</span>
+                <i class="bx bx-calendar"></i>
+              </div>
+
+              <!-- Date Picker Customizado -->
+              <div class="custom-date-picker" *ngIf="mostrarDatePicker" (click)="$event.stopPropagation()">
+                <div class="date-header">
+                  <button type="button" (click)="alterarAno(-1)" class="nav-btn">
+                    <i class="bx bx-chevrons-left"></i>
+                  </button>
+                  <button type="button" (click)="alterarMes(-1)" class="nav-btn">
+                    <i class="bx bx-chevron-left"></i>
+                  </button>
+
+                  <span class="date-title">{{ meses[mesAtual] }} {{ anoAtual }}</span>
+
+                  <button type="button" (click)="alterarMes(1)" class="nav-btn">
+                    <i class="bx bx-chevron-right"></i>
+                  </button>
+                  <button type="button" (click)="alterarAno(1)" class="nav-btn">
+                    <i class="bx bx-chevrons-right"></i>
+                  </button>
+                </div>
+
+                <div class="date-grid">
+                  <div class="day-header">Dom</div>
+                  <div class="day-header">Seg</div>
+                  <div class="day-header">Ter</div>
+                  <div class="day-header">Qua</div>
+                  <div class="day-header">Qui</div>
+                  <div class="day-header">Sex</div>
+                  <div class="day-header">Sáb</div>
+
+                  <div *ngFor="let dia of getDiasDoMes()"
+                       class="day-cell"
+                       [class.empty]="dia === 0"
+                       [class.today]="isToday(dia)"
+                       (click)="selecionarDia(dia)">
+                    {{ dia || '' }}
+                  </div>
+                </div>
+
+                <div class="date-footer">
+                  <button type="button" (click)="fecharDatePicker()" class="btn-cancel">Fechar</button>
+                </div>
+              </div>
             </div>
             <div>
               <label>Agência Bancária:</label>

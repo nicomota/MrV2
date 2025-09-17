@@ -4,12 +4,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RegistroContabilComponent } from './registro-contabil/registro-contabil.component';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms'; // <-- importe aqui
+import { FormsModule } from '@angular/forms';
+import { ModalLancamentoComponent } from './registro-contabil/modal-lancamento/modal-lancamento.component'; // <-- importe aqui
 
 @NgModule({
   declarations: [
     AppComponent,
-    RegistroContabilComponent
+    RegistroContabilComponent,
+    ModalLancamentoComponent
   ],
   imports: [
     BrowserModule,

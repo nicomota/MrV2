@@ -1,0 +1,135 @@
+<div class="modal-lancamento" *ngIf="isVisible">
+  <div class="modal-conteudo grande">
+    <button class="fechar" (click)="fechar()">&times;</button>
+    <h1 class="titulo">Lançamento Contábil</h1>
+    <hr />
+
+    <div class="linha">
+      <div><label>Data:</label> <input type="text" [value]="lancamento.data" readonly /></div>
+      <div><label>Usuário:</label> <input type="text" value="Diego" readonly /></div>
+      <div><label>Empresa:</label> <input type="text" [value]="lancamento.cliente" readonly /></div>
+      <div>
+        <label>Tipo:</label>
+        <select [(ngModel)]="tipoSelecionado" (change)="onTipoSelecionado()">
+          <option disabled [selected]="!tipoSelecionado">Escolha um tipo</option>
+          <option *ngFor="let tipo of tiposDisponiveis" [value]="tipo">{{ tipo }}</option>
+        </select>
+      </div>
+      <div style="align-self: flex-end;">
+        <label style="visibility: hidden;">Criar Regra</label>
+        <button class="btn-criar-regra" (click)="criarRegra()">Criar Regra</button>
+      </div>
+    </div>
+
+    <hr />
+
+    <div class="linha">
+      <div><label>Conta Contábil D:</label> <input type="text" [value]="lancamento?.debito" readonly />
+      </div>
+      <div><label>Conta Contábil C:</label> <input type="text" [value]="lancamento?.credito" readonly />
+      </div>
+      <div><label>Valor:</label> <input type="text" [value]="lancamento.valor" readonly /></div>
+      <div><label>Histórico Contábil:</label> <input type="text" [value]="lancamento.historico"
+          readonly /></div>
+    </div>
+
+    <hr />
+
+    <table class="subtabela">
+      <thead>
+        <tr>
+          <th>Debitar</th>
+          <th>Creditar</th>
+          <th>Classificação</th>
+          <th>Descrição</th>
+          <th>Valor</th>
+          <th>Histórico Contábil</th>
+          <th>Excluir</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let linha of linhasSubtabela; let i = index">
+          <!-- Debitar -->
+          <td>
+            <input *ngIf="linha.tipo === 'debito'" type="text" [(ngModel)]="linha.debitar"
+              [readonly]="!linha.editavel">
+            <span *ngIf="linha.tipo === 'credito'">-</span>
+          </td>
+
+          <!-- Creditar -->
+          <td>
+            <input *ngIf="linha.tipo === 'credito'" type="text" [(ngModel)]="linha.creditar"
+              [readonly]="!linha.editavel">
+            <span *ngIf="linha.tipo === 'debito'">-</span>
+          </td>
+
+          <!-- Classificação -->
+          <td>
+            <input type="text" [(ngModel)]="linha.classificacao" [readonly]="!linha.editavel">
+          </td>
+
+          <!-- Descrição -->
+          <td>
+            <input type="text" [(ngModel)]="linha.descricao" [readonly]="!linha.editavel">
+          </td>
+
+          <!-- Valor -->
+          <td>
+            <input type="text" [(ngModel)]="linha.valor" (ngModelChange)="atualizarTotais()" [readonly]="!linha.editavel">
+          </td>
+
+          <!-- Histórico -->
+          <td>
+            <input type="text" [(ngModel)]="linha.historico" [readonly]="!linha.editavel">
+          </td>
+
+          <!-- Ações -->
+          <td>
+            <button *ngIf="linha.editavel" class="btn btn-outline-danger btn-sm"
+              (click)="removerLinha(i)">−</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Botões de adicionar linha -->
+    <div class="botoes-linhas" style="margin-top: 1rem;">
+      <!-- Para tipos N x N: mostra dois botões -->
+      <ng-container
+        *ngIf="tipoSelecionado === 'N Débito p/ N Crédito' || tipoSelecionado === 'N Crédito p/ N Débito'">
+        <button (click)="adicionarLinha('debito')">+ Adicionar Débito</button>
+        <button (click)="adicionarLinha('credito')">+ Adicionar Crédito</button>
+      </ng-container>
+
+      <!-- Para tipos Um x Vários: botão único -->
+      <ng-container *ngIf="tipoSelecionado === 'Um Débito p/ vários Créditos'">
+        <button (click)="adicionarLinha('credito')">+ Adicionar Crédito</button>
+      </ng-container>
+
+      <ng-container *ngIf="tipoSelecionado === 'Um Crédito p/ vários Débitos'">
+        <button (click)="adicionarLinha('debito')">+ Adicionar Débito</button>
+      </ng-container>
+    </div>
+
+    <hr />
+
+    <div class="linha-final">
+      <div><label>Débito:</label>
+        <input type="text" [value]="totalDebito | currency:'BRL':'symbol-narrow':'1.2-2'" readonly />
+      </div>
+      <div><label>Crédito:</label>
+        <input type="text" [value]="totalCredito | currency:'BRL':'symbol-narrow':'1.2-2'" readonly />
+      </div>
+      <div><label>Diferença:</label>
+        <input type="text" [value]="diferenca | currency:'BRL':'symbol-narrow':'1.2-2'" readonly />
+      </div>
+      <div><label>Doc nº:</label> <input type="text" value="0199999999" readonly /></div>
+      <div><button class="botao-nfe">Nf-e {{ lancamento.nota }}</button></div>
+    </div>
+
+    <div class="rodape-modal">
+      <button class="btn-cancelar" (click)="fechar()">Cancelar</button>
+      <button class="btn-gravar" (click)="gravar()">Gravar</button>
+    </div>
+  </div>
+</div>
