@@ -273,8 +273,7 @@ export class ModalLancamentoComponent implements OnInit, OnChanges {
     let credito = 0;
 
     for (const linha of this.linhasSubtabela) {
-      const rawValor = typeof linha.valor === 'string' ? linha.valor : String(linha.valor);
-      const valorNumerico = this.converterValorParaNumero(rawValor);
+      const valorNumerico = this.converterValorParaNumero(linha.valor);
 
       if (linha.tipo === 'debito') {
         debito += valorNumerico;
@@ -285,17 +284,22 @@ export class ModalLancamentoComponent implements OnInit, OnChanges {
 
     this.totalDebito = debito;
     this.totalCredito = credito;
-    this.diferenca = Math.abs(debito - credito);
+    this.diferenca = debito - credito; // A diferença deve ser a subtração direta
   }
 
-  converterValorParaNumero(valor: string): number {
-    if (!valor) return 0;
+  converterValorParaNumero(valor: string | number): number {
+    if (typeof valor === 'number') {
+      return valor;
+    }
+    if (!valor) {
+      return 0;
+    }
 
-    // Remove "R$" e qualquer caractere que não seja número, vírgula ou ponto
-    const valorLimpo = valor.replace(/[^\d,.-]/g, '').replace(',', '.');
-
+    // Remove "R$", espaços, e troca a vírgula por ponto
+    const valorLimpo = valor.toString().replace('R$', '').trim().replace(/\./g, '').replace(',', '.');
+    
     const parsed = parseFloat(valorLimpo);
-    return isNaN(parsed) ? 0 : parsed;
+    return isNaN(parsed) ? 0 : Math.abs(parsed);
   }
 
   fechar(): void {
