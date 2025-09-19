@@ -277,9 +277,9 @@ export class ModalLancamentoComponent implements OnInit, OnChanges {
       const valorNumerico = this.converterValorParaNumero(rawValor);
 
       if (linha.tipo === 'debito') {
-        debito += valorNumerico;
+        debito += Math.abs(valorNumerico);
       } else if (linha.tipo === 'credito') {
-        credito += valorNumerico;
+        credito += Math.abs(valorNumerico);
       }
     }
 
