@@ -48,6 +48,9 @@ export class ModalLancamentoComponent implements OnInit, OnChanges {
   tiposDisponiveis: string[] = [];
   parcelasData: ParcelaData[] = [];
   notasFiscaisVisiveis: boolean = false;
+  abaSelecionada: string = 'nfe';
+  termoPesquisa: string = '';
+  filtroSelecionado: string = 'numero';
 
   totalDebito: number = 0;
   totalCredito: number = 0;
@@ -316,8 +319,17 @@ export class ModalLancamentoComponent implements OnInit, OnChanges {
     this.regrapressed.emit();
   }
 
+  selecionarAba(aba: string): void {
+    this.abaSelecionada = aba;
+  }
+
   toggleNotasFiscais(): void {
     this.notasFiscaisVisiveis = !this.notasFiscaisVisiveis;
+  }
+
+  pesquisar(): void {
+    console.log('Pesquisando:', this.termoPesquisa, 'por', this.filtroSelecionado);
+    // Implementar lógica de pesquisa aqui
   }
 
   carregarParcelasData(): void {

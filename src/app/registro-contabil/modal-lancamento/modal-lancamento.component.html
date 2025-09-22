@@ -41,6 +41,37 @@
       </button>
     </div>
 
+    <div class="abas-pesquisa-container" *ngIf="notasFiscaisVisiveis">
+      <section class="abas-modal">
+        <button [ngClass]="{ 'ativa': abaSelecionada === 'nfe' }" (click)="selecionarAba('nfe')">
+          NFe
+        </button>
+        <button [ngClass]="{ 'ativa': abaSelecionada === 'nfse' }" (click)="selecionarAba('nfse')">
+          NFSe
+        </button>
+      </section>
+
+      <div class="pesquisa-container">
+        <input type="text"
+               placeholder="Pesquisar..."
+               class="input-pesquisa"
+               [(ngModel)]="termoPesquisa" />
+
+        <select class="dropdown-filtro" [(ngModel)]="filtroSelecionado">
+          <option value="numero">Número</option>
+          <option value="empresa">Empresa</option>
+          <option value="cnpj">CNPJ</option>
+          <option value="valorParcela">Valor da Parcela</option>
+          <option value="dtParcela">DT Parcela</option>
+          <option value="valorLiquido">Valor Líquido</option>
+        </select>
+
+        <button class="btn-pesquisar" (click)="pesquisar()">
+          <i class="bx bx-search"></i>
+        </button>
+      </div>
+    </div>
+
     <table class="subtabela" *ngIf="notasFiscaisVisiveis">
       <thead>
         <tr>
