@@ -31,6 +31,23 @@ export interface ParcelaData {
   parcela: string;
 }
 
+export interface NFSeData {
+  numero: string;
+  razaoSocial: string;
+  cnpj: string;
+  dataParcela: string;
+  valorParcela: number;
+  valorLiquido: number;
+  iss: number;
+  ir: number;
+  inss: number;
+  pis: number;
+  cofins: number;
+  csll: number;
+  desconto: number;
+  parcela: string;
+}
+
 @Component({
   selector: 'app-modal-lancamento',
   templateUrl: './modal-lancamento.component.html',
@@ -47,6 +64,7 @@ export class ModalLancamentoComponent implements OnInit, OnChanges {
   linhasSubtabela: LinhaSubtabela[] = [];
   tiposDisponiveis: string[] = [];
   parcelasData: ParcelaData[] = [];
+  nfseData: NFSeData[] = [];
   notasFiscaisVisiveis: boolean = false;
   abaSelecionada: string = 'nfe';
   termoPesquisa: string = '';
@@ -70,6 +88,7 @@ export class ModalLancamentoComponent implements OnInit, OnChanges {
       this.linhasSubtabela = []; // Reset tabela
       this.configurarTiposDisponiveis();
       this.carregarParcelasData();
+      this.carregarNFSeData();
     }
   }
 
@@ -352,6 +371,44 @@ export class ModalLancamentoComponent implements OnInit, OnChanges {
         dtParcela: '2025-02-15',
         valorNota: 1500.00,
         parcela: '3/3'
+      }
+    ];
+  }
+
+  carregarNFSeData(): void {
+    // Dados de exemplo NFSe - substitua pela lógica real de carregamento
+    this.nfseData = [
+      {
+        numero: '000001',
+        razaoSocial: 'Empresa ABC Ltda',
+        cnpj: '12.345.678/0001-90',
+        dataParcela: '2024-12-15',
+        valorParcela: 2000.00,
+        valorLiquido: 1800.00,
+        iss: 100.00,
+        ir: 50.00,
+        inss: 30.00,
+        pis: 10.00,
+        cofins: 8.00,
+        csll: 2.00,
+        desconto: 0.00,
+        parcela: '1/2'
+      },
+      {
+        numero: '000002',
+        razaoSocial: 'Serviços XYZ S/A',
+        cnpj: '98.765.432/0001-10',
+        dataParcela: '2025-01-15',
+        valorParcela: 1500.00,
+        valorLiquido: 1350.00,
+        iss: 75.00,
+        ir: 45.00,
+        inss: 20.00,
+        pis: 7.50,
+        cofins: 2.50,
+        csll: 0.00,
+        desconto: 0.00,
+        parcela: '2/2'
       }
     ];
   }

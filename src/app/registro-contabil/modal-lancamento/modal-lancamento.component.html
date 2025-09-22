@@ -77,7 +77,8 @@
     </div>
 
     <div class="tabela-container" *ngIf="notasFiscaisVisiveis">
-      <table class="subtabela">
+      <!-- Tabela NFe -->
+      <table class="subtabela" *ngIf="abaSelecionada === 'nfe'">
         <thead>
           <tr>
             <th>Número Empresa</th>
@@ -92,6 +93,46 @@
             <td>{{ parcela.dtParcela }}</td>
             <td>{{ parcela.valorNota | currency:'BRL':'symbol-narrow':'1.2-2' }}</td>
             <td>{{ parcela.parcela }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Tabela NFSe -->
+      <table class="subtabela" *ngIf="abaSelecionada === 'nfse'">
+        <thead>
+          <tr>
+            <th>Número</th>
+            <th>Razão Social</th>
+            <th>CNPJ</th>
+            <th>Data da Parcela</th>
+            <th>Valor da Parcela</th>
+            <th>Valor Líquido</th>
+            <th>ISS</th>
+            <th>IR</th>
+            <th>INSS</th>
+            <th>PIS</th>
+            <th>COFINS</th>
+            <th>CSLL</th>
+            <th>Desconto</th>
+            <th>Parcela</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let nfse of nfseData">
+            <td>{{ nfse.numero }}</td>
+            <td>{{ nfse.razaoSocial }}</td>
+            <td>{{ nfse.cnpj }}</td>
+            <td>{{ nfse.dataParcela }}</td>
+            <td>{{ nfse.valorParcela | currency:'BRL':'symbol-narrow':'1.2-2' }}</td>
+            <td>{{ nfse.valorLiquido | currency:'BRL':'symbol-narrow':'1.2-2' }}</td>
+            <td>{{ nfse.iss | currency:'BRL':'symbol-narrow':'1.2-2' }}</td>
+            <td>{{ nfse.ir | currency:'BRL':'symbol-narrow':'1.2-2' }}</td>
+            <td>{{ nfse.inss | currency:'BRL':'symbol-narrow':'1.2-2' }}</td>
+            <td>{{ nfse.pis | currency:'BRL':'symbol-narrow':'1.2-2' }}</td>
+            <td>{{ nfse.cofins | currency:'BRL':'symbol-narrow':'1.2-2' }}</td>
+            <td>{{ nfse.csll | currency:'BRL':'symbol-narrow':'1.2-2' }}</td>
+            <td>{{ nfse.desconto | currency:'BRL':'symbol-narrow':'1.2-2' }}</td>
+            <td>{{ nfse.parcela }}</td>
           </tr>
         </tbody>
       </table>
