@@ -81,6 +81,7 @@
       <table class="subtabela" *ngIf="abaSelecionada === 'nfe'">
         <thead>
           <tr>
+            <th></th>
             <th>Número Empresa</th>
             <th>DT Parcela</th>
             <th>Valor Nota</th>
@@ -88,7 +89,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let parcela of parcelasData">
+          <tr *ngFor="let parcela of parcelasData; let i = index">
+            <td><input type="checkbox" /></td>
             <td>{{ parcela.numeroEmpresa }}</td>
             <td>{{ parcela.dtParcela }}</td>
             <td>{{ parcela.valorNota | currency:'BRL':'symbol-narrow':'1.2-2' }}</td>
@@ -101,6 +103,7 @@
       <table class="subtabela" *ngIf="abaSelecionada === 'nfse'">
         <thead>
           <tr>
+            <th></th>
             <th>Número</th>
             <th>Razão Social</th>
             <th>CNPJ</th>
@@ -118,7 +121,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let nfse of nfseData">
+          <tr *ngFor="let nfse of nfseData; let i = index">
+            <td><input type="checkbox" /></td>
             <td>{{ nfse.numero }}</td>
             <td>{{ nfse.razaoSocial }}</td>
             <td>{{ nfse.cnpj }}</td>
@@ -230,7 +234,10 @@
           <input type="text" [value]="diferenca | currency:'BRL':'symbol-narrow':'1.2-2'" readonly />
         </div>
         <div><label>Doc nº:</label> <input type="text" value="0199999999" readonly /></div>
-        <div><button class="botao-nfe">Nf-e {{ lancamento.nota }}</button></div>
+        <div>
+          <label>Número da Nota:</label>
+          <button class="botao-nfe">Nf-e {{ lancamento.nota }}</button>
+        </div>
       </div>
     </div>
 
