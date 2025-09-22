@@ -1,0 +1,369 @@
+// Form Controls - Estilos Globais para Controles de Formulário
+@import './variables.scss';
+
+// === LABELS ===
+.form-label {
+  font-weight: $font-weight-bold;
+  margin-bottom: $spacing-xs;
+  font-size: $font-size-sm;
+  color: $color-gray-500;
+  display: block;
+}
+
+// === INPUTS ===
+.form-input {
+  padding: $input-padding;
+  border: $border-width solid $border-color;
+  border-radius: $input-border-radius;
+  background: $color-white;
+  font-size: $input-font-size;
+  font-weight: $input-font-weight;
+  box-shadow: $shadow-md;
+  transition: all $transition-fast;
+  width: 100%;
+  box-sizing: border-box;
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 2px rgba($color-primary, 0.2);
+  }
+
+  &:readonly {
+    background-color: $bg-input;
+    color: $color-gray-400;
+    cursor: not-allowed;
+  }
+
+  &:disabled {
+    background-color: $color-gray-100;
+    color: $color-gray-400;
+    cursor: not-allowed;
+  }
+
+  &.form-input-sm {
+    font-size: $font-size-xs;
+    padding: 4px 8px;
+  }
+
+  &.form-input-lg {
+    font-size: $font-size-lg;
+    padding: 10px 16px;
+  }
+}
+
+// === SELECTS ===
+.form-select {
+  @extend .form-input;
+  cursor: pointer;
+
+  &:focus {
+    border-color: $color-primary;
+    box-shadow: 0 0 0 2px rgba($color-primary, 0.2);
+  }
+}
+
+// === BUTTONS ===
+.btn {
+  border: none;
+  border-radius: $button-border-radius;
+  padding: $button-padding;
+  cursor: pointer;
+  font-weight: $button-font-weight;
+  font-size: $button-font-size;
+  transition: all $transition-normal;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-shadow: $shadow-md;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+  }
+
+  // Tamanhos
+  &.btn-sm {
+    padding: 4px 12px;
+    font-size: $font-size-xs;
+  }
+
+  &.btn-lg {
+    padding: 12px 24px;
+    font-size: $font-size-lg;
+  }
+
+  // Variantes de Cor
+  &.btn-primary {
+    background-color: $color-primary-dark;
+    color: $color-white;
+
+    &:hover:not(:disabled) {
+      background-color: $color-primary-accent;
+      transform: scale(1.07);
+    }
+  }
+
+  &.btn-secondary {
+    background-color: $color-secondary;
+    color: $color-white;
+
+    &:hover:not(:disabled) {
+      background-color: $color-secondary-light;
+      transform: scale(1.05);
+    }
+  }
+
+  &.btn-success {
+    background-color: $color-success;
+    color: $color-white;
+
+    &:hover:not(:disabled) {
+      background-color: darken($color-success, 10%);
+    }
+  }
+
+  &.btn-danger {
+    background-color: $color-danger;
+    color: $color-white;
+
+    &:hover:not(:disabled) {
+      background-color: darken($color-danger, 10%);
+    }
+  }
+
+  &.btn-outline {
+    background: transparent;
+    border: $border-width solid $color-primary;
+    color: $color-primary;
+
+    &:hover:not(:disabled) {
+      background: $color-primary;
+      color: $color-white;
+    }
+  }
+
+  &.btn-ghost {
+    background: $color-gray-100;
+    color: $color-gray-500;
+
+    &:hover:not(:disabled) {
+      background: $color-gray-200;
+    }
+  }
+
+  // Variantes de Função
+  &.btn-cancel {
+    background: $color-primary;
+    color: $color-white;
+
+    &:hover:not(:disabled) {
+      background: $color-primary-light;
+    }
+  }
+
+  &.btn-save {
+    background: lighten($color-gray-400, 20%);
+    color: $color-white;
+
+    &:hover:not(:disabled) {
+      background: $color-gray-400;
+    }
+  }
+
+  &.btn-icon {
+    padding: 8px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+  }
+}
+
+// === CHECKBOXES ===
+.form-checkbox {
+  width: auto;
+  margin: 0;
+  cursor: pointer;
+  transform: scale(1.2);
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+// === RADIO BUTTONS ===
+.form-radio {
+  width: auto;
+  margin: 0 $spacing-xs 0 0;
+  cursor: pointer;
+  transform: scale(1.2);
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+// === SEARCH CONTROLS ===
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-sm;
+
+  .search-input {
+    @extend .form-input;
+    min-width: 200px;
+    flex: 1 1 200px;
+
+    @media (max-width: $breakpoint-mobile) {
+      min-width: 150px;
+    }
+  }
+
+  .search-filter {
+    @extend .form-select;
+    min-width: 140px;
+    flex: 0 0 140px;
+
+    @media (max-width: $breakpoint-mobile) {
+      min-width: 120px;
+      flex: 0 0 120px;
+    }
+  }
+
+  .search-button {
+    @extend .btn;
+    @extend .btn-primary;
+    flex: 0 0 auto;
+    white-space: nowrap;
+
+    @media (max-width: $breakpoint-mobile) {
+      padding: 8px 12px;
+    }
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+// === TABS ===
+.tabs-container {
+  display: flex;
+  gap: 0;
+  margin-bottom: 0;
+}
+
+.tab-button {
+  border: none;
+  padding: 8px 20px;
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  cursor: pointer;
+  border-radius: $border-radius-lg $border-radius-lg 0 0;
+  background: lighten($color-gray-300, 15%);
+  color: $color-gray-500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all $transition-normal;
+  position: relative;
+
+  &.active {
+    background-color: $color-secondary;
+    color: $color-white;
+    z-index: 2;
+    position: relative;
+    box-shadow: $shadow-focus;
+    transform: scale(1.02);
+  }
+
+  .badge {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: $border-radius-md;
+    font-weight: $font-weight-bold;
+    color: $color-white;
+
+    &.badge-primary { background: $color-secondary; }
+    &.badge-success { background: $color-success; }
+    &.badge-danger { background: $color-danger; }
+  }
+}
+
+// === FORM GROUPS ===
+.form-group {
+  margin-bottom: $spacing-lg;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.form-group-inline {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+
+  .form-label {
+    margin-bottom: 0;
+    white-space: nowrap;
+  }
+}
+
+// === VALIDATION STATES ===
+.has-error {
+  .form-input,
+  .form-select {
+    border-color: $color-danger;
+    box-shadow: 0 0 0 2px rgba($color-danger, 0.2);
+  }
+}
+
+.has-success {
+  .form-input,
+  .form-select {
+    border-color: $color-success;
+    box-shadow: 0 0 0 2px rgba($color-success, 0.2);
+  }
+}
+
+.error-message {
+  color: $color-danger;
+  font-size: $font-size-xs;
+  margin-top: $spacing-xs;
+}
+
+.success-message {
+  color: $color-success;
+  font-size: $font-size-xs;
+  margin-top: $spacing-xs;
+}
+
+// === RESPONSIVE ADJUSTMENTS ===
+@media (max-width: $breakpoint-mobile) {
+  .form-input,
+  .form-select {
+    font-size: $font-size-sm;
+    padding: 6px 10px;
+  }
+
+  .btn {
+    font-size: $font-size-sm;
+    padding: 6px 12px;
+  }
+
+  .tabs-container {
+    flex-wrap: wrap;
+  }
+
+  .tab-button {
+    font-size: $font-size-sm;
+    padding: 6px 16px;
+  }
+}

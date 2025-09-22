@@ -845,11 +845,6 @@ select {
   color: #007bff;
   cursor: pointer;
   transition: transform 0.2s ease, color 0.2s ease;
-
-  &:hover {
-    color: #0056b3;
-    transform: scale(1.1);
-  }
 }
 
 

@@ -142,21 +142,21 @@
             <td>{{ linha.data }}</td>
             <td>{{ linha.classificacao }}</td>
 
-            <!-- Conta Débito (ícone só se houver débito e não houver crédito) -->
+            <!-- Conta Débito -->
             <td>
               <i class="bx bx-book icone-clicavel"
-                 *ngIf="linha.debito && !linha.credito"
+                 *ngIf="i === 1"
                  (click)="abrirModalAssociacaoConta(i); $event.stopPropagation()"
-                 title="Associar conta de crédito"></i>
+                 title="Associar conta de débito"></i>
               {{ linha.debito }}
             </td>
 
-            <!-- Conta Crédito (ícone só se houver crédito e não houver débito) -->
+            <!-- Conta Crédito -->
             <td>
               <i class="bx bx-book icone-clicavel"
-                 *ngIf="linha.credito && !linha.debito"
+                 *ngIf="i === 0"
                  (click)="abrirModalAssociacaoConta(i); $event.stopPropagation()"
-                 title="Associar conta de débito"></i>
+                 title="Associar conta de crédito"></i>
               {{ linha.credito }}
             </td>
 

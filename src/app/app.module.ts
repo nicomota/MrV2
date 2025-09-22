@@ -6,12 +6,16 @@ import { RegistroContabilComponent } from './registro-contabil/registro-contabil
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ModalLancamentoComponent } from './registro-contabil/modal-lancamento/modal-lancamento.component';
+import { ModalRegraComponent } from './registro-contabil/modals/modal-regra/modal-regra.component';
+import { ModalAssociacaoContaComponent } from './registro-contabil/modals/modal-associacao-conta/modal-associacao-conta.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegistroContabilComponent,
-    ModalLancamentoComponent
+    ModalLancamentoComponent,
+    ModalRegraComponent,
+    ModalAssociacaoContaComponent
   ],
   imports: [
     BrowserModule,

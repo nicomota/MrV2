@@ -1,0 +1,115 @@
+// Variables.scss - Variáveis CSS Globais do Projeto
+
+// === CORES ===
+// Cores Primárias
+$color-primary: #001c7c;
+$color-primary-light: #002fa3;
+$color-primary-dark: #00015c;
+$color-primary-accent: #173453;
+
+// Cores Secundárias
+$color-secondary: #007bff;
+$color-secondary-light: #0056b3;
+
+// Cores de Status
+$color-success: #28a745;
+$color-danger: #dc3545;
+$color-warning: #ffc107;
+$color-info: #17a2b8;
+
+// Cores Neutras
+$color-white: #ffffff;
+$color-gray-50: #f8f9fa;
+$color-gray-100: #f1f1f1;
+$color-gray-200: #e0e0e0;
+$color-gray-300: #ccc;
+$color-gray-400: #6c757d;
+$color-gray-500: #333;
+$color-black: #000000;
+
+// Cores de Fundo
+$bg-modal-overlay: rgba(0, 0, 0, 0.5);
+$bg-container: #e6f0ff;
+$bg-input: #f9f9f9;
+$bg-table-stripe: #fafafa;
+$bg-header: #e6f0ff;
+
+// === TAMANHOS ===
+// Espaçamentos
+$spacing-xs: 0.25rem;   // 4px
+$spacing-sm: 0.5rem;    // 8px
+$spacing-md: 0.75rem;   // 12px
+$spacing-lg: 1rem;      // 16px
+$spacing-xl: 1.5rem;    // 24px
+$spacing-xxl: 2rem;     // 32px
+
+// Bordas
+$border-radius-sm: 4px;
+$border-radius-md: 8px;
+$border-radius-lg: 12px;
+$border-radius-xl: 20px;
+$border-radius-pill: 30px;
+
+$border-width: 1px;
+$border-color: $color-gray-300;
+
+// === TIPOGRAFIA ===
+// Tamanhos de Fonte
+$font-size-xs: 0.7rem;   // 11px
+$font-size-sm: 0.8rem;   // 13px
+$font-size-md: 0.9rem;   // 14px
+$font-size-lg: 1rem;     // 16px
+$font-size-xl: 1.2rem;   // 19px
+$font-size-xxl: 1.5rem;  // 24px
+
+// Pesos de Fonte
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+// === SOMBRAS ===
+$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+$shadow-md: 0 1px 3px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 2px 6px rgba(0, 0, 0, 0.05);
+$shadow-xl: 0 0 20px rgba(0, 0, 0, 0.3);
+$shadow-focus: 0 -2px 8px rgba(0, 123, 255, 0.2);
+
+// === TRANSIÇÕES ===
+$transition-fast: 0.2s ease;
+$transition-normal: 0.3s ease;
+$transition-slow: 0.5s ease;
+
+// === Z-INDEX ===
+$z-modal: 9999;
+$z-dropdown: 1000;
+$z-header: 100;
+
+// === BREAKPOINTS ===
+$breakpoint-mobile: 768px;
+$breakpoint-tablet: 1024px;
+$breakpoint-desktop: 1200px;
+
+// === MODAL ESPECÍFICO ===
+$modal-max-width: 1520px;
+$modal-padding: $spacing-xxl;
+$modal-padding-mobile: $spacing-lg;
+$modal-border-radius: $border-radius-lg;
+
+// === TABELA ESPECÍFICO ===
+$table-border-radius: $border-radius-lg;
+$table-border-top-width: 4px;
+$table-cell-padding: 6px 10px;
+$table-header-padding: 8px 10px;
+$table-font-size: 12px;
+
+// === FORM CONTROLS ===
+$input-padding: 6px 12px;
+$input-border-radius: $border-radius-xl;
+$input-font-size: 13px;
+$input-font-weight: $font-weight-semibold;
+
+$button-padding: 8px 16px;
+$button-border-radius: $border-radius-xl;
+$button-font-size: $font-size-md;
+$button-font-weight: $font-weight-normal;
