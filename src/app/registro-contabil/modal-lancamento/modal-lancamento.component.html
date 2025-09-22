@@ -4,33 +4,37 @@
     <h1 class="titulo">Lançamento Contábil</h1>
     <hr />
 
-    <div class="linha">
-      <div><label>Data:</label> <input type="text" [value]="lancamento.data" readonly /></div>
-      <div><label>Usuário:</label> <input type="text" value="Diego" readonly /></div>
-      <div><label>Empresa:</label> <input type="text" [value]="lancamento.cliente" readonly /></div>
-      <div>
-        <label>Tipo:</label>
-        <select [(ngModel)]="tipoSelecionado" (change)="onTipoSelecionado()">
-          <option disabled [selected]="!tipoSelecionado">Escolha um tipo</option>
-          <option *ngFor="let tipo of tiposDisponiveis" [value]="tipo">{{ tipo }}</option>
-        </select>
-      </div>
-      <div style="align-self: flex-end;">
-        <label style="visibility: hidden;">Criar Regra</label>
-        <button class="btn-criar-regra" (click)="criarRegra()">Criar Regra</button>
+    <div class="linha-container">
+      <div class="linha">
+        <div><label>Data:</label> <input type="text" [value]="lancamento.data" readonly /></div>
+        <div><label>Usuário:</label> <input type="text" value="Diego" readonly /></div>
+        <div><label>Empresa:</label> <input type="text" [value]="lancamento.cliente" readonly /></div>
+        <div>
+          <label>Tipo:</label>
+          <select [(ngModel)]="tipoSelecionado" (change)="onTipoSelecionado()">
+            <option disabled [selected]="!tipoSelecionado">Escolha um tipo</option>
+            <option *ngFor="let tipo of tiposDisponiveis" [value]="tipo">{{ tipo }}</option>
+          </select>
+        </div>
+        <div style="align-self: flex-end;">
+          <label style="visibility: hidden;">Criar Regra</label>
+          <button class="btn-criar-regra" (click)="criarRegra()">Criar Regra</button>
+        </div>
       </div>
     </div>
 
     <hr />
 
-    <div class="linha">
-      <div><label>Conta Contábil D:</label> <input type="text" [value]="lancamento?.debito" readonly />
+    <div class="linha-container">
+      <div class="linha">
+        <div><label>Conta Contábil D:</label> <input type="text" [value]="lancamento?.debito" readonly />
+        </div>
+        <div><label>Conta Contábil C:</label> <input type="text" [value]="lancamento?.credito" readonly />
+        </div>
+        <div><label>Valor:</label> <input type="text" [value]="lancamento.valor" readonly /></div>
+        <div><label>Histórico Contábil:</label> <input type="text" [value]="lancamento.historico"
+            readonly /></div>
       </div>
-      <div><label>Conta Contábil C:</label> <input type="text" [value]="lancamento?.credito" readonly />
-      </div>
-      <div><label>Valor:</label> <input type="text" [value]="lancamento.valor" readonly /></div>
-      <div><label>Histórico Contábil:</label> <input type="text" [value]="lancamento.historico"
-          readonly /></div>
     </div>
 
     <hr />
@@ -173,18 +177,20 @@
 
     <hr />
 
-    <div class="linha-final">
-      <div><label>Débito:</label>
-        <input type="text" [value]="totalDebito | currency:'BRL':'symbol-narrow':'1.2-2'" readonly />
+    <div class="linha-container">
+      <div class="linha-final">
+        <div><label>Débito:</label>
+          <input type="text" [value]="totalDebito | currency:'BRL':'symbol-narrow':'1.2-2'" readonly />
+        </div>
+        <div><label>Crédito:</label>
+          <input type="text" [value]="totalCredito | currency:'BRL':'symbol-narrow':'1.2-2'" readonly />
+        </div>
+        <div><label>Diferença:</label>
+          <input type="text" [value]="diferenca | currency:'BRL':'symbol-narrow':'1.2-2'" readonly />
+        </div>
+        <div><label>Doc nº:</label> <input type="text" value="0199999999" readonly /></div>
+        <div><button class="botao-nfe">Nf-e {{ lancamento.nota }}</button></div>
       </div>
-      <div><label>Crédito:</label>
-        <input type="text" [value]="totalCredito | currency:'BRL':'symbol-narrow':'1.2-2'" readonly />
-      </div>
-      <div><label>Diferença:</label>
-        <input type="text" [value]="diferenca | currency:'BRL':'symbol-narrow':'1.2-2'" readonly />
-      </div>
-      <div><label>Doc nº:</label> <input type="text" value="0199999999" readonly /></div>
-      <div><button class="botao-nfe">Nf-e {{ lancamento.nota }}</button></div>
     </div>
 
     <div class="rodape-modal">

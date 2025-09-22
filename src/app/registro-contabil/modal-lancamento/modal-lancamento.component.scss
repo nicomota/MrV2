@@ -41,11 +41,19 @@
     color: #0024ac;
   }
 
+  .linha-container {
+    background-color: #e6f0ff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+
   .linha {
     display: flex;
     flex-wrap: nowrap;
     gap: 1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0;
     overflow-x: auto;
 
     > div {
