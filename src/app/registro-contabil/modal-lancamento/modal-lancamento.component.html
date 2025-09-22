@@ -35,6 +35,33 @@
 
     <hr />
 
+    <div class="header-notas-fiscais">
+      <button (click)="toggleNotasFiscais()" class="btn-header-notas">
+        <span>{{ notasFiscaisVisiveis ? '▼' : '▶' }} Notas Fiscais</span>
+      </button>
+    </div>
+
+    <table class="subtabela" *ngIf="notasFiscaisVisiveis">
+      <thead>
+        <tr>
+          <th>Número Empresa</th>
+          <th>DT Parcela</th>
+          <th>Valor Nota</th>
+          <th>Parcela</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let parcela of parcelasData">
+          <td>{{ parcela.numeroEmpresa }}</td>
+          <td>{{ parcela.dtParcela }}</td>
+          <td>{{ parcela.valorNota | currency:'BRL':'symbol-narrow':'1.2-2' }}</td>
+          <td>{{ parcela.parcela }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <hr />
+
     <table class="subtabela">
       <thead>
         <tr>

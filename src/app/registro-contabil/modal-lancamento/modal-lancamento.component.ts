@@ -24,6 +24,13 @@ export interface LinhaSubtabela {
   editavel: boolean;
 }
 
+export interface ParcelaData {
+  numeroEmpresa: string;
+  dtParcela: string;
+  valorNota: number;
+  parcela: string;
+}
+
 @Component({
   selector: 'app-modal-lancamento',
   templateUrl: './modal-lancamento.component.html',
@@ -39,6 +46,8 @@ export class ModalLancamentoComponent implements OnInit, OnChanges {
   tipoSelecionado: string = '';
   linhasSubtabela: LinhaSubtabela[] = [];
   tiposDisponiveis: string[] = [];
+  parcelasData: ParcelaData[] = [];
+  notasFiscaisVisiveis: boolean = false;
 
   totalDebito: number = 0;
   totalCredito: number = 0;
@@ -57,6 +66,7 @@ export class ModalLancamentoComponent implements OnInit, OnChanges {
       this.tipoSelecionado = ''; // Reset dropdown
       this.linhasSubtabela = []; // Reset tabela
       this.configurarTiposDisponiveis();
+      this.carregarParcelasData();
     }
   }
 
@@ -304,6 +314,34 @@ export class ModalLancamentoComponent implements OnInit, OnChanges {
 
   criarRegra(): void {
     this.regrapressed.emit();
+  }
+
+  toggleNotasFiscais(): void {
+    this.notasFiscaisVisiveis = !this.notasFiscaisVisiveis;
+  }
+
+  carregarParcelasData(): void {
+    // Dados de exemplo - substitua pela lógica real de carregamento
+    this.parcelasData = [
+      {
+        numeroEmpresa: '001',
+        dtParcela: '2024-12-15',
+        valorNota: 1500.00,
+        parcela: '1/3'
+      },
+      {
+        numeroEmpresa: '001',
+        dtParcela: '2025-01-15',
+        valorNota: 1500.00,
+        parcela: '2/3'
+      },
+      {
+        numeroEmpresa: '001',
+        dtParcela: '2025-02-15',
+        valorNota: 1500.00,
+        parcela: '3/3'
+      }
+    ];
   }
 
   gravar(): void {
