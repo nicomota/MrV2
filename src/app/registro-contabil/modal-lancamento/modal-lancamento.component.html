@@ -41,17 +41,19 @@
 
     <div class="header-notas-fiscais">
       <button (click)="toggleNotasFiscais()" class="btn-header-notas">
-        <span>{{ notasFiscaisVisiveis ? '▼' : '▶' }} Notas Fiscais</span>
+        <span>{{ notasFiscaisVisiveis ? '▼' : '▶' }} Notas Fiscais (Clique para Abrir)</span>
       </button>
     </div>
 
-    <div class="abas-pesquisa-container" *ngIf="notasFiscaisVisiveis">
+    <div class="abas-pesquisa-container"
+         *ngIf="notasFiscaisVisiveis || notasFiscaisClosing"
+         [ngClass]="{ 'closing': notasFiscaisClosing }">
       <section class="abas-modal">
         <button [ngClass]="{ 'ativa': abaSelecionada === 'nfe' }" (click)="selecionarAba('nfe')">
-          NFe
+          Nota Fiscal Eletrônica
         </button>
         <button [ngClass]="{ 'ativa': abaSelecionada === 'nfse' }" (click)="selecionarAba('nfse')">
-          NFSe
+          Nota Fiscal de Serviços
         </button>
       </section>
 
@@ -76,7 +78,9 @@
       </div>
     </div>
 
-    <div class="tabela-container" *ngIf="notasFiscaisVisiveis">
+    <div class="tabela-container"
+         *ngIf="notasFiscaisVisiveis || notasFiscaisClosing"
+         [ngClass]="{ 'closing': notasFiscaisClosing }">
       <!-- Tabela NFe -->
       <table class="subtabela" *ngIf="abaSelecionada === 'nfe'">
         <thead>
@@ -144,7 +148,15 @@
 
     <hr />
 
-    <table class="subtabela">
+    <div class="header-associar-conta">
+      <button (click)="toggleAssociarConta()" class="btn-header-associar">
+        <span>{{ associarContaVisivel ? '▼' : '▶' }} Associar Conta contábil (Clique para Abrir)</span>
+      </button>
+    </div>
+
+    <table class="subtabela"
+           *ngIf="associarContaVisivel || associarContaClosing"
+           [ngClass]="{ 'closing': associarContaClosing }">
       <thead>
         <tr>
           <th>Debitar</th>

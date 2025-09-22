@@ -66,6 +66,9 @@ export class ModalLancamentoComponent implements OnInit, OnChanges {
   parcelasData: ParcelaData[] = [];
   nfseData: NFSeData[] = [];
   notasFiscaisVisiveis: boolean = false;
+  associarContaVisivel: boolean = false;
+  notasFiscaisClosing: boolean = false;
+  associarContaClosing: boolean = false;
   abaSelecionada: string = 'nfe';
   termoPesquisa: string = '';
   filtroSelecionado: string = 'numero';
@@ -343,7 +346,59 @@ export class ModalLancamentoComponent implements OnInit, OnChanges {
   }
 
   toggleNotasFiscais(): void {
-    this.notasFiscaisVisiveis = !this.notasFiscaisVisiveis;
+    if (this.notasFiscaisVisiveis) {
+      // Fechar notas fiscais
+      this.notasFiscaisClosing = true;
+      setTimeout(() => {
+        this.notasFiscaisVisiveis = false;
+        this.notasFiscaisClosing = false;
+      }, 250); // Sincronizado com animação slideUp (0.25s)
+    } else {
+      // Fechar associar conta se estiver aberta
+      if (this.associarContaVisivel) {
+        this.associarContaClosing = true;
+        setTimeout(() => {
+          this.associarContaVisivel = false;
+          this.associarContaClosing = false;
+
+          // Abrir notas fiscais após fechar a outra seção
+          this.notasFiscaisVisiveis = true;
+          this.notasFiscaisClosing = false;
+        }, 250);
+      } else {
+        // Abrir notas fiscais imediatamente
+        this.notasFiscaisVisiveis = true;
+        this.notasFiscaisClosing = false;
+      }
+    }
+  }
+
+  toggleAssociarConta(): void {
+    if (this.associarContaVisivel) {
+      // Fechar associar conta
+      this.associarContaClosing = true;
+      setTimeout(() => {
+        this.associarContaVisivel = false;
+        this.associarContaClosing = false;
+      }, 250); // Sincronizado com animação slideUp (0.25s)
+    } else {
+      // Fechar notas fiscais se estiver aberta
+      if (this.notasFiscaisVisiveis) {
+        this.notasFiscaisClosing = true;
+        setTimeout(() => {
+          this.notasFiscaisVisiveis = false;
+          this.notasFiscaisClosing = false;
+
+          // Abrir associar conta após fechar a outra seção
+          this.associarContaVisivel = true;
+          this.associarContaClosing = false;
+        }, 250);
+      } else {
+        // Abrir associar conta imediatamente
+        this.associarContaVisivel = true;
+        this.associarContaClosing = false;
+      }
+    }
   }
 
   pesquisar(): void {

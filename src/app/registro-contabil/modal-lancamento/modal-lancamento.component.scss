@@ -23,7 +23,8 @@
     border-radius: 12px;
     width: 100%;
     max-width: 1520px;
-    max-height: 95vh;
+    min-height: 98vh;
+    max-height: 98vh;
     overflow-y: auto;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
     position: relative;
@@ -449,12 +450,14 @@
     }
   }
 
-  .header-notas-fiscais {
+  .header-notas-fiscais,
+  .header-associar-conta {
     width: 100%;
     margin: 1rem 0;
   }
 
-  .btn-header-notas {
+  .btn-header-notas,
+  .btn-header-associar {
     width: 100%;
     background: linear-gradient(90deg, #00015c, #0024a3 60%, #023fe9);
     color: white;
@@ -464,19 +467,109 @@
     font-size: 0.9rem;
     cursor: pointer;
     border-radius: 4px 4px 0 0;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
     text-align: left;
     display: flex;
     align-items: center;
+    transform: translateZ(0); // Force hardware acceleration
 
     &:hover {
       opacity: 0.9;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    &:active {
+      transform: translateY(0);
     }
 
     span {
       display: flex;
       align-items: center;
       gap: 8px;
+      transition: transform 0.3s ease;
+    }
+  }
+
+  // Animações para as seções expansíveis - versão otimizada
+  .abas-pesquisa-container,
+  .tabela-container {
+    animation: slideDown 0.35s ease-out;
+    transform-origin: top;
+    will-change: transform, opacity;
+
+    &.closing {
+      animation: slideUp 0.25s ease-in;
+    }
+  }
+
+  .subtabela {
+    animation: slideDown 0.35s ease-out;
+    transform-origin: top;
+    will-change: transform, opacity;
+
+    &.closing {
+      animation: slideUp 0.25s ease-in;
+    }
+  }
+
+  // Keyframes simplificados e fluidos
+  @keyframes slideDown {
+    0% {
+      opacity: 0;
+      transform: translateY(-20px) scaleY(0.8);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scaleY(1);
+    }
+  }
+
+  @keyframes slideUp {
+    0% {
+      opacity: 1;
+      transform: translateY(0) scaleY(1);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-20px) scaleY(0.8);
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  // Animação específica para as abas
+  .abas-modal button {
+    animation: fadeIn 0.4s ease-out;
+    animation-delay: 0.1s;
+    animation-fill-mode: both;
+  }
+
+  // Animação para pesquisa
+  .pesquisa-container {
+    animation: fadeIn 0.4s ease-out;
+    animation-delay: 0.2s;
+    animation-fill-mode: both;
+  }
+
+  // Animação para as linhas da tabela
+  .subtabela tbody tr {
+    animation: fadeIn 0.5s ease-out;
+    animation-fill-mode: both;
+
+    @for $i from 1 through 10 {
+      &:nth-child(#{$i}) {
+        animation-delay: #{0.1 + ($i * 0.05)}s;
+      }
     }
   }
 }
