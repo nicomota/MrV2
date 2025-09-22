@@ -72,24 +72,26 @@
       </div>
     </div>
 
-    <table class="subtabela" *ngIf="notasFiscaisVisiveis">
-      <thead>
-        <tr>
-          <th>Número Empresa</th>
-          <th>DT Parcela</th>
-          <th>Valor Nota</th>
-          <th>Parcela</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let parcela of parcelasData">
-          <td>{{ parcela.numeroEmpresa }}</td>
-          <td>{{ parcela.dtParcela }}</td>
-          <td>{{ parcela.valorNota | currency:'BRL':'symbol-narrow':'1.2-2' }}</td>
-          <td>{{ parcela.parcela }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="tabela-container" *ngIf="notasFiscaisVisiveis">
+      <table class="subtabela">
+        <thead>
+          <tr>
+            <th>Número Empresa</th>
+            <th>DT Parcela</th>
+            <th>Valor Nota</th>
+            <th>Parcela</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let parcela of parcelasData">
+            <td>{{ parcela.numeroEmpresa }}</td>
+            <td>{{ parcela.dtParcela }}</td>
+            <td>{{ parcela.valorNota | currency:'BRL':'symbol-narrow':'1.2-2' }}</td>
+            <td>{{ parcela.parcela }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <hr />
 

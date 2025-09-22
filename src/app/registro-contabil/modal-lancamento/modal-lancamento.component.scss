@@ -60,11 +60,13 @@
       }
 
       input, select {
-        padding: 6px 10px;
+        padding: 8px 16px;
         border: 1px solid #ccc;
-        border-radius: 8px;
-        background: #f9f9f9;
-        font-size: 0.9rem;
+        border-radius: 30px;
+        background: white;
+        font-size: 14px;
+        font-weight: 600;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
       }
     }
   }
@@ -87,11 +89,13 @@
       }
 
       input {
-        padding: 6px 10px;
+        padding: 8px 16px;
         border: 1px solid #ccc;
-        border-radius: 8px;
-        background: #f9f9f9;
-        font-size: 0.8rem;
+        border-radius: 30px;
+        background: white;
+        font-size: 14px;
+        font-weight: 600;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
       }
 
       .botao-nfe {
@@ -102,26 +106,35 @@
     }
   }
 
+  .tabela-container {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+
   .subtabela {
     width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 1rem;
-    overflow-x: auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    font-size: 14px;
+    border-top: 4px solid #007bff;
 
-    thead {
-      background: #0070f3;
-
-      th {
-        color: white;
-        font-weight: bold;
-      }
+    thead th {
+      background: #e6f0ff;
+      text-align: left;
+      padding: 12px;
+      font-weight: 700;
+      color: #333;
+      font-size: 14px;
     }
 
-    th, td {
-      padding: 8px 12px;
-      border: 1px solid #ccc;
-      font-size: 0.75rem;
-      text-align: left;
+    tbody td {
+      padding: 10px 12px;
+      border-top: 1px solid #eee;
+      font-size: 14px;
     }
 
     tbody tr:nth-child(odd) {
@@ -168,28 +181,29 @@
 
     .btn-cancelar, .btn-gravar {
       border: none;
-      border-radius: 8px;
+      border-radius: 20px;
       padding: 8px 16px;
       cursor: pointer;
       font-weight: bold;
-      transition: all 0.2s ease;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
     }
 
     .btn-cancelar {
-      background: #f1f1f1;
-      color: #333;
+      background: #001c7c;
+      color: white;
 
       &:hover {
-        background: #e0e0e0;
+        background: #002fa3;
       }
     }
 
     .btn-gravar {
-      background: #007bff;
+      background: #a5b3c9;
       color: white;
 
       &:hover {
-        background: #0056b3;
+        background: #8e9bb1;
       }
     }
   }
@@ -198,14 +212,14 @@
     background: #001c7c;
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 20px;
     padding: 8px 16px;
     font-weight: bold;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.3s ease;
 
     &:hover {
-      background: #0033cc;
+      background: #002fa3;
     }
   }
 
@@ -215,17 +229,21 @@
     margin-top: 16px;
 
     button {
-      background-color: #007bff;
+      background-color: #00015c;
       color: white;
-      padding: 6px 12px;
+      border-radius: 24px;
       border: none;
-      border-radius: 4px;
+      font-weight: 400;
+      padding: 6px 16px;
       cursor: pointer;
       font-size: 0.8rem;
-      transition: background-color 0.2s;
+      transition: all 0.3s ease;
 
       &:hover {
-        background-color: #0056b3;
+        color: #fff;
+        background-color: #173453;
+        border-color: #142e49;
+        transform: scale(1.07);
       }
     }
   }
@@ -291,36 +309,45 @@
   }
 
   .input-pesquisa {
-    padding: 8px 12px;
+    padding: 8px 16px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 30px;
     font-size: 14px;
+    font-weight: 600;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     min-width: 200px;
   }
 
   .dropdown-filtro {
-    padding: 8px 12px;
+    padding: 8px 16px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 30px;
     font-size: 14px;
+    font-weight: 600;
     background: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     min-width: 140px;
   }
 
   .btn-pesquisar {
-    padding: 8px 12px;
-    background: #007bff;
+    background-color: #00015c;
     color: white;
+    border-radius: 24px;
     border: none;
-    border-radius: 4px;
+    font-weight: 400;
+    padding: 8px 16px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.2s;
+    transition: all 0.3s ease;
 
     &:hover {
-      background: #0056b3;
+      color: #fff;
+      background-color: #173453;
+      border-color: #142e49;
+      transform: scale(1.07);
     }
 
     i {
