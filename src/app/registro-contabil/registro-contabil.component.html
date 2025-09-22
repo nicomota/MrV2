@@ -142,15 +142,21 @@
             <td>{{ linha.data }}</td>
             <td>{{ linha.classificacao }}</td>
 
-            <!-- Conta Débito (ícone só se houver crédito) -->
+            <!-- Conta Débito (ícone só se houver débito e não houver crédito) -->
             <td>
-              <i class="bx bx-book icone-clicavel" *ngIf="linha.debito && !linha.credito"></i>
+              <i class="bx bx-book icone-clicavel"
+                 *ngIf="linha.debito && !linha.credito"
+                 (click)="abrirModalAssociacaoConta(i); $event.stopPropagation()"
+                 title="Associar conta de crédito"></i>
               {{ linha.debito }}
             </td>
 
-            <!-- Conta Crédito (ícone só se crédito estiver vazio, e houver débito) -->
+            <!-- Conta Crédito (ícone só se houver crédito e não houver débito) -->
             <td>
-              <i class="bx bx-book icone-clicavel" *ngIf="linha.credito && !linha.debito"></i>
+              <i class="bx bx-book icone-clicavel"
+                 *ngIf="linha.credito && !linha.debito"
+                 (click)="abrirModalAssociacaoConta(i); $event.stopPropagation()"
+                 title="Associar conta de débito"></i>
               {{ linha.credito }}
             </td>
 
@@ -186,15 +192,28 @@
 
 
 
+
     <!-- Modal regra -->
     <div class="modal-regra" *ngIf="modalAberto" (click)="fecharModalRegra()">
       <div class="modal-conteudo-regra" (click)="$event.stopPropagation()">
         <div class="modal-header">
-          <h2>Associação de Regra</h2>
+          <h2>{{ modoAssociacaoConta ? 'Associação de Conta' : 'Associação de Regra' }}</h2>
           <button class="fechar" (click)="fecharModalRegra()">×</button>
         </div>
         <div class="modal-body">
-          <div class="linha">
+          <!-- Campos simplificados para associação de conta -->
+          <div class="linha" *ngIf="modoAssociacaoConta">
+            <div style="flex: 1;">
+              <label><strong>Lançamento selecionado:</strong></label>
+              <p *ngIf="lancamentoSelecionadoIndex !== null">
+                {{ dadosLancamentos[lancamentoSelecionadoIndex]?.historico }}
+                ({{ dadosLancamentos[lancamentoSelecionadoIndex]?.valor }})
+              </p>
+            </div>
+          </div>
+
+          <!-- Campos completos para regra normal -->
+          <div class="linha" *ngIf="!modoAssociacaoConta">
             <div class="date-picker-container">
               <label>Data:</label>
               <div class="custom-date-input" (click)="abrirDatePicker()">
@@ -250,6 +269,8 @@
               <input type="text" value="4480/2861" readonly />
             </div>
           </div>
+
+          <!-- Campos de Débito e Crédito (sempre visíveis) -->
           <div class="linha">
             <div style="flex: 1; display: flex; flex-direction: column; gap: 0.75rem;">
               <div>
@@ -261,7 +282,8 @@
                 <input type="text" />
               </div>
             </div>
-            <div class="descricao-inline" style="flex: 1;">
+            <!-- Descrição apenas no modo regra -->
+            <div class="descricao-inline" style="flex: 1;" *ngIf="!modoAssociacaoConta">
               <label for="descricao">Descrição:</label>
               <select id="descricao">
                 <option disabled selected>Selecione uma descrição</option>
@@ -270,7 +292,9 @@
               </select>
             </div>
           </div>
-          <div class="linha">
+
+          <!-- Campos adicionais apenas no modo regra -->
+          <div class="linha" *ngIf="!modoAssociacaoConta">
             <div>
               <label>Valor:</label>
               <input type="text" />
@@ -280,7 +304,7 @@
               <input type="text" />
             </div>
           </div>
-          <div class="linha">
+          <div class="linha" *ngIf="!modoAssociacaoConta">
             <div style="flex: 1;">
               <label>Histórico Contábil:</label>
               <input type="text" />

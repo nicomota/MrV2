@@ -46,6 +46,9 @@ export class RegistroContabilComponent implements OnInit {
 
   modalAberto = false;
   lancamentoSelecionadoIndex: number | null = null;
+
+  // Para controlar se é associação de conta (diferente do modal de regra normal)
+  modoAssociacaoConta = false;
   contaContabilInput: string = '';
   abaSelecionada: string = 'lancamentos';
   mesSelecionado: string = 'Abril/2021';
@@ -122,6 +125,15 @@ export class RegistroContabilComponent implements OnInit {
 
   fecharModalRegra() {
     this.modalAberto = false;
+    this.modoAssociacaoConta = false;
+    this.lancamentoSelecionadoIndex = null;
+  }
+
+  // Método específico para abrir modal de associação de conta
+  abrirModalAssociacaoConta(index: number) {
+    this.lancamentoSelecionadoIndex = index;
+    this.modoAssociacaoConta = true;
+    this.modalAberto = true;
   }
 
 

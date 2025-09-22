@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { RegistroContabilComponent } from './registro-contabil/registro-contabil.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { ModalLancamentoComponent } from './registro-contabil/modal-lancamento/modal-lancamento.component'; // <-- importe aqui
+import { ModalLancamentoComponent } from './registro-contabil/modal-lancamento/modal-lancamento.component';
 
 @NgModule({
   declarations: [
