@@ -190,13 +190,18 @@
     font-size: 14px;
     border-top: 4px solid #007bff;
 
+    thead {
+      background: linear-gradient(90deg, #346cdb, #3498db 30%, #34bcdb 63%, #34d3db 90%) !important;
+    }
+
     thead th {
-      background: #e6f0ff;
+      background: transparent !important;
       text-align: left;
       padding: 12px;
       font-weight: 700;
-      color: #333;
+      color: white;
       font-size: 14px;
+      border: none;
     }
 
     tbody td {
