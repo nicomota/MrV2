@@ -12,13 +12,14 @@
   padding: 1rem;
   overflow-y: auto;
 
+
   @media (max-height: 768px) {
     align-items: flex-start;
     padding: 0.5rem;
   }
 
   .modal-conteudo.grande {
-    background: white;
+    background: #ececec;
     padding: 2rem;
     border-radius: 12px;
     width: 100%;
@@ -295,7 +296,7 @@
     border-collapse: separate;
     border-spacing: 0;
     background: white;
-    border-radius: 12px;
+    // border-radius: 12px; borda da tabela
     overflow: hidden;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     font-size: 14px;
@@ -323,6 +324,17 @@
     }
 
     tbody tr:nth-child(odd) {
+      background-color: #fafafa;
+    }
+  }
+
+  // Estilo específico para a tabela de lançamento contábil
+  .header-associar-conta + .subtabela {
+    tbody tr:first-child {
+      background-color: #ffffbfc7 !important;
+    }
+
+    tbody tr:nth-child(odd):not(:first-child) {
       background-color: #fafafa;
     }
 
@@ -571,7 +583,7 @@
   .header-notas-fiscais,
   .header-associar-conta {
     width: 100%;
-    margin: 1rem 0;
+    // margin: 1rem 0; espaço entre tabela e botão
   }
 
   .btn-header-notas,
@@ -677,6 +689,7 @@
     animation: fadeIn 0.4s ease-out;
     animation-delay: 0.2s;
     animation-fill-mode: both;
+    margin-top: 10px;
   }
 
   // Animação para as linhas da tabela

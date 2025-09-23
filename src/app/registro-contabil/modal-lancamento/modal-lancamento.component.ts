@@ -67,7 +67,7 @@ export class ModalLancamentoComponent implements OnInit, OnChanges {
   parcelasData: ParcelaData[] = [];
   nfseData: NFSeData[] = [];
   notasFiscaisVisiveis: boolean = false;
-  associarContaVisivel: boolean = false;
+  associarContaVisivel: boolean = true;
   notasFiscaisClosing: boolean = false;
   associarContaClosing: boolean = false;
   abaSelecionada: string = 'nfe';

@@ -25,26 +25,88 @@
 
     <hr />
 
-    <!-- Nova tabela de lançamentos -->
-    <div class="tabela-lancamentos-container">
-      <table class="subtabela tabela-lancamentos">
-        <thead>
-          <tr>
-            <th>DT Lançamento</th>
-            <th>Histórico</th>
-            <th>Comprovantes</th>
-            <th>Crédito</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{{ lancamento.data }}</td>
-            <td>{{ lancamento.historico }}</td>
-            <td>{{ lancamento.nota }}</td>
-            <td>{{ lancamento.valor | currency:'BRL':'symbol-narrow':'1.2-2' }}</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="header-associar-conta ">
+      <button (click)="toggleAssociarConta()" class="btn-header-associar text-center">
+        <span>{{ associarContaVisivel ? '▼' : '▶' }} Lançamento Contábil</span>
+      </button>
+    </div>
+
+    <table class="subtabela"
+           *ngIf="associarContaVisivel || associarContaClosing"
+           [ngClass]="{ 'closing': associarContaClosing }">
+      <thead>
+        <tr>
+          <th>Debitar</th>
+          <th>Creditar</th>
+          <th>Classificação</th>
+          <th>Descrição</th>
+          <th>Valor</th>
+          <th>Histórico Contábil</th>
+          <th>Excluir</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let linha of linhasSubtabela; let i = index">
+          <!-- Debitar -->
+          <td>
+            <input *ngIf="linha.tipo === 'debito'" type="text" [(ngModel)]="linha.debitar"
+              [readonly]="!linha.editavel">
+            <span *ngIf="linha.tipo === 'credito'">-</span>
+          </td>
+
+          <!-- Creditar -->
+          <td>
+            <input *ngIf="linha.tipo === 'credito'" type="text" [(ngModel)]="linha.creditar"
+              [readonly]="!linha.editavel">
+            <span *ngIf="linha.tipo === 'debito'">-</span>
+          </td>
+
+          <!-- Classificação -->
+          <td>
+            <input type="text" [(ngModel)]="linha.classificacao" [readonly]="!linha.editavel">
+          </td>
+
+          <!-- Descrição -->
+          <td>
+            <input type="text" [(ngModel)]="linha.descricao" [readonly]="!linha.editavel">
+          </td>
+
+          <!-- Valor -->
+          <td>
+            <input type="text" [(ngModel)]="linha.valor" (ngModelChange)="atualizarTotais()" [readonly]="!linha.editavel">
+          </td>
+
+          <!-- Histórico -->
+          <td>
+            <input type="text" [(ngModel)]="linha.historico" [readonly]="!linha.editavel">
+          </td>
+
+          <!-- Ações -->
+          <td>
+            <button *ngIf="linha.editavel" class="btn btn-outline-danger btn-sm"
+              (click)="removerLinha(i)">−</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Botões de adicionar linha -->
+    <div class="botoes-linhas" style="margin-top: 1rem;" *ngIf="associarContaVisivel">
+      <!-- Para tipos N x N: mostra dois botões -->
+      <ng-container
+        *ngIf="tipoSelecionado === 'N Débito p/ N Crédito' || tipoSelecionado === 'N Crédito p/ N Débito'">
+        <button (click)="adicionarLinha('debito')">+ Adicionar Débito</button>
+        <button (click)="adicionarLinha('credito')">+ Adicionar Crédito</button>
+      </ng-container>
+
+      <!-- Para tipos Um x Vários: botão único -->
+      <ng-container *ngIf="tipoSelecionado === 'Um Débito p/ vários Créditos'">
+        <button (click)="adicionarLinha('credito')">+ Adicionar Crédito</button>
+      </ng-container>
+
+      <ng-container *ngIf="tipoSelecionado === 'Um Crédito p/ vários Débitos'">
+        <button (click)="adicionarLinha('debito')">+ Adicionar Débito</button>
+      </ng-container>
     </div>
 
     <hr />
@@ -154,97 +216,6 @@
           </tr>
         </tbody>
       </table>
-    </div>
-
-    <hr />
-
-    <div class="header-associar-conta">
-      <button (click)="toggleAssociarConta()" class="btn-header-associar">
-        <span>{{ associarContaVisivel ? '▼' : '▶' }} Associar Conta contábil (Clique para Abrir)</span>
-      </button>
-    </div>
-
-    <table class="subtabela"
-           *ngIf="associarContaVisivel || associarContaClosing"
-           [ngClass]="{ 'closing': associarContaClosing }">
-      <thead>
-        <tr>
-          <th>Debitar</th>
-          <th>Creditar</th>
-          <th>Classificação</th>
-          <th>Descrição</th>
-          <th>Valor</th>
-          <th>Histórico Contábil</th>
-          <th>Excluir</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let linha of linhasSubtabela; let i = index">
-          <!-- Debitar -->
-          <td>
-            <input *ngIf="linha.tipo === 'debito'" type="text" [(ngModel)]="linha.debitar"
-              [readonly]="!linha.editavel">
-            <span *ngIf="linha.tipo === 'credito'">-</span>
-          </td>
-
-          <!-- Creditar -->
-          <td>
-            <input *ngIf="linha.tipo === 'credito'" type="text" [(ngModel)]="linha.creditar"
-              [readonly]="!linha.editavel">
-            <span *ngIf="linha.tipo === 'debito'">-</span>
-          </td>
-
-          <!-- Classificação -->
-          <td>
-            <input type="text" [(ngModel)]="linha.classificacao" [readonly]="!linha.editavel">
-          </td>
-
-          <!-- Descrição -->
-          <td>
-            <input type="text" [(ngModel)]="linha.descricao" [readonly]="!linha.editavel">
-          </td>
-
-          <!-- Valor -->
-          <td>
-            <input type="text" [(ngModel)]="linha.valor" (ngModelChange)="atualizarTotais()" [readonly]="!linha.editavel">
-          </td>
-
-          <!-- Histórico -->
-          <td>
-            <input type="text" [(ngModel)]="linha.historico" [readonly]="!linha.editavel">
-          </td>
-
-          <!-- Ações -->
-          <td>
-            <button *ngIf="linha.editavel" class="btn btn-outline-danger btn-sm"
-              (click)="removerLinha(i)">−</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-    <!-- Botões de adicionar linha -->
-    <div class="botoes-linhas" style="margin-top: 1rem;" *ngIf="associarContaVisivel">
-      <!-- Botão genérico adicionar -->
-      <button class="btn-primary" (click)="adicionarContaGenerica()">
-        <i class="bx bx-plus"></i> Adicionar
-      </button>
-
-      <!-- Para tipos N x N: mostra dois botões -->
-      <ng-container
-        *ngIf="tipoSelecionado === 'N Débito p/ N Crédito' || tipoSelecionado === 'N Crédito p/ N Débito'">
-        <button (click)="adicionarLinha('debito')">+ Adicionar Débito</button>
-        <button (click)="adicionarLinha('credito')">+ Adicionar Crédito</button>
-      </ng-container>
-
-      <!-- Para tipos Um x Vários: botão único -->
-      <ng-container *ngIf="tipoSelecionado === 'Um Débito p/ vários Créditos'">
-        <button (click)="adicionarLinha('credito')">+ Adicionar Crédito</button>
-      </ng-container>
-
-      <ng-container *ngIf="tipoSelecionado === 'Um Crédito p/ vários Débitos'">
-        <button (click)="adicionarLinha('debito')">+ Adicionar Débito</button>
-      </ng-container>
     </div>
 
     <hr />
