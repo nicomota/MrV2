@@ -138,7 +138,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let linha of dadosLancamentos; let i = index" (click)="abrirModal(i)" style="cursor: pointer;">
+          <tr *ngFor="let linha of dadosLancamentos; let i = index">
             <td>{{ linha.data }}</td>
             <td>{{ linha.classificacao }}</td>
 
@@ -167,7 +167,13 @@
             </td>
 
             <td class="text-center"><i class="bx bx-file"></i></td>
-            <td>{{ linha.nota }}</td>
+            <td>
+              <span *ngIf="linha.temContaAutomatica">{{ linha.nota }}</span>
+              <i *ngIf="!linha.temContaAutomatica" class="bx bx-pencil"
+                 style="cursor: pointer; color: #007bff;"
+                 (click)="abrirModal(i); $event.stopPropagation()"
+                 title="Clique para abrir o modal de lançamento contábil"></i>
+            </td>
             <td>{{ linha.cliente }}</td>
             <td><i class="bx bx-paperclip"></i></td>
             <td>

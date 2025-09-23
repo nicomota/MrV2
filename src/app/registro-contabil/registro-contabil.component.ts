@@ -18,7 +18,8 @@ export class RegistroContabilComponent implements OnInit {
       historico: 'Pagamento Fornecedor',
       nota: '5464',
       cliente: '21576936000135',
-      status: 'vermelho'
+      status: 'vermelho',
+      temContaAutomatica: false
     },
     {
       data: '03/04/2021',
@@ -29,7 +30,8 @@ export class RegistroContabilComponent implements OnInit {
       historico: 'Recebimento PIX',
       nota: '654',
       cliente: '21576936000135',
-      status: 'vermelho'
+      status: 'vermelho',
+      temContaAutomatica: true
     }
   ];
 

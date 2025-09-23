@@ -10,6 +10,7 @@ export interface Lancamento {
   nota: string;
   cliente: string;
   status: string;
+  temContaAutomatica?: boolean;
 }
 
 export interface LinhaSubtabela {
@@ -107,12 +108,16 @@ export class ModalLancamentoComponent implements OnInit, OnChanges {
         'Um Débito p/ vários Créditos',
         'N Débito p/ N Crédito'
       ];
+      // Setar automaticamente a primeira opção
+      this.tipoSelecionado = this.tiposDisponiveis[0];
     } else if (temCredito && !temDebito) {
       this.tiposDisponiveis = [
         'Um Crédito p/ um Débito',
         'Um Crédito p/ vários Débitos',
         'N Crédito p/ N Débito'
       ];
+      // Setar automaticamente a primeira opção
+      this.tipoSelecionado = this.tiposDisponiveis[0];
     } else {
       this.tiposDisponiveis = [
         'Um Débito p/ um Crédito',
@@ -122,7 +127,14 @@ export class ModalLancamentoComponent implements OnInit, OnChanges {
         'N Débito p/ N Crédito',
         'N Crédito p/ N Débito'
       ];
+      // Setar automaticamente a primeira opção
+      this.tipoSelecionado = this.tiposDisponiveis[0];
     }
+
+    // Executar a lógica de configuração das linhas após setar o tipo
+    setTimeout(() => {
+      this.onTipoSelecionado();
+    }, 0);
   }
 
 
