@@ -5,3 +5,55 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f9f9f9;
 }
+
+/* Estilos globais para botões */
+.btn-primary {
+  background-color: #00015c !important;
+  color: white !important;
+  border-radius: 30px !important;
+  border: none !important;
+  font-weight: 500 !important;
+  padding: 6px 16px !important;
+}
+
+.btn-primary:hover {
+  color: #fff;
+  background-color: #140085;
+  border-color: #140085;
+  transform: scale(1.07);
+  transition: all 0.3s ease;
+}
+
+.btn-primary:disabled:hover {
+  color: #fff;
+  background-color: #00015c;
+  border-color: #00015c;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Estilos globais para acoes-botoes */
+.acoes-botoes {
+  button {
+    border-radius: 30px !important;
+    font-weight: 500 !important;
+    padding: 6px 16px !important;
+    background-color: #00015c !important;
+    color: white !important;
+    border: none !important;
+  }
+  button:hover {
+    background-color: #140085;
+  }
+  .dropdown-toggle {
+    background-color: #00015c;
+    color: white;
+  }
+  .dropdown-toggle:hover {
+    background-color: #140085;
+  }
+  .dropdown-menu {
+    min-width: 240px;
+    font-size: 0.95rem;
+  }
+}
