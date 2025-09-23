@@ -51,11 +51,93 @@
     cursor: pointer;
   }
 
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    position: relative;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+  }
+
   .titulo {
     font-size: 24px;
-    margin: 0 0 20px;
+    margin: 0;
     font-weight: 700;
     color: #0024ac;
+    flex: 0 0 auto;
+  }
+
+  .info-linha {
+    display: flex;
+    gap: 0.4rem;
+    flex: 0 0 auto;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    margin-right: 2.5rem;
+
+    > div {
+      flex: 0 0 auto;
+      min-width: 80px;
+      display: flex;
+      flex-direction: column;
+
+      label {
+        font-weight: bold;
+        margin-bottom: 0.2rem;
+        font-size: 11px;
+        color: #333;
+        white-space: nowrap;
+      }
+
+      input, select {
+        padding: 3px 6px;
+        border: 1px solid #ccc;
+        border-radius: 12px;
+        background: white;
+        font-size: 11px;
+        font-weight: 600;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      select {
+        min-width: 140px;
+      }
+    }
+
+    .btn-container {
+      display: flex;
+      align-items: flex-end;
+      min-width: auto;
+
+      .btn-criar-regra {
+        background: #001c7c;
+        color: white;
+        border: none;
+        border-radius: 15px;
+        padding: 6px 12px;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 12px;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+
+        &:hover {
+          background: #002fa3;
+        }
+      }
+    }
+
+    @media (max-width: 768px) {
+      width: 100%;
+      justify-content: flex-start;
+    }
   }
 
   .linha-container {

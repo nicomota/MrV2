@@ -1,19 +1,70 @@
 <!-- registro-contabil.component.html -->
 <div class="pagina">
-  <aside class="sidebar">
-    <div class="logo">mister <strong>contador</strong></div>
+  <aside class="sidebar" [ngClass]="{ 'retraida': sidebarRetraida }">
+    <div class="sidebar-header">
+      <button class="hamburger-btn" (click)="toggleSidebar()">
+        <i class="bx bx-menu"></i>
+      </button>
+      <div class="logo" *ngIf="!sidebarRetraida">mister <strong>contador</strong></div>
+    </div>
     <nav>
       <ul>
-        <li class="active"><i class="bx bx-user"></i> Clientes</li>
-        <li><i class="bx bx-bar-chart-alt"></i> Estatísticas</li>
-        <li><i class="bx bx-book"></i> Registro Contábil</li>
-        <li><i class="bx bx-bank"></i> Extrato Bancário</li>
-        <li><i class="bx bx-receipt"></i> Comprovante de Pagto</li>
-        <li><i class="bx bx-file"></i> NF-E</li>
-        <li><i class="bx bx-cog"></i> Parâmetros - Regras</li>
-        <li><i class="bx bx-credit-card"></i> Cartões - Débito/Crédito</li>
-        <li><i class="bx bx-transfer"></i> Integrações Realizadas</li>
-        <li><i class="bx bx-log-out"></i> Sair</li>
+        <li class="active">
+          <i class="bx bx-home"></i>
+          <span *ngIf="!sidebarRetraida">Início</span>
+        </li>
+        <li>
+          <i class="bx bx-bar-chart-alt"></i>
+          <span *ngIf="!sidebarRetraida">Estatísticas</span>
+        </li>
+        <li>
+          <i class="bx bx-book"></i>
+          <span *ngIf="!sidebarRetraida">Registro Contábil</span>
+        </li>
+        <li>
+          <i class="bx bx-file"></i>
+          <span *ngIf="!sidebarRetraida">Nf-e</span>
+        </li>
+        <li>
+          <i class="bx bx-file"></i>
+          <span *ngIf="!sidebarRetraida">NFS-e</span>
+        </li>
+        <li>
+          <i class="bx bx-receipt"></i>
+          <span *ngIf="!sidebarRetraida">Comprovantes</span>
+        </li>
+        <li>
+          <i class="bx bx-credit-card"></i>
+          <span *ngIf="!sidebarRetraida">Cartão de Crédito</span>
+        </li>
+        <li>
+          <i class="bx bx-file-blank"></i>
+          <span *ngIf="!sidebarRetraida">Extrato bancário</span>
+        </li>
+        <li>
+          <i class="bx bx-list-ul"></i>
+          <span *ngIf="!sidebarRetraida">Plano de Contas</span>
+        </li>
+        <li>
+          <i class="bx bx-cog"></i>
+          <span *ngIf="!sidebarRetraida">Regras</span>
+        </li>
+        <li>
+          <i class="bx bx-buildings"></i>
+          <span *ngIf="!sidebarRetraida">Agência bancária</span>
+        </li>
+        <li>
+          <i class="bx bx-building"></i>
+          <span *ngIf="!sidebarRetraida">Empresa</span>
+        </li>
+        <li>
+          <i class="bx bx-user-check"></i>
+          <span *ngIf="!sidebarRetraida">Permissões</span>
+        </li>
+        <li>
+          <i class="bx bx-log-out"></i>
+          <span *ngIf="!sidebarRetraida">Sair</span>
+        </li>
       </ul>
     </nav>
   </aside>

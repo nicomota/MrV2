@@ -1,14 +1,15 @@
 <div class="modal-lancamento" *ngIf="isVisible">
   <div class="modal-conteudo grande">
     <button class="fechar" (click)="fechar()">&times;</button>
-    <h1 class="titulo">Lançamento Contábil</h1>
-    <hr />
-
-    <div class="linha-container">
-      <div class="linha">
-        <div><label>Data:</label> <input type="text" [value]="lancamento.data" readonly /></div>
-        <div><label>Usuário:</label> <input type="text" value="Diego" readonly /></div>
+    <div class="header-container">
+      <h1 class="titulo">Edição Avançada</h1>
+      <div class="info-linha">
         <div><label>Empresa:</label> <input type="text" [value]="lancamento.cliente" readonly /></div>
+        <div><label>Data:</label> <input type="text" [value]="lancamento.data" readonly /></div>
+        <div><label>Histórico Contábil:</label> <input type="text" [value]="lancamento.historico" readonly /></div>
+        <div><label>Conta Contábil D:</label> <input type="text" [value]="lancamento?.debito" readonly /></div>
+        <div><label>Conta Contábil C:</label> <input type="text" [value]="lancamento?.credito" readonly /></div>
+        <div><label>Valor:</label> <input type="text" [value]="lancamento.valor" readonly /></div>
         <div>
           <label>Tipo:</label>
           <select [(ngModel)]="tipoSelecionado" (change)="onTipoSelecionado()">
@@ -16,24 +17,9 @@
             <option *ngFor="let tipo of tiposDisponiveis" [value]="tipo">{{ tipo }}</option>
           </select>
         </div>
-        <div style="align-self: flex-end;">
-          <label style="visibility: hidden;">Criar Regra</label>
+        <!-- <div class="btn-container">
           <button class="btn-criar-regra" (click)="criarRegra()">Criar Regra</button>
-        </div>
-      </div>
-    </div>
-
-    <hr />
-
-    <div class="linha-container">
-      <div class="linha">
-        <div><label>Conta Contábil D:</label> <input type="text" [value]="lancamento?.debito" readonly />
-        </div>
-        <div><label>Conta Contábil C:</label> <input type="text" [value]="lancamento?.credito" readonly />
-        </div>
-        <div><label>Valor:</label> <input type="text" [value]="lancamento.valor" readonly /></div>
-        <div><label>Histórico Contábil:</label> <input type="text" [value]="lancamento.historico"
-            readonly /></div>
+        </div> -->
       </div>
     </div>
 
@@ -50,10 +36,10 @@
          [ngClass]="{ 'closing': notasFiscaisClosing }">
       <section class="abas-modal">
         <button [ngClass]="{ 'ativa': abaSelecionada === 'nfe' }" (click)="selecionarAba('nfe')">
-          Nota Fiscal Eletrônica
+          NF-e (5)
         </button>
         <button [ngClass]="{ 'ativa': abaSelecionada === 'nfse' }" (click)="selecionarAba('nfse')">
-          Nota Fiscal de Serviços
+          NFS-e (10)
         </button>
       </section>
 

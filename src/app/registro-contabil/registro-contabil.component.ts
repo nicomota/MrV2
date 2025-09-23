@@ -17,7 +17,7 @@ export class RegistroContabilComponent implements OnInit {
       valor: 'R$ -250,00',
       historico: 'Pagamento Fornecedor',
       nota: '5464',
-      cliente: '21576936000135',
+      cliente: '',
       status: 'vermelho',
       temContaAutomatica: false
     },
@@ -29,9 +29,9 @@ export class RegistroContabilComponent implements OnInit {
       valor: 'R$ 354,00',
       historico: 'Recebimento PIX',
       nota: '654',
-      cliente: '21576936000135',
+      cliente: '',
       status: 'vermelho',
-      temContaAutomatica: true
+      temContaAutomatica: false
     }
   ];
 
@@ -48,6 +48,9 @@ export class RegistroContabilComponent implements OnInit {
 
   modalAberto = false;
   lancamentoSelecionadoIndex: number | null = null;
+
+  // Controle da sidebar retrátil
+  sidebarRetraida = false;
 
   // Para controlar se é associação de conta (diferente do modal de regra normal)
   modoAssociacaoConta = false;
@@ -129,6 +132,10 @@ export class RegistroContabilComponent implements OnInit {
     this.modalAberto = false;
     this.modoAssociacaoConta = false;
     this.lancamentoSelecionadoIndex = null;
+  }
+
+  toggleSidebar() {
+    this.sidebarRetraida = !this.sidebarRetraida;
   }
 
   // Método específico para abrir modal de associação de conta
