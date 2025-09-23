@@ -315,6 +315,18 @@ export class ModalLancamentoComponent implements OnInit, OnChanges {
     }
   }
 
+  adicionarContaGenerica(): void {
+    // Adiciona uma linha genérica baseada no tipo selecionado
+    if (this.tipoSelecionado.includes('Débito')) {
+      this.adicionarLinha('debito');
+    } else if (this.tipoSelecionado.includes('Crédito')) {
+      this.adicionarLinha('credito');
+    } else {
+      // Para casos N x N, adiciona débito por padrão
+      this.adicionarLinha('debito');
+    }
+  }
+
   atualizarTotais(): void {
     let debito = 0;
     let credito = 0;
@@ -479,6 +491,7 @@ export class ModalLancamentoComponent implements OnInit, OnChanges {
       }
     ];
   }
+
 
   gravar(): void {
     const dadosLancamento = {

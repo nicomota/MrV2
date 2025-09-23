@@ -179,6 +179,35 @@
     }
   }
 
+  .tabela-lancamentos-container {
+    margin-bottom: 1rem;
+
+    .tabela-lancamentos {
+      border-top: 4px solid #1800AD;
+      font-size: 11px;
+
+      thead th {
+        font-size: 11px;
+        padding: 8px 10px;
+        font-weight: 600;
+      }
+
+      tbody td {
+        font-size: 11px;
+        padding: 6px 10px;
+      }
+
+      tbody tr {
+        background-color: #ffffbfc7 !important;
+      }
+
+      tbody tr:nth-child(odd) {
+        background-color: #ffffbfc7 !important;
+      }
+    }
+  }
+
+
   .linha-final {
     display: flex;
     flex-wrap: wrap;
@@ -394,6 +423,7 @@
         transform: scale(1.07);
       }
     }
+
   }
 
   .btn-outline-danger {

@@ -6,9 +6,9 @@
       <div class="info-linha">
         <div><label>Empresa:</label> <input type="text" [value]="lancamento.cliente" readonly /></div>
         <div><label>Data:</label> <input type="text" [value]="lancamento.data" readonly /></div>
-        <div><label>Histórico Contábil:</label> <input type="text" [value]="lancamento.historico" readonly /></div>
-        <div><label>Conta Contábil D:</label> <input type="text" [value]="lancamento?.debito" readonly /></div>
-        <div><label>Conta Contábil C:</label> <input type="text" [value]="lancamento?.credito" readonly /></div>
+        <div><label>Histórico Bancário:</label> <input type="text" [value]="lancamento.historico" readonly /></div>
+        <!-- <div><label>Conta Contábil D:</label> <input type="text" [value]="lancamento?.debito" readonly /></div> -->
+        <!-- <div><label>Conta Contábil C:</label> <input type="text" [value]="lancamento?.credito" readonly /></div> -->
         <div><label>Valor:</label> <input type="text" [value]="lancamento.valor" readonly /></div>
         <div>
           <label>Tipo:</label>
@@ -21,6 +21,30 @@
           <button class="btn-criar-regra" (click)="criarRegra()">Criar Regra</button>
         </div> -->
       </div>
+    </div>
+
+    <hr />
+
+    <!-- Nova tabela de lançamentos -->
+    <div class="tabela-lancamentos-container">
+      <table class="subtabela tabela-lancamentos">
+        <thead>
+          <tr>
+            <th>DT Lançamento</th>
+            <th>Histórico</th>
+            <th>Comprovantes</th>
+            <th>Crédito</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ lancamento.data }}</td>
+            <td>{{ lancamento.historico }}</td>
+            <td>{{ lancamento.nota }}</td>
+            <td>{{ lancamento.valor | currency:'BRL':'symbol-narrow':'1.2-2' }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <hr />
@@ -200,7 +224,12 @@
     </table>
 
     <!-- Botões de adicionar linha -->
-    <div class="botoes-linhas" style="margin-top: 1rem;">
+    <div class="botoes-linhas" style="margin-top: 1rem;" *ngIf="associarContaVisivel">
+      <!-- Botão genérico adicionar -->
+      <button class="btn-primary" (click)="adicionarContaGenerica()">
+        <i class="bx bx-plus"></i> Adicionar
+      </button>
+
       <!-- Para tipos N x N: mostra dois botões -->
       <ng-container
         *ngIf="tipoSelecionado === 'N Débito p/ N Crédito' || tipoSelecionado === 'N Crédito p/ N Débito'">
