@@ -164,6 +164,14 @@
       <button [ngClass]="{ 'ativa': abaSelecionada === 'naoConciliados' }" (click)="selecionarAba('naoConciliados')">
         Não-Conciliados <span class="badge vermelho">0002</span>
       </button>
+      <div style="margin-left: auto; display: flex; gap: 10px;">
+        <button class="btn btn-outline-primary">
+          Saldo Inicial: {{ formatarMoeda(saldoInicial) }}
+        </button>
+        <button class="btn btn-outline-primary">
+          Saldo Final: {{ formatarMoeda(saldoFinal) }}
+        </button>
+      </div>
     </section>
 
     <section class="tabela"
@@ -185,6 +193,7 @@
             <th>Nota</th>
             <th>Cliente</th>
             <th>Anexos</th>
+            <th>Saldo</th>
             <th>Status</th>
           </tr>
         </thead>
@@ -227,6 +236,7 @@
             </td>
             <td>{{ linha.cliente }}</td>
             <td><i class="bx bx-paperclip"></i></td>
+            <td>{{ linha.saldo }}</td>
             <td>
               <span class="status" [ngClass]="linha.status"></span>
             </td>

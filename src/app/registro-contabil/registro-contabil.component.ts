@@ -36,12 +36,40 @@ export class RegistroContabilComponent implements OnInit {
   ];
 
   dadosLancamentos: any[] = [];
+  saldoInicial: number = 1250.00;
+  saldoFinal: number = 0;
 
   constructor() {}
 
   ngOnInit(): void {
     // Carrega os dados da lista estática para a instância do componente
     this.dadosLancamentos = RegistroContabilComponent.dadosLancamentosPersistidos;
+    this.calcularSaldos();
+  }
+
+  calcularSaldos(): void {
+    let saldoAcumulado = this.saldoInicial;
+
+    this.dadosLancamentos.forEach((lancamento, index) => {
+      // Converte o valor string para número (remove R$, espaços e vírgulas)
+      const valorString = lancamento.valor.replace(/[R$\s]/g, '').replace(',', '.');
+      const valor = parseFloat(valorString);
+
+      // Soma ou subtrai do saldo acumulado
+      saldoAcumulado += valor;
+
+      // Adiciona o saldo ao lançamento
+      lancamento.saldo = this.formatarMoeda(saldoAcumulado);
+    });
+
+    this.saldoFinal = saldoAcumulado;
+  }
+
+  formatarMoeda(valor: number): string {
+    return valor.toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    });
   }
 
   lancamentoSelecionado: any = null;

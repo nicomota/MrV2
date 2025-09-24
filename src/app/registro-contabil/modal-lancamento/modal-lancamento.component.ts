@@ -167,7 +167,7 @@ export class ModalLancamentoComponent implements OnInit, OnChanges {
             creditar: '',
             conta: '',
             editavel: true,
-            ...linhaBase,
+            classificacao: '',
             descricao: '',
             valor: '',
             historico: ''
@@ -182,7 +182,7 @@ export class ModalLancamentoComponent implements OnInit, OnChanges {
             debitar: '',
             conta: '',
             editavel: true,
-            ...linhaBase,
+            classificacao: '',
             descricao: '',
             valor: '',
             historico: ''

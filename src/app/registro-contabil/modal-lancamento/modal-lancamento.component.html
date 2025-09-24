@@ -25,15 +25,11 @@
 
     <hr />
 
-    <div class="header-associar-conta ">
-      <button (click)="toggleAssociarConta()" class="btn-header-associar text-center">
-        <span>{{ associarContaVisivel ? '▼' : '▶' }} Lançamento Contábil</span>
-      </button>
+    <div class="header-lancamento-contabil">
+      <span>Lançamento Contábil</span>
     </div>
 
-    <table class="subtabela"
-           *ngIf="associarContaVisivel || associarContaClosing"
-           [ngClass]="{ 'closing': associarContaClosing }">
+    <table class="subtabela">
       <thead>
         <tr>
           <th>Debitar</th>
@@ -91,7 +87,7 @@
     </table>
 
     <!-- Botões de adicionar linha -->
-    <div class="botoes-linhas" style="margin-top: 1rem;" *ngIf="associarContaVisivel">
+    <div class="botoes-linhas" style="margin-top: 1rem;">
       <!-- Para tipos N x N: mostra dois botões -->
       <ng-container
         *ngIf="tipoSelecionado === 'N Débito p/ N Crédito' || tipoSelecionado === 'N Crédito p/ N Débito'">
@@ -231,9 +227,9 @@
         <div><label>Diferença:</label>
           <input type="text" [value]="diferenca | currency:'BRL':'symbol-narrow':'1.2-2'" readonly />
         </div>
-        <div><label>Doc nº:</label> <input type="text" value="0199999999" readonly /></div>
+        <div><label>Nº Comprovante:</label> <input type="text" value="0199999999" readonly /></div>
         <div>
-          <label>Número da Nota:</label>
+          <label>Nº da Nota:</label>
           <button class="botao-nfe">Nf-e {{ lancamento.nota }}</button>
         </div>
       </div>
