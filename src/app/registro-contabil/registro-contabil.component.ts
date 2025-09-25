@@ -11,7 +11,7 @@ export class RegistroContabilComponent implements OnInit {
   private static dadosLancamentosPersistidos: any[] = [
     {
       data: '02/04/2021',
-      classificacao: '2.1.2.02.0021',
+      classificacao: '',
       debito: '',
       credito: '7',
       valor: 'R$ -250,00',
@@ -23,7 +23,7 @@ export class RegistroContabilComponent implements OnInit {
     },
     {
       data: '03/04/2021',
-      classificacao: '2.1.2.02.0021',
+      classificacao: '',
       debito: '7',
       credito: '',
       valor: 'R$ 354,00',
@@ -41,13 +41,14 @@ export class RegistroContabilComponent implements OnInit {
       valor: 'R$ 1.200,00',
       historico: 'Transferência Bancária',
       nota: '8821',
-      cliente: 'Empresa ABC Ltda',
+      cliente: '12345678000190',
       status: 'verde',
       temContaAutomatica: true
     }
   ];
 
   dadosLancamentos: any[] = [];
+  dadosLancamentosFiltrados: any[] = [];
   saldoInicial: number = 1250.00;
   saldoFinal: number = 0;
 
@@ -56,6 +57,7 @@ export class RegistroContabilComponent implements OnInit {
   ngOnInit(): void {
     // Carrega os dados da lista estática para a instância do componente
     this.dadosLancamentos = RegistroContabilComponent.dadosLancamentosPersistidos;
+    this.filtrarDados();
     this.calcularSaldos();
   }
 
@@ -171,14 +173,14 @@ export class RegistroContabilComponent implements OnInit {
         lancamentoAtualizado.credito = creditoLinha.creditar || creditoLinha.conta;
       }
 
-      // Se o lançamento agora tem débito e crédito, está conciliado
-      if (lancamentoAtualizado.debito && lancamentoAtualizado.credito) {
-        lancamentoAtualizado.status = 'verde';
-      }
+      // A classificação será baseada se tem débito E crédito preenchidos
 
       // Atualiza a lista de dados na tela e a lista estática de persistência
       this.dadosLancamentos[index] = lancamentoAtualizado;
       RegistroContabilComponent.dadosLancamentosPersistidos[index] = lancamentoAtualizado;
+
+      // Refiltra os dados após a atualização
+      this.filtrarDados();
     }
 
     this.lancamentoSelecionado = null; // Fecha o modal
@@ -246,6 +248,8 @@ export class RegistroContabilComponent implements OnInit {
     // Atualiza também na lista persistida
     RegistroContabilComponent.dadosLancamentosPersistidos[index].historico = this.dadosLancamentos[index].historico;
     delete this.dadosLancamentos[index].historicoOriginal;
+    // Refiltra os dados após a atualização
+    this.filtrarDados();
   }
 
   cancelarEdicaoHistorico(index: number): void {
@@ -258,6 +262,66 @@ export class RegistroContabilComponent implements OnInit {
 
   selecionarAba(aba: string) {
     this.abaSelecionada = aba;
+    this.filtrarDados();
+  }
+
+  filtrarDados(): void {
+    switch (this.abaSelecionada) {
+      case 'conciliados':
+        this.dadosLancamentosFiltrados = this.dadosLancamentos.filter(lancamento =>
+          this.isConciliado(lancamento)
+        );
+        break;
+      case 'naoConciliados':
+        this.dadosLancamentosFiltrados = this.dadosLancamentos.filter(lancamento =>
+          !this.isConciliado(lancamento)
+        );
+        break;
+      case 'lancamentos':
+      default:
+        this.dadosLancamentosFiltrados = [...this.dadosLancamentos];
+        break;
+    }
+  }
+
+  isValorPositivo(valor: string): boolean {
+    const valorNumerico = this.extrairValorNumerico(valor);
+    return valorNumerico > 0;
+  }
+
+  isValorNegativo(valor: string): boolean {
+    const valorNumerico = this.extrairValorNumerico(valor);
+    return valorNumerico < 0;
+  }
+
+  extrairValorNumerico(valor: string): number {
+    // Remove "R$", espaços e converte vírgula para ponto
+    const valorLimpo = valor.replace(/[R$\s]/g, '').replace(',', '.');
+    return parseFloat(valorLimpo);
+  }
+
+  isConciliado(lancamento: any): boolean {
+    // Um lançamento está conciliado se tem tanto débito quanto crédito preenchidos
+    return !!(lancamento.debito && lancamento.credito);
+  }
+
+  getIndiceReal(indiceFiltrado: number): number {
+    const lançamentoFiltrado = this.dadosLancamentosFiltrados[indiceFiltrado];
+    return this.dadosLancamentos.findIndex(l => l === lançamentoFiltrado);
+  }
+
+  getContadorLancamentos(): string {
+    return this.dadosLancamentos.length.toString().padStart(4, '0');
+  }
+
+  getContadorConciliados(): string {
+    const conciliados = this.dadosLancamentos.filter(l => this.isConciliado(l));
+    return conciliados.length.toString().padStart(4, '0');
+  }
+
+  getContadorNaoConciliados(): string {
+    const naoConciliados = this.dadosLancamentos.filter(l => !this.isConciliado(l));
+    return naoConciliados.length.toString().padStart(4, '0');
   }
 
   toggleDropdown() {
@@ -441,6 +505,20 @@ export class RegistroContabilComponent implements OnInit {
         this.fecharCalendarioPrincipal();
       }
     }
+  }
+
+  desassociarConta(index: number): void {
+    // Remove a associação da conta de crédito
+    this.dadosLancamentos[index].credito = '';
+
+    // Atualiza também na lista persistida
+    RegistroContabilComponent.dadosLancamentosPersistidos[index].credito = '';
+
+    // A classificação será baseada se tem débito E crédito preenchidos
+    // Lançamentos sem débito ou crédito = não-conciliados
+
+    // Refiltra os dados após a atualização
+    this.filtrarDados();
   }
 }
 

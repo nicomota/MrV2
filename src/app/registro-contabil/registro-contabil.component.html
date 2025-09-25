@@ -172,13 +172,13 @@
     <hr />
     <section class="abas">
       <button [ngClass]="{ 'ativa': abaSelecionada === 'lancamentos' }" (click)="selecionarAba('lancamentos')">
-        Lançamentos <span class="badge azul">0002</span>
+        Lançamentos <span class="badge azul">{{ getContadorLancamentos() }}</span>
       </button>
       <button [ngClass]="{ 'ativa': abaSelecionada === 'conciliados' }" (click)="selecionarAba('conciliados')">
-        Conciliados <span class="badge verde">0003</span>
+        Conciliados <span class="badge verde">{{ getContadorConciliados() }}</span>
       </button>
       <button [ngClass]="{ 'ativa': abaSelecionada === 'naoConciliados' }" (click)="selecionarAba('naoConciliados')">
-        Não-Conciliados <span class="badge vermelho">0002</span>
+        Não-Conciliados <span class="badge vermelho">{{ getContadorNaoConciliados() }}</span>
       </button>
       <div style="margin-left: auto; display: flex; gap: 10px;">
         <button class="btn btn-outline-primary" (click)="editarSaldoInicial()">
@@ -213,16 +213,16 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let linha of dadosLancamentos; let i = index"
-              [class.linha-nao-conciliada]="linha.status === 'vermelho'">
+          <tr *ngFor="let linha of dadosLancamentosFiltrados; let i = index"
+              [class.linha-nao-conciliada]="!isConciliado(linha)">
             <td>{{ linha.data }}</td>
             <td>{{ linha.classificacao }}</td>
 
             <!-- Conta Débito -->
             <td>
               <i class="bx bx-book icone-clicavel"
-                 *ngIf="i === 0"
-                 (click)="abrirModalAssociacaoConta(i); $event.stopPropagation()"
+                 *ngIf="getIndiceReal(i) === 0"
+                 (click)="abrirModalAssociacaoConta(getIndiceReal(i)); $event.stopPropagation()"
                  title="Associar conta de débito"></i>
               {{ linha.debito }}
             </td>
@@ -230,30 +230,34 @@
             <!-- Conta Crédito -->
             <td>
               <i class="bx bx-book icone-clicavel"
-                 *ngIf="i === 1"
-                 (click)="abrirModalAssociacaoConta(i); $event.stopPropagation()"
+                 *ngIf="getIndiceReal(i) === 1"
+                 (click)="abrirModalAssociacaoConta(getIndiceReal(i)); $event.stopPropagation()"
                  title="Associar conta de crédito"></i>
-              <span *ngIf="i !== 2" class="numero-conta">{{ linha.credito }}</span>
-              <span *ngIf="i === 2"
-                    class="numero-conta-link"
-                    (click)="abrirModalAssociacaoConta(i); $event.stopPropagation()"
-                    title="Clique para editar associação da conta">{{ linha.credito }}</span>
+              <span *ngIf="getIndiceReal(i) !== 2" class="numero-conta">{{ linha.credito }}</span>
+              <span *ngIf="getIndiceReal(i) === 2"
+                    class="numero-conta-link numero-conta-hover"
+                    (click)="abrirModalAssociacaoConta(getIndiceReal(i)); $event.stopPropagation()"
+                    title="Clique para editar associação da conta">{{ linha.credito }}
+                <i class="bx bx-minus icone-desassociar"
+                   (click)="desassociarConta(getIndiceReal(i)); $event.stopPropagation()"
+                   title="Desassociar conta"></i>
+              </span>
             </td>
 
             <td>{{ linha.valor }}</td>
 
             <td class="historico-editavel">
-              <span *ngIf="!linha.editandoHistorico" class="texto-historico" (click)="abrirModalRegra(i); $event.stopPropagation()">{{ linha.historico }}</span>
+              <span *ngIf="!linha.editandoHistorico" class="texto-historico" (click)="abrirModalRegra(getIndiceReal(i)); $event.stopPropagation()">{{ linha.historico }}</span>
               <input *ngIf="linha.editandoHistorico"
                      type="text"
                      [(ngModel)]="linha.historico"
                      class="input-edicao-historico"
-                     (blur)="finalizarEdicaoHistorico(i)"
-                     (keydown.enter)="finalizarEdicaoHistorico(i)"
-                     (keydown.escape)="cancelarEdicaoHistorico(i)"
+                     (blur)="finalizarEdicaoHistorico(getIndiceReal(i))"
+                     (keydown.enter)="finalizarEdicaoHistorico(getIndiceReal(i))"
+                     (keydown.escape)="cancelarEdicaoHistorico(getIndiceReal(i))"
                      #inputHistorico />
               <i *ngIf="!linha.editandoHistorico" class="bx bx-pencil icone-edicao"
-                 (click)="iniciarEdicaoHistorico(i); $event.stopPropagation()"></i>
+                 (click)="iniciarEdicaoHistorico(getIndiceReal(i)); $event.stopPropagation()"></i>
             </td>
 
             <td><i class="bx bx-file"></i></td>
@@ -261,7 +265,7 @@
               <span *ngIf="linha.temContaAutomatica">{{ linha.nota }}</span>
               <i *ngIf="!linha.temContaAutomatica" class="bx bx-pencil"
                  style="cursor: pointer; color: #007bff;"
-                 (click)="abrirModal(i); $event.stopPropagation()"
+                 (click)="abrirModal(getIndiceReal(i)); $event.stopPropagation()"
                  title="Clique para abrir o modal de lançamento contábil"></i>
             </td>
             <td>{{ linha.cliente }}</td>
