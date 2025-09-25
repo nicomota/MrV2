@@ -98,13 +98,12 @@
       }
 
       input, select {
-        padding: 4px 8px;
+        padding: 8px 16px;
+        border-radius: 30px;
         border: 1px solid #ccc;
-        border-radius: 12px;
         background: white;
-        font-size: 13px;
+        font-size: 14px;
         font-weight: 600;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
       }
 
       select {
@@ -169,13 +168,12 @@
       }
 
       input, select {
-        padding: 6px 12px;
+        padding: 8px 16px;
+        border-radius: 30px;
         border: 1px solid #ccc;
-        border-radius: 20px;
         background: white;
-        font-size: 13px;
+        font-size: 14px;
         font-weight: 600;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
       }
     }
   }
@@ -228,13 +226,12 @@
       }
 
       input {
-        padding: 6px 12px;
+        padding: 8px 16px;
+        border-radius: 30px;
         border: 1px solid #ccc;
-        border-radius: 20px;
         background: white;
-        font-size: 13px;
+        font-size: 14px;
         font-weight: 600;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
       }
 
       .botao-nfe {
@@ -337,44 +334,32 @@
     overflow: hidden;
 
     // Definindo larguras específicas das colunas
-    thead th:nth-child(1) { width: 8%; }  // Debitar
-    thead th:nth-child(2) { width: 8%; }  // Creditar
-    thead th:nth-child(3) { width: 13%; } // Classificação
-    thead th:nth-child(4) { width: 13%; } // Descrição
-    thead th:nth-child(5) { width: 8%; }  // Valor
-    thead th:nth-child(6) { width: 32%; } // Histórico Contábil
-    thead th:nth-child(7) { width: 12%; } // Comprovante
-    thead th:nth-child(8) { width: 6%; }  // Excluir
+    thead th:nth-child(1) { width: 7%; }  // Data
+    thead th:nth-child(2) { width: 8%; }  // Debitar
+    thead th:nth-child(3) { width: 8%; }  // Creditar
+    thead th:nth-child(4) { width: 12%; } // Classificação
+    thead th:nth-child(5) { width: 12%; } // Descrição
+    thead th:nth-child(6) { width: 8%; }  // Valor
+    thead th:nth-child(7) { width: 29%; } // Histórico Contábil
+    thead th:nth-child(8) { width: 10%; } // Comprovante
+    thead th:nth-child(9) { width: 6%; }  // Excluir
 
-    tbody td:nth-child(1) { width: 8%; }  // Debitar
-    tbody td:nth-child(2) { width: 8%; }  // Creditar
-    tbody td:nth-child(3) { width: 13%; } // Classificação
-    tbody td:nth-child(4) { width: 13%; } // Descrição
-    tbody td:nth-child(5) { width: 8%; }  // Valor
-    tbody td:nth-child(6) { width: 32%; } // Histórico Contábil
-    tbody td:nth-child(7) { width: 12%; } // Comprovante
-    tbody td:nth-child(8) { width: 6%; }  // Excluir
+    tbody td:nth-child(1) { width: 7%; }  // Data
+    tbody td:nth-child(2) { width: 8%; }  // Debitar
+    tbody td:nth-child(3) { width: 8%; }  // Creditar
+    tbody td:nth-child(4) { width: 12%; } // Classificação
+    tbody td:nth-child(5) { width: 12%; } // Descrição
+    tbody td:nth-child(6) { width: 8%; }  // Valor
+    tbody td:nth-child(7) { width: 29%; } // Histórico Contábil
+    tbody td:nth-child(8) { width: 10%; } // Comprovante
+    tbody td:nth-child(9) { width: 6%; }  // Excluir
 
-    tbody tr:first-child {
+    tbody tr.linha-principal {
       background-color: #ffffbfc7 !important;
     }
 
-    tbody tr:nth-child(odd):not(:first-child) {
+    tbody tr:not(.linha-principal):nth-child(odd) {
       background-color: #fafafa;
-    }
-
-    input {
-      width: 100%;
-      padding: 4px 6px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      font-size: 0.75rem;
-      box-sizing: border-box;
-    }
-
-    input[readonly] {
-      background-color: #f8f9fa;
-      color: #6c757d;
     }
   }
 
@@ -548,7 +533,6 @@
     font-size: 14px;
     font-weight: 600;
     background: white;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     min-width: 200px;
     flex: 1 1 200px;
 
@@ -564,7 +548,6 @@
     font-size: 14px;
     font-weight: 600;
     background: white;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     min-width: 140px;
     flex: 0 0 140px;
 
@@ -743,6 +726,23 @@ hr {
   border: none;
   border-top: 1px solid #eee;
   margin: 1rem 0;
+}
+
+// Estilo global para inputs de tabelas
+.subtabela {
+  input {
+    width: 100%;
+    padding: 4px 6px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    box-sizing: border-box;
+
+    &[readonly] {
+      background-color: #f8f9fa;
+      color: #6c757d;
+    }
+  }
 }
 
 // Classe específica para scroll sem afetar a tabela original

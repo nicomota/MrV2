@@ -4,7 +4,7 @@
     <div class="header-container">
       <h1 class="titulo">Edição Avançada</h1>
       <div class="info-linha">
-        <div><label>Empresa:</label> <input type="text" [value]="lancamento.cliente" readonly /></div>
+        <!-- <div><label>Empresa:</label> <input type="text" [value]="lancamento.cliente" readonly /></div> -->
         <div><label>Data:</label> <input type="text" [value]="lancamento.data" readonly /></div>
         <div><label>Histórico Bancário:</label> <input type="text" [value]="lancamento.historico" readonly /></div>
         <!-- <div><label>Conta Contábil D:</label> <input type="text" [value]="lancamento?.debito" readonly /></div> -->
@@ -32,6 +32,7 @@
     <table class="subtabela" [class.scroll-limitado]="linhasSubtabela.length > 3">
       <thead>
         <tr>
+          <th>Data</th>
           <th>Debitar</th>
           <th>Creditar</th>
           <th>Classificação</th>
@@ -43,7 +44,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let linha of linhasSubtabela; let i = index">
+        <tr *ngFor="let linha of linhasSubtabela; let i = index" [class.linha-principal]="!linha.editavel">
+          <!-- Data -->
+          <td>
+            <input type="text" [value]="getDataLancamento()" readonly>
+          </td>
+
           <!-- Debitar -->
           <td>
             <input *ngIf="linha.tipo === 'debito'" type="text" [(ngModel)]="linha.debitar"
@@ -116,7 +122,7 @@
 
     <div class="header-notas-fiscais">
       <button (click)="toggleNotasFiscais()" class="btn-header-notas">
-        <span>{{ notasFiscaisVisiveis ? '▼' : '▶' }} Notas Fiscais (Clique para Abrir)</span>
+        <span>{{ notasFiscaisVisiveis ? '▼' : '▶' }} Clique aqui para Associar Nota Fiscal</span>
       </button>
     </div>
 

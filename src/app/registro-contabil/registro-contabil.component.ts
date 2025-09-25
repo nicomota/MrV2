@@ -207,6 +207,13 @@ export class RegistroContabilComponent implements OnInit {
     return '';
   }
 
+  getValorLancamentoSelecionado(): string {
+    if (this.lancamentoSelecionadoIndex !== null) {
+      return this.dadosLancamentos[this.lancamentoSelecionadoIndex]?.valor || '';
+    }
+    return '';
+  }
+
 
   selecionarAba(aba: string) {
     this.abaSelecionada = aba;

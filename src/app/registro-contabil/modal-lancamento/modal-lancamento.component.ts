@@ -306,6 +306,11 @@ export class ModalLancamentoComponent implements OnInit, OnChanges {
 
     this.linhasSubtabela.push(novaLinha);
     this.atualizarTotais();
+
+    // Scroll para a última linha após adicionar
+    setTimeout(() => {
+      this.scrollParaUltimaLinha();
+    }, 100);
   }
 
   removerLinha(index: number): void {
@@ -492,6 +497,22 @@ export class ModalLancamentoComponent implements OnInit, OnChanges {
     ];
   }
 
+
+  scrollParaUltimaLinha(): void {
+    // Procura o container com scroll (quando há mais de 3 linhas)
+    const scrollContainer = document.querySelector('.scroll-limitado tbody');
+    if (scrollContainer) {
+      // Faz scroll suave para o final
+      scrollContainer.scrollTo({
+        top: scrollContainer.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
+  }
+
+  getDataLancamento(): string {
+    return this.lancamento?.data || '';
+  }
 
   getNumeroComprovante(): string {
     // Retorna um número diferente baseado no tipo de lançamento

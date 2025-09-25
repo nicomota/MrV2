@@ -285,12 +285,23 @@
         <div class="modal-body">
           <!-- Campos para associação de conta -->
           <div class="linha" *ngIf="modoAssociacaoConta">
-            <div style="flex: 1;">
+            <div style="flex: 3;">
               <label><strong>Lançamento selecionado:</strong></label>
               <p *ngIf="lancamentoSelecionadoIndex !== null">
                 {{ dadosLancamentos[lancamentoSelecionadoIndex]?.historico }}
                 ({{ dadosLancamentos[lancamentoSelecionadoIndex]?.valor }})
               </p>
+            </div>
+            <div style="flex: 1;">
+              <label>Data:</label>
+              <input type="text" [value]="getDataLancamentoSelecionado()" readonly />
+            </div>
+          </div>
+
+          <div class="linha" *ngIf="modoAssociacaoConta">
+            <div style="flex: 1;">
+              <label>Valor:</label>
+              <input type="text" [value]="getValorLancamentoSelecionado()" readonly />
             </div>
           </div>
 
