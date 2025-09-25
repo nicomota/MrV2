@@ -138,6 +138,76 @@ nav li {
   overflow-y: auto;
 }
 
+// Linha do header com título e informações da empresa
+.header-linha {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+
+  h1 {
+    margin: 0;
+    flex: 0 0 auto;
+  }
+}
+
+// Informações da empresa na navbar
+.empresa-info-navbar {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+
+  .campo-empresa, .campo-cnpj {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #495057;
+      margin: 0;
+    }
+
+    input {
+      padding: 6px 12px;
+      border-radius: 30px;
+      border: 1px solid #ccc;
+      background: white;
+      font-size: 13px;
+      color: #495057;
+
+      &:focus {
+        outline: none;
+        border-color: #007bff;
+      }
+    }
+  }
+
+  .campo-empresa input {
+    min-width: 200px;
+  }
+
+  .campo-cnpj input {
+    min-width: 150px;
+  }
+
+  // Responsividade
+  @media (max-width: 1200px) {
+    .campo-empresa input {
+      min-width: 160px;
+    }
+
+    .campo-cnpj input {
+      min-width: 130px;
+    }
+  }
+
+  @media (max-width: 992px) {
+    display: none; // Oculta em telas menores para não quebrar o layout
+  }
+}
+
 .topo .breadcrumbs {
   font-size: 13px;
   color: #777;

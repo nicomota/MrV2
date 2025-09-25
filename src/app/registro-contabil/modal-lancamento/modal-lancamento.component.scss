@@ -92,17 +92,17 @@
       label {
         font-weight: bold;
         margin-bottom: 0.2rem;
-        font-size: 11px;
+        font-size: 13px;
         color: #333;
         white-space: nowrap;
       }
 
       input, select {
-        padding: 3px 6px;
+        padding: 4px 8px;
         border: 1px solid #ccc;
         border-radius: 12px;
         background: white;
-        font-size: 11px;
+        font-size: 13px;
         font-weight: 600;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
       }
@@ -337,21 +337,23 @@
     overflow: hidden;
 
     // Definindo larguras específicas das colunas
-    thead th:nth-child(1) { width: 8%; }  // Debitar (reduzida)
-    thead th:nth-child(2) { width: 8%; }  // Creditar (reduzida)
-    thead th:nth-child(3) { width: 15%; } // Classificação
-    thead th:nth-child(4) { width: 15%; } // Descrição
-    thead th:nth-child(5) { width: 10%; } // Valor
-    thead th:nth-child(6) { width: 38%; } // Histórico Contábil (aumentado mais)
-    thead th:nth-child(7) { width: 6%; }  // Excluir
+    thead th:nth-child(1) { width: 8%; }  // Debitar
+    thead th:nth-child(2) { width: 8%; }  // Creditar
+    thead th:nth-child(3) { width: 13%; } // Classificação
+    thead th:nth-child(4) { width: 13%; } // Descrição
+    thead th:nth-child(5) { width: 8%; }  // Valor
+    thead th:nth-child(6) { width: 32%; } // Histórico Contábil
+    thead th:nth-child(7) { width: 12%; } // Comprovante
+    thead th:nth-child(8) { width: 6%; }  // Excluir
 
-    tbody td:nth-child(1) { width: 8%; }  // Debitar (reduzida)
-    tbody td:nth-child(2) { width: 8%; }  // Creditar (reduzida)
-    tbody td:nth-child(3) { width: 15%; } // Classificação
-    tbody td:nth-child(4) { width: 15%; } // Descrição
-    tbody td:nth-child(5) { width: 10%; } // Valor
-    tbody td:nth-child(6) { width: 38%; } // Histórico Contábil (aumentado mais)
-    tbody td:nth-child(7) { width: 6%; }  // Excluir
+    tbody td:nth-child(1) { width: 8%; }  // Debitar
+    tbody td:nth-child(2) { width: 8%; }  // Creditar
+    tbody td:nth-child(3) { width: 13%; } // Classificação
+    tbody td:nth-child(4) { width: 13%; } // Descrição
+    tbody td:nth-child(5) { width: 8%; }  // Valor
+    tbody td:nth-child(6) { width: 32%; } // Histórico Contábil
+    tbody td:nth-child(7) { width: 12%; } // Comprovante
+    tbody td:nth-child(8) { width: 6%; }  // Excluir
 
     tbody tr:first-child {
       background-color: #ffffbfc7 !important;
@@ -741,4 +743,17 @@ hr {
   border: none;
   border-top: 1px solid #eee;
   margin: 1rem 0;
+}
+
+// Classe específica para scroll sem afetar a tabela original
+.scroll-limitado tbody {
+  max-height: 180px;
+  overflow-y: auto;
+  display: block;
+}
+
+.scroll-limitado thead, .scroll-limitado tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
 }

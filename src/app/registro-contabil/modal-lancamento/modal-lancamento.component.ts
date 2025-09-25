@@ -493,6 +493,26 @@ export class ModalLancamentoComponent implements OnInit, OnChanges {
   }
 
 
+  getNumeroComprovante(): string {
+    // Retorna um número diferente baseado no tipo de lançamento
+    switch (this.tipoSelecionado) {
+      case 'Um Débito p/ um Crédito':
+        return '0100000001';
+      case 'Um Crédito p/ um Débito':
+        return '0200000001';
+      case 'Um Débito p/ vários Créditos':
+        return '0300000001';
+      case 'Um Crédito p/ vários Débitos':
+        return '0400000001';
+      case 'N Débito p/ N Crédito':
+        return '0500000001';
+      case 'N Crédito p/ N Débito':
+        return '0600000001';
+      default:
+        return '0199999999';
+    }
+  }
+
   gravar(): void {
     const dadosLancamento = {
       lancamento: this.lancamento,

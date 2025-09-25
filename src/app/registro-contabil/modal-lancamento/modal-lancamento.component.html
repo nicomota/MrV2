@@ -29,7 +29,7 @@
       <span>Lançamento Contábil</span>
     </div>
 
-    <table class="subtabela">
+    <table class="subtabela" [class.scroll-limitado]="linhasSubtabela.length > 3">
       <thead>
         <tr>
           <th>Debitar</th>
@@ -38,6 +38,7 @@
           <th>Descrição</th>
           <th>Valor</th>
           <th>Histórico Contábil</th>
+          <th>Comprovante</th>
           <th>Excluir</th>
         </tr>
       </thead>
@@ -75,6 +76,12 @@
           <!-- Histórico -->
           <td>
             <input type="text" [(ngModel)]="linha.historico" [readonly]="!linha.editavel">
+          </td>
+
+          <!-- Comprovante -->
+          <td>
+            <input *ngIf="!linha.editavel" type="text" [value]="getNumeroComprovante()" readonly>
+            <span *ngIf="linha.editavel">-</span>
           </td>
 
           <!-- Ações -->
