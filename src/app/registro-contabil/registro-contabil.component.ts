@@ -12,8 +12,8 @@ export class RegistroContabilComponent implements OnInit {
     {
       data: '02/04/2021',
       classificacao: '2.1.2.02.0021',
-      debito: '7',
-      credito: '',
+      debito: '',
+      credito: '7',
       valor: 'R$ -250,00',
       historico: 'Pagamento Fornecedor',
       nota: '5464',
@@ -24,8 +24,8 @@ export class RegistroContabilComponent implements OnInit {
     {
       data: '03/04/2021',
       classificacao: '2.1.2.02.0021',
-      debito: '',
-      credito: '7',
+      debito: '7',
+      credito: '',
       valor: 'R$ 354,00',
       historico: 'Recebimento PIX',
       nota: '654',

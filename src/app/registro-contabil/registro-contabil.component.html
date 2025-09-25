@@ -220,7 +220,7 @@
             <!-- Conta Débito -->
             <td>
               <i class="bx bx-book icone-clicavel"
-                 *ngIf="i === 1"
+                 *ngIf="i === 0"
                  (click)="abrirModalAssociacaoConta(i); $event.stopPropagation()"
                  title="Associar conta de débito"></i>
               {{ linha.debito }}
@@ -229,7 +229,7 @@
             <!-- Conta Crédito -->
             <td>
               <i class="bx bx-book icone-clicavel"
-                 *ngIf="i === 0"
+                 *ngIf="i === 1"
                  (click)="abrirModalAssociacaoConta(i); $event.stopPropagation()"
                  title="Associar conta de crédito"></i>
               {{ linha.credito }}
