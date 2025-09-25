@@ -157,6 +157,7 @@
               <li><a class="dropdown-item disabled" href="#">Exportar Baixa NFS-e Tomado</a></li>
               <li><a class="dropdown-item disabled" href="#">Exportar Baixa NFS-e Prestado</a></li>
               <li><a class="dropdown-item disabled" href="#">Exportar Simples Conferência</a></li>
+              <li><a class="dropdown-item disabled" href="#">Associação Múltipla</a></li>
               <li><a class="dropdown-item disabled" href="#">Gerar Ticket</a></li>
             </ul>
           </div>
@@ -276,100 +277,15 @@
 
 
     <!-- Modal regra -->
-    <div class="modal-regra" *ngIf="modalAberto" (click)="fecharModalRegra()">
-      <div class="modal-conteudo-regra" (click)="$event.stopPropagation()">
-        <div class="modal-header">
-          <h2>{{ modoAssociacaoConta ? 'Associação de Conta' : 'Associação de Regra' }}</h2>
-          <button class="fechar" (click)="fecharModalRegra()">×</button>
-        </div>
-        <div class="modal-body">
-          <!-- Campos para associação de conta -->
-          <div class="linha" *ngIf="modoAssociacaoConta">
-            <div style="flex: 3;">
-              <label><strong>Lançamento selecionado:</strong></label>
-              <p *ngIf="lancamentoSelecionadoIndex !== null">
-                {{ dadosLancamentos[lancamentoSelecionadoIndex]?.historico }}
-                ({{ dadosLancamentos[lancamentoSelecionadoIndex]?.valor }})
-              </p>
-            </div>
-            <div style="flex: 1;">
-              <label>Data:</label>
-              <input type="text" [value]="getDataLancamentoSelecionado()" readonly />
-            </div>
-          </div>
-
-          <div class="linha" *ngIf="modoAssociacaoConta">
-            <div style="flex: 1;">
-              <label>Valor:</label>
-              <input type="text" [value]="getValorLancamentoSelecionado()" readonly />
-            </div>
-          </div>
-
-          <div class="linha" *ngIf="modoAssociacaoConta">
-            <div style="flex: 1;">
-              <label>Conta Contábil:</label>
-              <input type="text" [(ngModel)]="contaContabilInput" placeholder="Digite o número da conta" />
-            </div>
-          </div>
-
-          <div class="linha" *ngIf="modoAssociacaoConta">
-            <div style="flex: 1;">
-              <label>Histórico:</label>
-              <input type="text" [(ngModel)]="historicoInput" placeholder="Digite o histórico" />
-            </div>
-          </div>
-
-          <!-- Campos completos para regra normal -->
-          <div class="linha" *ngIf="!modoAssociacaoConta">
-            <div>
-              <label>Data:</label>
-              <input type="text" [value]="getDataLancamentoSelecionado()" readonly />
-            </div>
-            <div>
-              <label>Agência Bancária:</label>
-              <input type="text" value="4480/2861" readonly />
-            </div>
-          </div>
-
-          <!-- Descrição apenas no modo regra -->
-          <div class="linha" *ngIf="!modoAssociacaoConta">
-            <div class="descricao-inline" style="flex: 1;">
-              <label for="descricao">Descrição:</label>
-              <select id="descricao">
-                <option disabled selected>Selecione uma descrição</option>
-                <option>Histórico</option>
-                <option>Beneficiário</option>
-                <option>Informação adicional</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Campos adicionais apenas no modo regra -->
-          <div class="linha" *ngIf="!modoAssociacaoConta">
-            <div style="flex: 1;">
-              <label>Expressão:</label>
-              <input type="text" />
-            </div>
-          </div>
-          <div class="linha" *ngIf="!modoAssociacaoConta">
-            <div style="flex: 1;">
-              <label>Conta Contábil:</label>
-              <input type="text" placeholder="Digite o número da conta" />
-            </div>
-          </div>
-          <div class="linha" *ngIf="!modoAssociacaoConta">
-            <div style="flex: 1;">
-              <label>Histórico Contábil:</label>
-              <input type="text" />
-            </div>
-          </div>
-        </div>
-        <div class="rodape-modal">
-          <button class="btn btn-primary" (click)="fecharModalRegra()">Cancelar</button>
-          <button class="btn btn-primary">Gravar</button>
-        </div>
-      </div>
-    </div>
+    <app-modal-regra
+      [modalAberto]="modalAberto"
+      [modoAssociacaoConta]="modoAssociacaoConta"
+      [lancamentoSelecionadoIndex]="lancamentoSelecionadoIndex"
+      [dadosLancamentos]="dadosLancamentos"
+      [contaContabilInput]="contaContabilInput"
+      [historicoInput]="historicoInput"
+      (fecharModal)="fecharModalRegra()">
+    </app-modal-regra>
 
 
   </main>
