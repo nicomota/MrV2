@@ -213,7 +213,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let linha of dadosLancamentos; let i = index">
+          <tr *ngFor="let linha of dadosLancamentos; let i = index"
+              [class.linha-nao-conciliada]="linha.status === 'vermelho'">
             <td>{{ linha.data }}</td>
             <td>{{ linha.classificacao }}</td>
 
@@ -232,7 +233,11 @@
                  *ngIf="i === 1"
                  (click)="abrirModalAssociacaoConta(i); $event.stopPropagation()"
                  title="Associar conta de crédito"></i>
-              {{ linha.credito }}
+              <span *ngIf="i !== 2" class="numero-conta">{{ linha.credito }}</span>
+              <span *ngIf="i === 2"
+                    class="numero-conta-link"
+                    (click)="abrirModalAssociacaoConta(i); $event.stopPropagation()"
+                    title="Clique para editar associação da conta">{{ linha.credito }}</span>
             </td>
 
             <td>{{ linha.valor }}</td>

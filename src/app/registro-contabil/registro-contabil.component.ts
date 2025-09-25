@@ -32,6 +32,18 @@ export class RegistroContabilComponent implements OnInit {
       cliente: '',
       status: 'vermelho',
       temContaAutomatica: false
+    },
+    {
+      data: '05/04/2021',
+      classificacao: '3.1.1.01.0015',
+      debito: '12',
+      credito: '8',
+      valor: 'R$ 1.200,00',
+      historico: 'Transferência Bancária',
+      nota: '8821',
+      cliente: 'Empresa ABC Ltda',
+      status: 'verde',
+      temContaAutomatica: true
     }
   ];
 

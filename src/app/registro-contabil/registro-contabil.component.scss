@@ -528,6 +528,24 @@ nav li {
   background-color: #fafafa;
 }
 
+// Cor amarelada para linhas não conciliadas (igual à edição avançada)
+.tabela tbody tr.linha-nao-conciliada {
+  background-color: #ffffbfc7 !important;
+}
+
+// Estilo para números de conta como links
+.numero-conta-link {
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #0056b3;
+    text-decoration: underline;
+  }
+}
+
 // Estilo para coluna de histórico editável
 .historico-editavel {
   position: relative;
