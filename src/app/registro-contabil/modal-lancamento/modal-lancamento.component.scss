@@ -336,6 +336,23 @@
     border-radius: 0 0 12px 12px;
     overflow: hidden;
 
+    // Definindo larguras específicas das colunas
+    thead th:nth-child(1) { width: 8%; }  // Debitar (reduzida)
+    thead th:nth-child(2) { width: 8%; }  // Creditar (reduzida)
+    thead th:nth-child(3) { width: 15%; } // Classificação
+    thead th:nth-child(4) { width: 15%; } // Descrição
+    thead th:nth-child(5) { width: 10%; } // Valor
+    thead th:nth-child(6) { width: 38%; } // Histórico Contábil (aumentado mais)
+    thead th:nth-child(7) { width: 6%; }  // Excluir
+
+    tbody td:nth-child(1) { width: 8%; }  // Debitar (reduzida)
+    tbody td:nth-child(2) { width: 8%; }  // Creditar (reduzida)
+    tbody td:nth-child(3) { width: 15%; } // Classificação
+    tbody td:nth-child(4) { width: 15%; } // Descrição
+    tbody td:nth-child(5) { width: 10%; } // Valor
+    tbody td:nth-child(6) { width: 38%; } // Histórico Contábil (aumentado mais)
+    tbody td:nth-child(7) { width: 6%; }  // Excluir
+
     tbody tr:first-child {
       background-color: #ffffbfc7 !important;
     }
