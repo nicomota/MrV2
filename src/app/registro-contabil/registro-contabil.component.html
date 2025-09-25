@@ -284,14 +284,21 @@
 
     <!-- Modal regra -->
     <app-modal-regra
-      [modalAberto]="modalAberto"
-      [modoAssociacaoConta]="modoAssociacaoConta"
+      [modalAberto]="modalAberto && !modoAssociacaoConta"
+      [lancamentoSelecionadoIndex]="lancamentoSelecionadoIndex"
+      [dadosLancamentos]="dadosLancamentos"
+      (fecharModal)="fecharModalRegra()">
+    </app-modal-regra>
+
+    <!-- Modal associação de conta -->
+    <app-modal-associacao-conta
+      [modalAberto]="modalAberto && modoAssociacaoConta"
       [lancamentoSelecionadoIndex]="lancamentoSelecionadoIndex"
       [dadosLancamentos]="dadosLancamentos"
       [contaContabilInput]="contaContabilInput"
       [historicoInput]="historicoInput"
-      (fecharModal)="fecharModalRegra()">
-    </app-modal-regra>
+      (fecharModalEvento)="fecharModalRegra()">
+    </app-modal-associacao-conta>
 
 
   </main>

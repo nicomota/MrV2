@@ -1,1 +1,49 @@
-<p>modal-associacao-conta works!</p>
+<div class="modal-associacao-conta" *ngIf="modalAberto" (click)="fecharModal()">
+  <div class="modal-conteudo-associacao" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Associação de Conta</h2>
+      <button class="fechar" (click)="fecharModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <!-- Campos para associação de conta -->
+      <div class="linha">
+        <div style="flex: 3;">
+          <label><strong>Lançamento selecionado:</strong></label>
+          <p *ngIf="lancamentoSelecionadoIndex !== null">
+            {{ dadosLancamentos[lancamentoSelecionadoIndex]?.historico }}
+            <!-- ({{ dadosLancamentos[lancamentoSelecionadoIndex]?.valor }}) -->
+          </p>
+        </div>
+        <div style="flex: 1;">
+          <label>Data:</label>
+          <input type="text" [value]="getDataLancamentoSelecionado()" readonly />
+        </div>
+      </div>
+
+      <div class="linha">
+        <div style="flex: 1;">
+          <label>Valor:</label>
+          <input type="text" [value]="getValorLancamentoSelecionado()" readonly />
+        </div>
+      </div>
+
+      <div class="linha">
+        <div style="flex: 1;">
+          <label>Conta Contábil:</label>
+          <input type="text" [(ngModel)]="contaContabilInput" placeholder="Digite o número da conta" />
+        </div>
+      </div>
+
+      <div class="linha">
+        <div style="flex: 1;">
+          <label>Histórico:</label>
+          <input type="text" [(ngModel)]="historicoInput" placeholder="Digite o histórico" />
+        </div>
+      </div>
+    </div>
+    <div class="rodape-modal">
+      <button class="btn btn-primary" (click)="fecharModal()">Cancelar</button>
+      <button class="btn btn-primary">Gravar</button>
+    </div>
+  </div>
+</div>

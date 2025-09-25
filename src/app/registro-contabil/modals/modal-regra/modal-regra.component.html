@@ -1,48 +1,12 @@
 <div class="modal-regra" *ngIf="modalAberto" (click)="fecharModalRegra()">
   <div class="modal-conteudo-regra" (click)="$event.stopPropagation()">
     <div class="modal-header">
-      <h2>{{ modoAssociacaoConta ? 'Associação de Conta' : 'Associação de Regra' }}</h2>
+      <h2>Associação de Regra</h2>
       <button class="fechar" (click)="fecharModalRegra()">×</button>
     </div>
     <div class="modal-body">
-      <!-- Campos para associação de conta -->
-      <div class="linha" *ngIf="modoAssociacaoConta">
-        <div style="flex: 3;">
-          <label><strong>Lançamento selecionado:</strong></label>
-          <p *ngIf="lancamentoSelecionadoIndex !== null">
-            {{ dadosLancamentos[lancamentoSelecionadoIndex]?.historico }}
-            ({{ dadosLancamentos[lancamentoSelecionadoIndex]?.valor }})
-          </p>
-        </div>
-        <div style="flex: 1;">
-          <label>Data:</label>
-          <input type="text" [value]="getDataLancamentoSelecionado()" readonly />
-        </div>
-      </div>
-
-      <div class="linha" *ngIf="modoAssociacaoConta">
-        <div style="flex: 1;">
-          <label>Valor:</label>
-          <input type="text" [value]="getValorLancamentoSelecionado()" readonly />
-        </div>
-      </div>
-
-      <div class="linha" *ngIf="modoAssociacaoConta">
-        <div style="flex: 1;">
-          <label>Conta Contábil:</label>
-          <input type="text" [(ngModel)]="contaContabilInput" placeholder="Digite o número da conta" />
-        </div>
-      </div>
-
-      <div class="linha" *ngIf="modoAssociacaoConta">
-        <div style="flex: 1;">
-          <label>Histórico:</label>
-          <input type="text" [(ngModel)]="historicoInput" placeholder="Digite o histórico" />
-        </div>
-      </div>
-
-      <!-- Campos completos para regra normal -->
-      <div class="linha" *ngIf="!modoAssociacaoConta">
+      <!-- Campos para regra -->
+      <div class="linha">
         <div>
           <label>Data:</label>
           <input type="text" [value]="getDataLancamentoSelecionado()" readonly />
@@ -56,8 +20,7 @@
         </div>
       </div>
 
-      <!-- Descrição apenas no modo regra -->
-      <div class="linha" *ngIf="!modoAssociacaoConta">
+      <div class="linha">
         <div class="descricao-inline" style="flex: 1;">
           <label for="descricao">Descrição:</label>
           <select id="descricao">
@@ -69,26 +32,25 @@
         </div>
       </div>
 
-      <!-- Campos adicionais apenas no modo regra -->
-      <div class="linha" *ngIf="!modoAssociacaoConta">
+      <div class="linha">
         <div style="flex: 1;">
           <label>Expressão:</label>
           <input type="text" />
         </div>
       </div>
-      <div class="linha" *ngIf="!modoAssociacaoConta">
+      <div class="linha">
         <div style="flex: 1;">
           <label>Conta Contábil:</label>
           <input type="text" placeholder="Digite o número da conta" />
         </div>
       </div>
-      <div class="linha" *ngIf="!modoAssociacaoConta">
+      <div class="linha">
         <div style="flex: 1;">
           <label>Histórico Contábil:</label>
           <input type="text" />
         </div>
       </div>
-      <div class="linha" *ngIf="!modoAssociacaoConta">
+      <div class="linha">
         <div style="flex: 1;">
           <label for="manterHistorico" style="margin-left: 8px;"><input type="checkbox" id="manterHistorico" /> Manter histórico do extrato</label>
         </div>
