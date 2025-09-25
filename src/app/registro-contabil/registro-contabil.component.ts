@@ -214,6 +214,35 @@ export class RegistroContabilComponent implements OnInit {
     return '';
   }
 
+  iniciarEdicaoHistorico(index: number): void {
+    // Salva o valor original antes da edição
+    this.dadosLancamentos[index].historicoOriginal = this.dadosLancamentos[index].historico;
+    this.dadosLancamentos[index].editandoHistorico = true;
+
+    // Foca no input após renderização
+    setTimeout(() => {
+      const inputs = document.querySelectorAll('.input-edicao-historico');
+      if (inputs[0] instanceof HTMLInputElement) {
+        inputs[0].focus();
+        inputs[0].select();
+      }
+    }, 0);
+  }
+
+  finalizarEdicaoHistorico(index: number): void {
+    this.dadosLancamentos[index].editandoHistorico = false;
+    // Atualiza também na lista persistida
+    RegistroContabilComponent.dadosLancamentosPersistidos[index].historico = this.dadosLancamentos[index].historico;
+    delete this.dadosLancamentos[index].historicoOriginal;
+  }
+
+  cancelarEdicaoHistorico(index: number): void {
+    // Restaura o valor original
+    this.dadosLancamentos[index].historico = this.dadosLancamentos[index].historicoOriginal;
+    this.dadosLancamentos[index].editandoHistorico = false;
+    delete this.dadosLancamentos[index].historicoOriginal;
+  }
+
 
   selecionarAba(aba: string) {
     this.abaSelecionada = aba;

@@ -492,7 +492,7 @@ nav li {
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  font-size: 14px;
+  font-size: 12px;
   cursor: pointer;
   transition: border-top 0.3s ease;
 }
@@ -502,15 +502,76 @@ nav li {
   text-align: left;
   padding: 12px;
   font-weight: 700;
+
+  // Definindo larguras específicas das colunas (11 colunas total)
+  &:nth-child(1) { width: 6%; }   // Data
+  &:nth-child(2) { width: 6%; }  // Classificação (diminuído)
+  &:nth-child(3) { width: 5%; }   // Conta Débito
+  &:nth-child(4) { width: 5%; }   // Conta Crédito
+  &:nth-child(5) { width: 8%; }   // Valor
+  &:nth-child(6) { width: 30%; }  // Histórico (aumentado mais)
+  &:nth-child(7) { width: 5%; }   // Comprovante
+  &:nth-child(8) { width: 5%; }   // Nota
+  &:nth-child(9) { width: 8%; }   // Cliente
+  &:nth-child(10) { width: 10%; }  // Anexos
+  &:nth-child(11) { width: 8%; }  // Saldo
 }
 
 .tabela tbody td {
   padding: 10px 12px;
   border-top: 1px solid #eee;
+  text-align: left;
+  vertical-align: top;
 }
 
 .tabela tbody tr:nth-child(odd) {
   background-color: #fafafa;
+}
+
+// Estilo para coluna de histórico editável
+.historico-editavel {
+  position: relative;
+
+  .texto-historico {
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: #0056b3;
+      text-decoration: underline;
+    }
+  }
+
+  .input-edicao-historico {
+    width: 100%;
+    border: 2px solid #007bff;
+    border-radius: 4px;
+    padding: 4px 6px;
+    font-size: 12px;
+    background: white;
+    outline: none;
+    box-sizing: border-box;
+
+    &:focus {
+      border-color: #0056b3;
+      box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+    }
+  }
+
+  .icone-edicao {
+    opacity: 0;
+    margin-left: 8px;
+    color: #007bff;
+    transition: opacity 0.2s ease;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  &:hover .icone-edicao {
+    opacity: 1;
+  }
 }
 
 .status {

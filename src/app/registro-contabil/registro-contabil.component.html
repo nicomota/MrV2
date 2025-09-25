@@ -210,7 +210,6 @@
             <th>Cliente</th>
             <th>Anexos</th>
             <th>Saldo</th>
-            <th>Status</th>
           </tr>
         </thead>
         <tbody>
@@ -238,11 +237,21 @@
 
             <td>{{ linha.valor }}</td>
 
-            <td class="conta-clicavel" (click)="abrirModalRegra(i); $event.stopPropagation()">
-              {{ linha.historico }}
+            <td class="historico-editavel">
+              <span *ngIf="!linha.editandoHistorico" class="texto-historico" (click)="abrirModalRegra(i); $event.stopPropagation()">{{ linha.historico }}</span>
+              <input *ngIf="linha.editandoHistorico"
+                     type="text"
+                     [(ngModel)]="linha.historico"
+                     class="input-edicao-historico"
+                     (blur)="finalizarEdicaoHistorico(i)"
+                     (keydown.enter)="finalizarEdicaoHistorico(i)"
+                     (keydown.escape)="cancelarEdicaoHistorico(i)"
+                     #inputHistorico />
+              <i *ngIf="!linha.editandoHistorico" class="bx bx-pencil icone-edicao"
+                 (click)="iniciarEdicaoHistorico(i); $event.stopPropagation()"></i>
             </td>
 
-            <td class="text-center"><i class="bx bx-file"></i></td>
+            <td><i class="bx bx-file"></i></td>
             <td>
               <span *ngIf="linha.temContaAutomatica">{{ linha.nota }}</span>
               <i *ngIf="!linha.temContaAutomatica" class="bx bx-pencil"
@@ -253,9 +262,6 @@
             <td>{{ linha.cliente }}</td>
             <td><i class="bx bx-paperclip"></i></td>
             <td>{{ linha.saldo }}</td>
-            <td>
-              <span class="status" [ngClass]="linha.status"></span>
-            </td>
           </tr>
         </tbody>
 
