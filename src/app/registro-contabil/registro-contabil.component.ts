@@ -1,4 +1,5 @@
 import { Component, OnInit, HostListener } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registro-contabil',
@@ -52,7 +53,7 @@ export class RegistroContabilComponent implements OnInit {
   saldoInicial: number = 1250.00;
   saldoFinal: number = 0;
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     // Carrega os dados da lista estática para a instância do componente
@@ -519,6 +520,17 @@ export class RegistroContabilComponent implements OnInit {
 
     // Refiltra os dados após a atualização
     this.filtrarDados();
+  }
+
+  navegarPara(rota: string) {
+    this.router.navigate([rota]);
+  }
+
+  sair() {
+    // Implementar lógica de logout
+    console.log('Logout realizado');
+    // Pode redirecionar para uma tela de login ou limpar sessão
+    // this.router.navigate(['/login']);
   }
 }
 

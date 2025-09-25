@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { ModalLancamentoComponent } from './registro-contabil/modal-lancamento/modal-lancamento.component';
 import { ModalRegraComponent } from './registro-contabil/modals/modal-regra/modal-regra.component';
 import { ModalAssociacaoContaComponent } from './registro-contabil/modals/modal-associacao-conta/modal-associacao-conta.component';
+import { InicioComponent } from './inicio/inicio.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { ModalAssociacaoContaComponent } from './registro-contabil/modals/modal-
     RegistroContabilComponent,
     ModalLancamentoComponent,
     ModalRegraComponent,
-    ModalAssociacaoContaComponent
+    ModalAssociacaoContaComponent,
+    InicioComponent
   ],
   imports: [
     BrowserModule,
