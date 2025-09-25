@@ -72,6 +72,26 @@ export class RegistroContabilComponent implements OnInit {
     });
   }
 
+  editarSaldoInicial(): void {
+    const valorAtual = this.formatarMoeda(this.saldoInicial);
+    const novoValor = prompt('Digite o novo saldo inicial:', valorAtual);
+
+    if (novoValor !== null && novoValor.trim() !== '') {
+      // Remove caracteres não numéricos, exceto vírgulas e pontos
+      const valorLimpo = novoValor.replace(/[^\d,.-]/g, '');
+      // Converte para número (substitui vírgula por ponto para parsing)
+      const valorNumerico = parseFloat(valorLimpo.replace(',', '.'));
+
+      if (!isNaN(valorNumerico)) {
+        this.saldoInicial = valorNumerico;
+        // Recalcula os saldos com o novo valor inicial
+        this.calcularSaldos();
+      } else {
+        alert('Valor inválido. Digite um número válido.');
+      }
+    }
+  }
+
   lancamentoSelecionado: any = null;
 
   modalAberto = false;
@@ -83,6 +103,7 @@ export class RegistroContabilComponent implements OnInit {
   // Para controlar se é associação de conta (diferente do modal de regra normal)
   modoAssociacaoConta = false;
   contaContabilInput: string = '';
+  historicoInput: string = '';
   abaSelecionada: string = 'lancamentos';
   mesSelecionado: string = 'Abril/2021';
   dropdownAberto: boolean = false;
@@ -152,7 +173,10 @@ export class RegistroContabilComponent implements OnInit {
   }
 
 
-  abrirModalRegra() {
+  abrirModalRegra(index?: number) {
+    if (index !== undefined) {
+      this.lancamentoSelecionadoIndex = index;
+    }
     this.modalAberto = true;
   }
 
@@ -160,6 +184,9 @@ export class RegistroContabilComponent implements OnInit {
     this.modalAberto = false;
     this.modoAssociacaoConta = false;
     this.lancamentoSelecionadoIndex = null;
+    // Limpar os campos do modal
+    this.contaContabilInput = '';
+    this.historicoInput = '';
   }
 
   toggleSidebar() {
@@ -171,6 +198,13 @@ export class RegistroContabilComponent implements OnInit {
     this.lancamentoSelecionadoIndex = index;
     this.modoAssociacaoConta = true;
     this.modalAberto = true;
+  }
+
+  getDataLancamentoSelecionado(): string {
+    if (this.lancamentoSelecionadoIndex !== null) {
+      return this.dadosLancamentos[this.lancamentoSelecionadoIndex]?.data || '';
+    }
+    return '';
   }
 
 

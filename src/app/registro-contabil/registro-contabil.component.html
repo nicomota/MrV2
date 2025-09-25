@@ -165,7 +165,7 @@
         Não-Conciliados <span class="badge vermelho">0002</span>
       </button>
       <div style="margin-left: auto; display: flex; gap: 10px;">
-        <button class="btn btn-outline-primary">
+        <button class="btn btn-outline-primary" (click)="editarSaldoInicial()">
           Saldo Inicial: {{ formatarMoeda(saldoInicial) }}
         </button>
         <button class="btn btn-outline-primary">
@@ -222,7 +222,7 @@
 
             <td>{{ linha.valor }}</td>
 
-            <td class="conta-clicavel" (click)="abrirModalRegra(); $event.stopPropagation()">
+            <td class="conta-clicavel" (click)="abrirModalRegra(i); $event.stopPropagation()">
               {{ linha.historico }}
             </td>
 
@@ -268,7 +268,7 @@
           <button class="fechar" (click)="fecharModalRegra()">×</button>
         </div>
         <div class="modal-body">
-          <!-- Campos simplificados para associação de conta -->
+          <!-- Campos para associação de conta -->
           <div class="linha" *ngIf="modoAssociacaoConta">
             <div style="flex: 1;">
               <label><strong>Lançamento selecionado:</strong></label>
@@ -279,57 +279,25 @@
             </div>
           </div>
 
+          <div class="linha" *ngIf="modoAssociacaoConta">
+            <div style="flex: 1;">
+              <label>Conta Contábil:</label>
+              <input type="text" [(ngModel)]="contaContabilInput" placeholder="Digite o número da conta" />
+            </div>
+          </div>
+
+          <div class="linha" *ngIf="modoAssociacaoConta">
+            <div style="flex: 1;">
+              <label>Histórico:</label>
+              <input type="text" [(ngModel)]="historicoInput" placeholder="Digite o histórico" />
+            </div>
+          </div>
+
           <!-- Campos completos para regra normal -->
           <div class="linha" *ngIf="!modoAssociacaoConta">
-            <div class="date-picker-container">
+            <div>
               <label>Data:</label>
-              <div class="custom-date-input" (click)="abrirDatePicker()">
-                <span>{{ formatarDataExibicao() }}</span>
-                <i class="bx bx-calendar"></i>
-              </div>
-
-              <!-- Date Picker Customizado -->
-              <div class="custom-date-picker" *ngIf="mostrarDatePicker" (click)="$event.stopPropagation()">
-                <div class="date-header">
-                  <button type="button" (click)="alterarAno(-1)" class="nav-btn">
-                    <i class="bx bx-chevrons-left"></i>
-                  </button>
-                  <button type="button" (click)="alterarMes(-1)" class="nav-btn">
-                    <i class="bx bx-chevron-left"></i>
-                  </button>
-
-                  <span class="date-title">{{ meses[mesAtual] }} {{ anoAtual }}</span>
-
-                  <button type="button" (click)="alterarMes(1)" class="nav-btn">
-                    <i class="bx bx-chevron-right"></i>
-                  </button>
-                  <button type="button" (click)="alterarAno(1)" class="nav-btn">
-                    <i class="bx bx-chevrons-right"></i>
-                  </button>
-                </div>
-
-                <div class="date-grid">
-                  <div class="day-header">Dom</div>
-                  <div class="day-header">Seg</div>
-                  <div class="day-header">Ter</div>
-                  <div class="day-header">Qua</div>
-                  <div class="day-header">Qui</div>
-                  <div class="day-header">Sex</div>
-                  <div class="day-header">Sáb</div>
-
-                  <div *ngFor="let dia of getDiasDoMes()"
-                       class="day-cell"
-                       [class.empty]="dia === 0"
-                       [class.today]="isToday(dia)"
-                       (click)="selecionarDia(dia)">
-                    {{ dia || '' }}
-                  </div>
-                </div>
-
-                <div class="date-footer">
-                  <button type="button" (click)="fecharDatePicker()" class="btn-cancel">Fechar</button>
-                </div>
-              </div>
+              <input type="text" [value]="getDataLancamentoSelecionado()" readonly />
             </div>
             <div>
               <label>Agência Bancária:</label>
@@ -337,38 +305,30 @@
             </div>
           </div>
 
-          <!-- Campos de Débito e Crédito (sempre visíveis) -->
-          <div class="linha">
-            <div style="flex: 1; display: flex; flex-direction: column; gap: 0.75rem;">
-              <div>
-                <label>Débito:</label>
-                <input type="text" />
-              </div>
-              <div>
-                <label>Crédito:</label>
-                <input type="text" />
-              </div>
-            </div>
-            <!-- Descrição apenas no modo regra -->
-            <div class="descricao-inline" style="flex: 1;" *ngIf="!modoAssociacaoConta">
+          <!-- Descrição apenas no modo regra -->
+          <div class="linha" *ngIf="!modoAssociacaoConta">
+            <div class="descricao-inline" style="flex: 1;">
               <label for="descricao">Descrição:</label>
               <select id="descricao">
                 <option disabled selected>Selecione uma descrição</option>
-                <option>Pagamento Fornecedor</option>
-                <option>Transferência Interna</option>
+                <option>Histórico</option>
+                <option>Beneficiário</option>
+                <option>Informação adicional</option>
               </select>
             </div>
           </div>
 
           <!-- Campos adicionais apenas no modo regra -->
           <div class="linha" *ngIf="!modoAssociacaoConta">
-            <div>
-              <label>Valor:</label>
-              <input type="text" />
-            </div>
-            <div>
+            <div style="flex: 1;">
               <label>Expressão:</label>
               <input type="text" />
+            </div>
+          </div>
+          <div class="linha" *ngIf="!modoAssociacaoConta">
+            <div style="flex: 1;">
+              <label>Conta Contábil:</label>
+              <input type="text" placeholder="Digite o número da conta" />
             </div>
           </div>
           <div class="linha" *ngIf="!modoAssociacaoConta">

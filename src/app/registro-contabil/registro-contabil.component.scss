@@ -1250,3 +1250,42 @@ button, input, optgroup, select, textarea {
     }
   }
 }
+
+// Estilos para o campo editável de saldo inicial
+.saldo-inicial-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+
+  .saldo-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+  }
+
+  .saldo-input {
+    padding: 8px 12px;
+    border: 2px solid #007bff;
+    border-radius: 20px;
+    background: white;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    min-width: 120px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+
+    &:focus {
+      outline: none;
+      border-color: #0056b3;
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    }
+
+    &::placeholder {
+      color: #999;
+      font-weight: 400;
+    }
+  }
+}
