@@ -346,3 +346,27 @@ body {
   }
 }
 
+.pesquisa {
+  padding: 8px 16px;
+  border-radius: 30px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  background: white url("https://cdn-icons-png.flaticon.com/512/54/54481.png")
+    no-repeat right 12px center;
+  background-size: 16px;
+  max-width: 250px;
+}
+
+.dropdown .btn {
+  border: none;
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 600;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+

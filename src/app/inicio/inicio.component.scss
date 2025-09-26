@@ -1,4 +1,4 @@
-/* inicio.component.scss */
+/* registro-contabil.component.scss */
 
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
 
@@ -67,6 +67,7 @@ body,
   }
 }
 
+
 .logo {
   font-size: 24px;
   font-weight: 700;
@@ -98,58 +99,200 @@ nav li {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
     .sidebar.retraida & {
-      transform: scale(1.05);
+      transform: scale(1.1);
     }
   }
 
   &.active {
-    background-color: rgba(255, 255, 255, 0.2);
-    border-left: 3px solid #ffffff;
-    font-weight: 600;
+    background-color: rgba(255, 255, 255, 0.15);
   }
 
   i {
-    margin-right: 10px;
-    font-size: 18px;
-    width: 18px;
-    text-align: center;
+    font-size: 16px;
+    min-width: 16px;
+    margin-right: 8px;
+    transition: transform 0.3s ease;
 
     .sidebar.retraida & {
       margin-right: 0;
     }
   }
 
+  &:hover i {
+    transform: scale(1.2);
+  }
+
   span {
-    .sidebar.retraida & {
-      display: none;
-    }
+    transition: opacity 0.2s ease;
+  }
+
+  .sidebar.retraida & {
+    padding: 8px;
+    justify-content: center;
   }
 }
+
+
 
 .conteudo {
   flex: 1;
-  background-color: #ebebeb;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+  padding: 40px;
+  overflow-y: auto;
 }
 
-.topo {
-  background-color: white;
-  padding: 20px 30px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border-bottom: 1px solid #e0e0e0;
-}
-
+// Linha do header com título e informações da empresa
 .header-linha {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 
   h1 {
     margin: 0;
-    font-size: 28px;
-    font-weight: 700;
-    color: #333;
+    flex: 0 0 auto;
   }
+}
+
+// Informações da empresa na navbar
+.empresa-info-navbar {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+
+  .campo-empresa, .campo-cnpj {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #495057;
+      margin: 0;
+    }
+
+    input {
+      padding: 6px 12px;
+      border-radius: 30px;
+      border: 1px solid #ccc;
+      background: white;
+      font-size: 13px;
+      color: #495057;
+
+      &:focus {
+        outline: none;
+        border-color: #007bff;
+      }
+    }
+  }
+
+  .campo-empresa input {
+    min-width: 200px;
+  }
+
+  .campo-cnpj input {
+    min-width: 150px;
+  }
+
+  // Responsividade
+  @media (max-width: 1200px) {
+    .campo-empresa input {
+      min-width: 160px;
+    }
+
+    .campo-cnpj input {
+      min-width: 130px;
+    }
+  }
+
+  @media (max-width: 992px) {
+    display: none; // Oculta em telas menores para não quebrar o layout
+  }
+}
+
+.topo .breadcrumbs {
+  font-size: 13px;
+  color: #777;
+  margin-bottom: 5px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.topo h1 {
+  font-size: 24px;
+  margin: 0 0 20px;
+  font-weight: 700;
+  color: #0024ac;
+}
+
+.modal-lancamento h1{
+  font-size: 24px;
+  margin: 0 0 20px;
+  font-weight: 700;
+  color: #0024ac;
+}
+
+// Linha de Filtros
+
+.filtros {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  background-color: #dee2e6;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+
+}
+
+.numeroticket{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+
+//Tabela de empresas
+.tabela table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  font-size: 13px;
+  cursor: pointer;
+  border-top: 4px solid #007bff;
+}
+
+.tabela thead th {
+  background: #e6f0ff;
+  text-align: left;
+  padding: 12px;
+  font-weight: 700;
+
+  // Definindo larguras específicas das colunas (11 colunas total)
+  &:nth-child(1) { width: 16%; }   // Razão
+  &:nth-child(2) { width: 6%; }  // CNPJ
+  &:nth-child(3) { width: 5%; }   // Integrações
+  &:nth-child(4) { width: 15%; }   // Lançamentos
+  &:nth-child(5) { width: 5%; }   // Tickets
+  &:nth-child(6) { width: 3%; }  // Exportação/Período
+  &:nth-child(7) { width: 8%; }   // Usuario
+  &:nth-child(8) { width: 2%; }   // Usuario
+}
+
+.tabela tbody td {
+  padding: 10px 12px;
+  border-top: 1px solid #eee;
+  text-align: left;
+  vertical-align: top;
+}
+
+.tabela tbody tr:nth-child(odd) {
+  background-color: #fafafa;
 }
