@@ -140,44 +140,47 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr *ngFor="let empresa of empresasOrdenadas; trackBy: trackByEmpresa" [class.favorito]="empresa.favorito">
             <!-- Favorito -->
             <td class="text-center">
-              <button class="btn-favorito" (click)="toggleFavorito()" title="Favoritar empresa">
-                <i class="bx" [ngClass]="favorito ? 'bxs-star' : 'bx-star'" [class.favorito-ativo]="favorito"></i>
+              <button class="btn-favorito" (click)="toggleFavorito(empresa.id)" title="Favoritar empresa">
+                <i class="bx" [ngClass]="empresa.favorito ? 'bxs-star' : 'bx-star'" [class.favorito-ativo]="empresa.favorito"></i>
               </button>
             </td>
             <!-- Razão Social -->
             <td>
-              <a href="/registro-contabil">Empresa Modelo Mister Contador</a>
+              <a href="/registro-contabil">{{ empresa.razaoSocial }}</a>
             </td>
             <!-- CNPJ -->
-            <td>37489544000179</td>
+            <td>{{ empresa.cnpj }}</td>
             <!-- Integrações -->
             <td class="text-center" style="font-size: 20px;">
-              <i class="bx bx-file"  style="color: #757575;"></i>
-              <i class="bx bx-buildings" style="color: #1800AD;"></i>
-              <i class="bx bx-credit-card" style="color: #1800AD;"></i>
+              <i *ngFor="let integracao of empresa.integracoes"
+                 class="bx {{ integracao.icon }}"
+                 [style.color]="integracao.color"></i>
             </td>
-            <!-- Lançamentos  -->
+            <!-- Lançamentos Conciliados -->
             <td>
-              Gráfico
+              <div class="progresso-container">
+                <div class="progresso-barra">
+                  <div class="progresso-preenchido"
+                       [ngClass]="{ 'progresso-completo': empresa.progressoConciliacao === 100 }"
+                       [style.width.%]="empresa.progressoConciliacao"></div>
+                </div>
+                <span class="progresso-texto">{{ empresa.progressoConciliacao }}%</span>
+              </div>
             </td>
             <!-- Tickets  -->
-            <td>
-              Tickets
-            </td>
+            <td>{{ empresa.tickets }}</td>
             <!-- Exportação  -->
-            <td>
-              25/08/2025 / 72025
-            </td>
+            <td>{{ empresa.exportacao }}</td>
             <!-- Usuário  -->
-            <td>
-              nicolas.mota@equipe.mistercontador.com.br
-            </td>
+            <td>{{ empresa.usuario }}</td>
             <!-- Visualizar  -->
-            <td>
-              Olho
+            <td class="text-center">
+              <button class="btn-visualizar" (click)="visualizarEmpresa()" title="Visualizar empresa">
+                <i class="bx bx-show"></i>
+              </button>
             </td>
           </tr>
         </tbody>

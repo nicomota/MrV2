@@ -302,6 +302,16 @@ nav li {
   background-color: #fafafa;
 }
 
+// Linha favorita
+.tabela tbody tr.favorito {
+  background-color: #fff9e6 !important;
+  border-left: 3px solid #ffc107;
+
+  &:hover {
+    background-color: #fff3cd !important;
+  }
+}
+
 // Botão de favorito
 .btn-favorito {
   background: none;
@@ -328,5 +338,82 @@ nav li {
       color: #ffc107;
     }
   }
+}
+
+// Botão de visualizar
+.btn-visualizar {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+  }
+
+  i {
+    font-size: 18px;
+    color: #6c757d;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: #007bff;
+    }
+  }
+}
+
+// Barra de progresso
+.progresso-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.progresso-barra {
+  flex: 1;
+  height: 12px;
+  background-color: #e9ecef;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progresso-preenchido {
+  height: 100%;
+  background: linear-gradient(90deg, #c71b1b 0%, #ffd103 100%);
+  border-radius: 6px;
+  transition: width 0.3s ease;
+  position: relative;
+
+  &.progresso-completo {
+    background: linear-gradient(90deg, var(--cor-secundaria) 0%, #28a745 100%);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%);
+    animation: shimmer 2s infinite;
+  }
+}
+
+.progresso-texto {
+  font-size: 12px;
+  font-weight: 600;
+  color: #495057;
+  min-width: 35px;
+  text-align: right;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
 
