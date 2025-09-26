@@ -10,6 +10,9 @@ export class InicioComponent {
   // Controle da sidebar retrátil
   sidebarRetraida = false;
 
+  // Controle de favoritos
+  favorito = false;
+
   constructor(private router: Router) { }
 
   toggleSidebar() {
@@ -18,6 +21,11 @@ export class InicioComponent {
 
   navegarPara(rota: string) {
     this.router.navigate([rota]);
+  }
+
+  toggleFavorito() {
+    this.favorito = !this.favorito;
+    console.log('Favorito alterado:', this.favorito);
   }
 
   sair() {

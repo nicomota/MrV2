@@ -132,6 +132,10 @@ nav li {
   }
 }
 
+.bx {
+  font-size: 18px;
+  line-height: 1;
+}
 
 
 .conteudo {
@@ -275,15 +279,16 @@ nav li {
   padding: 12px;
   font-weight: 700;
 
-  // Definindo larguras específicas das colunas (11 colunas total)
-  &:nth-child(1) { width: 16%; }   // Razão
-  &:nth-child(2) { width: 6%; }  // CNPJ
-  &:nth-child(3) { width: 5%; }   // Integrações
-  &:nth-child(4) { width: 15%; }   // Lançamentos
-  &:nth-child(5) { width: 5%; }   // Tickets
-  &:nth-child(6) { width: 3%; }  // Exportação/Período
-  &:nth-child(7) { width: 8%; }   // Usuario
-  &:nth-child(8) { width: 2%; }   // Usuario
+  // Definindo larguras específicas das colunas (9 colunas total)
+  &:nth-child(1) { width: 4%; }   // Favorito
+  &:nth-child(2) { width: 15%; }  // Razão Social
+  &:nth-child(3) { width: 8%; }   // CNPJ
+  &:nth-child(4) { width: 5%; }   // Integrações
+  &:nth-child(5) { width: 15%; }  // Lançamentos
+  &:nth-child(6) { width: 8%; }   // Tickets
+  &:nth-child(7) { width: 12%; }  // Exportação/Período
+  &:nth-child(8) { width: 20%; }  // Usuario
+  &:nth-child(9) { width: 8%; }   // Visualizar
 }
 
 .tabela tbody td {
@@ -296,3 +301,32 @@ nav li {
 .tabela tbody tr:nth-child(odd) {
   background-color: #fafafa;
 }
+
+// Botão de favorito
+.btn-favorito {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: rgba(255, 193, 7, 0.1);
+  }
+
+  i {
+    font-size: 18px;
+    color: #ccc;
+    transition: color 0.2s ease;
+
+    &.favorito-ativo {
+      color: #ffc107;
+    }
+
+    &:hover {
+      color: #ffc107;
+    }
+  }
+}
+

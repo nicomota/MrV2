@@ -128,6 +128,7 @@
       <table>
         <thead>
           <tr>
+            <th class="text-center">Favorito</th>
             <th>Razão Social</th>
             <th>CNPJ</th>
             <th class="text-center">Integrações</th>
@@ -140,7 +141,13 @@
         </thead>
         <tbody>
           <tr>
-            <!-- Conta Débito -->
+            <!-- Favorito -->
+            <td class="text-center">
+              <button class="btn-favorito" (click)="toggleFavorito()" title="Favoritar empresa">
+                <i class="bx" [ngClass]="favorito ? 'bxs-star' : 'bx-star'" [class.favorito-ativo]="favorito"></i>
+              </button>
+            </td>
+            <!-- Razão Social -->
             <td>
               <a href="/registro-contabil">Empresa Modelo Mister Contador</a>
             </td>
