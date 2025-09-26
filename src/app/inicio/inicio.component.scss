@@ -302,13 +302,33 @@ nav li {
   background-color: #fafafa;
 }
 
-// Linha favorita
-.tabela tbody tr.favorito {
-  background-color: #fff9e6 !important;
-  border-left: 3px solid #ffc107;
 
-  &:hover {
-    background-color: #fff3cd !important;
+// Animações da tabela
+.tabela tbody tr {
+  transition: all 0.3s ease-in-out;
+
+  // &:hover {
+  //   transform: translateX(2px);
+  //   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  // }
+
+  // Animação de subida para o topo
+  &.subindo-topo {
+    position: relative;
+    z-index: 10;
+    animation: subindoParaTopo 0.3s ease-out;
+  }
+}
+
+@keyframes subindoParaTopo {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-30px);
+  }
+  100% {
+    transform: translateY(0);
   }
 }
 

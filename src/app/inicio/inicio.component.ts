@@ -1,10 +1,20 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
 
 @Component({
   selector: 'app-inicio',
   templateUrl: './inicio.component.html',
-  styleUrls: ['./inicio.component.scss']
+  styleUrls: ['./inicio.component.scss'],
+  animations: [
+    trigger('favoritoAnimation', [
+      transition('false => true', [
+        style({ transform: 'scale(1)' }),
+        animate('400ms ease-out', style({ transform: 'scale(1.05)' })),
+        animate('200ms ease-in', style({ transform: 'scale(1)' }))
+      ])
+    ])
+  ]
 })
 export class InicioComponent {
   // Controle da sidebar retrátil
@@ -63,10 +73,29 @@ export class InicioComponent {
     this.router.navigate([rota]);
   }
 
+  empresaAnimando: number | null = null;
+
   toggleFavorito(empresaId: number) {
     const empresa = this.empresas.find(e => e.id === empresaId);
     if (empresa) {
-      empresa.favorito = !empresa.favorito;
+      if (!empresa.favorito) {
+        // Está favoritando - animar subida
+        this.empresaAnimando = empresaId;
+
+        // Primeiro aplica a classe de animação
+        setTimeout(() => {
+          empresa.favorito = true;
+
+          // Remove a animação após completar
+          setTimeout(() => {
+            this.empresaAnimando = null;
+          }, 800);
+        }, 100);
+      } else {
+        // Está desfavoritando - sem animação especial
+        empresa.favorito = false;
+      }
+
       console.log(`Favorito alterado para empresa ${empresaId}:`, empresa.favorito);
     }
   }

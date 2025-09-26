@@ -140,7 +140,10 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let empresa of empresasOrdenadas; trackBy: trackByEmpresa" [class.favorito]="empresa.favorito">
+          <tr *ngFor="let empresa of empresasOrdenadas; trackBy: trackByEmpresa; let i = index"
+              [class.favorito]="empresa.favorito"
+              [class.subindo-topo]="empresaAnimando === empresa.id"
+              [@favoritoAnimation]="empresa.favorito">
             <!-- Favorito -->
             <td class="text-center">
               <button class="btn-favorito" (click)="toggleFavorito(empresa.id)" title="Favoritar empresa">
