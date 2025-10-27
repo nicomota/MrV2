@@ -17,7 +17,10 @@
       "Bash(git add:*)",
       "Bash(git commit -m \"$(cat <<''EOF''\nadd vercel deployment configuration\n\n- Add .npmrc with legacy-peer-deps for dependency resolution\n- Add vercel.json with build configuration\n- Update .gitignore to exclude Claude Code files\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
       "Bash(git push:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(npm install:*)",
+      "Bash(vercel --version:*)",
+      "Bash(ng build:*)"
     ],
     "deny": [],
     "ask": []
