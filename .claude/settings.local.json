@@ -10,7 +10,10 @@
       "Bash(taskkill:*)",
       "Bash(ng generate component:*)",
       "Bash(node:*)",
-      "Bash(git stash:*)"
+      "Bash(git stash:*)",
+      "Bash(npm --version:*)",
+      "Bash(test:*)",
+      "Bash(npm install)"
     ],
     "deny": [],
     "ask": []

@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "buildCommand": "ng build --configuration production",
+  "outputDirectory": "dist/MrV2",
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}
