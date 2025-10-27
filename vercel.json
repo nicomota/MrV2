@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "ng build --configuration production",
+  "buildCommand": "NODE_OPTIONS=--openssl-legacy-provider ng build --configuration production",
   "outputDirectory": "dist/MrV2",
   "routes": [
     {
